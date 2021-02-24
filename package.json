@@ -8,13 +8,16 @@
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
+<<<<<<< HEAD
     "node-sass": "^5.0.0",
+=======
+>>>>>>> 02ecab98a9f22a192255bf9db9603328e7bb8125
     "react": "^17.0.1",
     "react-bootstrap": "^1.5.0",
     "react-dom": "^17.0.1",
     "react-redux": "^7.2.2",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "4.0.2",
+    "react-scripts": "^4.0.3",
     "redux": "^4.0.5",
     "redux-form": "^8.3.7",
     "redux-thunk": "^2.3.0",
