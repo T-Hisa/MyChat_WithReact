@@ -1,13 +1,35 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import { createStore, applyMiddleware } from 'redux'
+import { Provider } from 'react-redux'
+import thunk from 'redux-thunk'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import reducer from './reducers'
 import reportWebVitals from './reportWebVitals';
+import App from './components/App';
+import Signin from './components/Signin'
+// import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import './index.css';
+
+const enhancer = applyMiddleware(thunk)
+const store = createStore(reducer, enhancer)
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  // <React.StrictMode>
+  //   <App/>
+  // </React.StrictMode>,
+  <Provider store={store}>
+    <BrowserRouter>
+      <Switch>
+        <Route exact path="/" component={App}/>
+        <Route exact path="/signin" component={Signin} />
+      </Switch>
+    </BrowserRouter>
+  </Provider>,
+
+  // <React.StrictMode>
+  //   <App />
+  // </React.StrictMode>,
   document.getElementById('root')
 );
 
