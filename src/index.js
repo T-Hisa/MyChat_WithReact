@@ -5,20 +5,25 @@ import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import reducer from './reducers'
-import reportWebVitals from './reportWebVitals';
-import App from './components/App';
+import reportWebVitals from './reportWebVitals'
+import App from './components/App'
 import Signin from './components/Signin'
+import {Button} from 'react-bootstrap'
+import 'bootstrap/dist/css/bootstrap.min.css';
 // import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import './index.css';
 
 const enhancer = applyMiddleware(thunk)
 const store = createStore(reducer, enhancer)
 
+// const Button = ReactBootstrap.Button
+
 ReactDOM.render(
   // <React.StrictMode>
   //   <App/>
   // </React.StrictMode>,
   <Provider store={store}>
+    <Button variant="primary">Primary</Button> { '' }
     <BrowserRouter>
       <Switch>
         <Route exact path="/" component={App}/>
