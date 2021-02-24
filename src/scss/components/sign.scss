@@ -1,0 +1,30 @@
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+  &.sign-form-container {
+    margin-top: 20px;
+  }
+
+  .title-sign {
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 10px;
+  }
+
+  .form-wrapper {
+    width: 80%
+  }
+
+  .register-btn {
+    width: 100px;
+    margin: 10px auto;
+  }
+
+  .form-label {
+    font-weight: bold;
+    padding: 0 10px;
+  }
+}
