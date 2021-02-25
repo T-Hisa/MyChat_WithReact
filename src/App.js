@@ -1,65 +1,76 @@
-import React, { Component } from 'react';
-import { Provider } from 'react-redux'
-import { createStore, applyMiddleware } from 'redux'
-import thunk from 'redux-thunk'
-import { BrowserRouter, Route, /*Redirect, Switch */ } from 'react-router-dom'
-import reducer from './reducers'
-import firebase from './firebase-setup'
+import React, { Component } from "react"
+import { Provider } from "react-redux"
+import { createStore, applyMiddleware } from "redux"
+import thunk from "redux-thunk"
+import { BrowserRouter, Route /*Redirect, Switch */ } from "react-router-dom"
+import reducer from "./reducers"
+import firebase from "./firebase-setup"
 
-import Container from './container/Container'
+import Container from "./container/Container"
 
-import Header from './components/menu/Header'
-import SignContainer from './container/SignContainer'
+import Header from "./components/menu/Header"
+import SignContainer from "./container/SignContainer"
 
 const enhancer = applyMiddleware(thunk)
 const store = createStore(reducer, enhancer)
 
 class App extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       currentRoute: null,
-      currentUser: null
+      currentUser: null,
     }
   }
 
   componentDidUpdate() {
-    console.log('will update at App')
-    console.log('afterUpdate state is ', this.state)
+    console.log("will update at App")
+    console.log("afterUpdate state is ", this.state)
   }
 
-  updateState (state) {
+  updateState(state) {
     // console.log('updateState at App!', state)
     this.setState(state)
   }
 
-  componentDidMount () {
-    console.log('AppComponent did mount!')
-    console.log('state at App', this.state)
-    firebase.auth().onAuthStateChanged(user => {
+  componentDidMount() {
+    console.log("AppComponent did mount!")
+    console.log("state at App", this.state)
+    firebase.auth().onAuthStateChanged((user) => {
       this.setState({ currentUser: user })
     })
   }
 
-  currentUser () {
+  currentUser() {
     return false
   }
 
-  renderRegular () {
+  isSetProfile() {
+    return this.state.currentUser && this.state.currentUser.displayName
+  }
+
+  renderRegular() {
     return (
-      <Route path ="/"
+      <Route
+        path="/"
         component={Container}
         updateState={this.updateState.bind(this)}
       />
     )
   }
 
-  renderSign () {
+  renderSign() {
     return (
       <div className="container">
-        <Route path="/"
-          render={routeProps =>
-            <SignContainer updateState={this.updateState.bind(this)} {...routeProps} />}
+        <Route
+          path="/"
+          render={(routeProps) => (
+            <SignContainer
+              updateState={this.updateState.bind(this)}
+              currentUser={this.state.currentUser}
+              {...routeProps}
+            />
+          )}
         />
         {/* <SignContainer></SignContainer>
         </Route> */}
@@ -68,23 +79,25 @@ class App extends Component {
     )
   }
 
- render() {
-   return (
-    <Provider store={store}>
-    <BrowserRouter>
-      <Header
-        currentUser={this.state.currentUser}
-        currentRoute={this.state.currentRoute}
-      />
-      <div>
-        <span onClick={() => {console.log('currentUser', this.state.currentUser)}}>sample</span>
-        {/* <Switch> */}
-          {
-            this.state.currentUser ?
-            this.renderRegular() :
-            this.renderSign()
-          }
-          {/* <Route exact path="/">
+  render() {
+    return (
+      <Provider store={store}>
+        <BrowserRouter>
+          <Header
+            currentUser={this.state.currentUser}
+            currentRoute={this.state.currentRoute}
+          />
+          <div>
+            <span
+              onClick={() => {
+                console.log("currentUser", this.state.currentUser)
+              }}
+            >
+              sample
+            </span>
+            {/* <Switch> */}
+            {this.isSetProfile() ? this.renderRegular() : this.renderSign()}
+            {/* <Route exact path="/">
             {
               this.currentUser() ?
                 <Container/> :
@@ -94,12 +107,12 @@ class App extends Component {
           <Route path="/">
             <Redirect to="/"></Redirect>
           </Route> */}
-        {/* </Switch> */}
-      </div>
-    </BrowserRouter>
-  </Provider>
-   )
- }
+            {/* </Switch> */}
+          </div>
+        </BrowserRouter>
+      </Provider>
+    )
+  }
 }
 
-export default App;
+export default App

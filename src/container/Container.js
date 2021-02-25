@@ -1,22 +1,23 @@
-import React, { Component } from 'react'
-import { Route } from 'react-router-dom'
-import Sidebar from '../components/menu/Sidebar'
+import React, { Component } from "react"
+import { Route } from "react-router-dom"
+import Sidebar from "../components/menu/Sidebar"
 
 class Container extends Component {
-  currentUser () {
+  currentUser() {
     return false
   }
 
-  render () {
+  render() {
     return (
       <React.StrictMode>
         <div className="flex-display">
-          <Sidebar/>
+          <Sidebar />
         </div>
-        { this.currentUser() ?
-            (<Route exact path="/signin"/>) :
-            (<Route exact path="/signin"/>)
-        }
+        {this.currentUser() ? (
+          <Route exact path="/signin" />
+        ) : (
+          <Route exact path="/signin" />
+        )}
       </React.StrictMode>
     )
   }

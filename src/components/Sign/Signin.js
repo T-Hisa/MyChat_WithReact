@@ -1,35 +1,38 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { sampleAction } from '../../actions'
-import firebase from '../../firebase-setup'
-import SignCommon from './SignCommon'
+import React, { Component } from "react"
+import { connect } from "react-redux"
+import { sampleAction } from "../../actions"
+import firebase from "../../firebase-setup"
+import SignCommon from "./SignCommon"
 
 class Signin extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      email: '',
-      password: ''
+      email: "",
+      password: "",
     }
     const currentRoute = props.location.pathname
-    props.updateState({currentRoute})
+    props.updateState({ currentRoute })
   }
 
-  componentDidMount () {
-    console.log('signin component did mount!!')
-    console.log('this', this)
+  componentDidMount() {
+    console.log("signin component did mount!!")
+    console.log("this", this)
   }
 
-  updateSignState (state) {
+  updateSignState(state) {
     this.setState(state)
   }
 
-  onClickSigninBtn (e) {
+  onClickSigninBtn(e) {
     e.preventDefault()
-    const {email, password} = this.state
-    firebase.auth().signInWithEmailAndPassword(email, password).catch(e => {
-      alert('ユーザーが見当たりません')
-    })
+    const { email, password } = this.state
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .catch((e) => {
+        alert("ユーザーが見当たりません")
+      })
   }
 
   render() {
@@ -45,11 +48,10 @@ class Signin extends Component {
   }
 }
 
-
 // const mapStateToProps = state => ({ count: state.count })
 const mapStateToProps = (state, props) => {
   return {
-    count: state.sample.count
+    count: state.sample.count,
   }
 }
 const mapDispatchToProps = { sampleAction }
