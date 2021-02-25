@@ -17,22 +17,10 @@ const store = createStore(reducer, enhancer)
 class App extends Component {
   constructor (props) {
     super(props)
-    // console.log('App component constructor!!')
-    // console.log('props at App', props)
     this.state = {
       currentRoute: null,
       currentUser: null
     }
-
-    // firebase.auth().onAuthStateChanged(user => {
-    //   this.setState({ currentUser: user })
-    // })
-  }
-
-  componentWillMount () {
-    firebase.auth().onAuthStateChanged(user => {
-      this.setState({ currentUser: user })
-    })
   }
 
   componentDidUpdate() {
@@ -48,6 +36,9 @@ class App extends Component {
   componentDidMount () {
     console.log('AppComponent did mount!')
     console.log('state at App', this.state)
+    firebase.auth().onAuthStateChanged(user => {
+      this.setState({ currentUser: user })
+    })
   }
 
   currentUser () {
