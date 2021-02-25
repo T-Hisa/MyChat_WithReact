@@ -1,7 +1,15 @@
 @import "~bootstrap/scss/bootstrap";
+
+@import "./components/change-profile";
+@import "./components/chat";
+@import "./components/create-group";
+@import "./components/group";
 @import "./components/header";
+@import "./components/notification";
+@import "./components/profile";
 @import "./components/sidebar";
 @import "./components/sign";
+@import "./components/user";
 @import "./App";
 
 #root {

@@ -41,20 +41,13 @@ class App extends Component {
     })
   }
 
-  currentUser() {
-    return false
-  }
-
-  isSetProfile() {
-    return this.state.currentUser && this.state.currentUser.displayName
-  }
-
   renderRegular() {
     return (
       <Route
         path="/"
         component={Container}
         updateState={this.updateState.bind(this)}
+        currentUser={this.state.currentUser}
       />
     )
   }
@@ -96,7 +89,7 @@ class App extends Component {
               sample
             </span>
             {/* <Switch> */}
-            {this.isSetProfile() ? this.renderRegular() : this.renderSign()}
+            {this.state.currentUser ? this.renderRegular() : this.renderSign()}
             {/* <Route exact path="/">
             {
               this.currentUser() ?

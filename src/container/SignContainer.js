@@ -39,7 +39,7 @@ class SignContainer extends Component {
           )}
         />
         <Route path="/">
-          <Redirect to="/signin"></Redirect>
+          <Redirect to="/signin"/>
         </Route>
       </div>
     )

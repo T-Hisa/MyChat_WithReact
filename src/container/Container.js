@@ -1,23 +1,27 @@
 import React, { Component } from "react"
 import { Route } from "react-router-dom"
 import Sidebar from "../components/menu/Sidebar"
+import SetProfile from "../components/Profile/SetProfile"
 
 class Container extends Component {
-  currentUser() {
-    return false
+  isSetProfile() {
+    return !!(this.props.currentUser && this.props.currentUser.displayName)
   }
 
-  render() {
+  renderMain() {
     return (
       <React.StrictMode>
         <div className="flex-display">
           <Sidebar />
         </div>
-        {this.currentUser() ? (
-          <Route exact path="/signin" />
-        ) : (
-          <Route exact path="/signin" />
-        )}
+      </React.StrictMode>
+    )
+  }
+
+  render() {
+    return (
+      <React.StrictMode>
+        {this.isSetProfile() ? this.renderMain() : <SetProfile/> }
       </React.StrictMode>
     )
   }

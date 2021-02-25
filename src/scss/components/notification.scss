@@ -1,0 +1,21 @@
+.notification-container {
+  padding: 5px;
+  
+  .notification-wrapper {
+    background-color: aliceblue;
+    padding: 10px;
+    border-radius: 10px;
+    border: 2px solid powderblue;
+    margin-bottom: 20px;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .no-notice {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+  }
+}
