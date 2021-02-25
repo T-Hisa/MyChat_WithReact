@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
@@ -14,6 +13,4 @@ const config = firebaseConfig[projectName]
 
 firebase.initializeApp(config)
 
-Vue.prototype.$firebase = firebase
-Vue.prototype.$currentUser = firebase.auth().currentUser
 export default firebase

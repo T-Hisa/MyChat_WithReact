@@ -1,24 +1,44 @@
 import React, { Component } from 'react'
 import { Navbar } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
+import firebase from '../../firebase-setup'
 
 class Header extends Component {
   constructor (props){
     super(props)
     console.log('props at header', props)
-    // const {pathname} = props.location
-    // this.state = {
-    //   route: pathname
-    // }
-    // console.log(this.state)
+    console.log('currentRoute at header', props.currentRoute)
   }
 
   componentDidMount () {
     console.log('this in header', this)
   }
 
-  onClickSignoutBtn () {
-    console.log('click!!')
+  onClickSignOutBtn () {
+    firebase.auth().signOut()
+  }
+
+  renderSign () {
+    return (
+      <div className="sign-wrapper">
+        {
+          this.props.currentRoute === '/signin' ?
+            <Link to={'/signup'}>登録</Link> :
+            <Link to={'/signin'}>ログイン</Link>
+        }
+      </div>
+    )
+  }
+
+  renderSignOut () {
+    return (
+      <React.StrictMode>
+        { this.props.currentUser ?
+            <span className="signout-btn" href="#" onClick={this.onClickSignOutBtn}>ログアウト</span> :
+            this.renderSign()
+        }
+      </React.StrictMode>
+    )
   }
 
   renderNavBar() {
@@ -28,13 +48,7 @@ class Header extends Component {
         <div className="menu-container">
           <div className="select-locale-container">
           </div>
-          <React.StrictMode>
-            <span className="signout-btn" href="#" onClick={this.onClickSignoutBtn}>ログアウト</span>
-          </React.StrictMode>
-          <div className="sign-wrapper">
-            <Link to={'/signup'}>登録</Link>
-            <Link to={'/signin'}>ログイン</Link>
-          </div>
+          {this.renderSignOut()}
         </div>
       </Navbar>
     )

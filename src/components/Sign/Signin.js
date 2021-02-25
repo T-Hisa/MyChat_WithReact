@@ -1,12 +1,20 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { sampleAction } from '../../actions'
+import firebase from '../../firebase-setup'
 
 class Signin extends Component {
   constructor(props) {
     super(props)
     console.log('props at signin', props)
-    this.onInputEmail = this.onInputEmail.bind(this)
+    console.log('firebase', firebase)
+    this.state = {
+      currentUser: null,
+      email: '',
+      password: ''
+    }
+    const currentRoute = props.location.pathname
+    props.updateState({currentRoute})
   }
 
   componentDidMount () {
@@ -14,18 +22,23 @@ class Signin extends Component {
     console.log('this', this)
   }
 
-  onInputEmail (value) {
-    console.log('value', value)
-    this.props.sampleAction()
-    console.log('this', this)
+  onInputEmail (e) {
+    const email = e.target.value
+    this.setState({email})
   }
 
   onInputPassword (e) {
-    console.log('e', e)
+    e.preventDefault()
+    const password = e.target.value
+    this.setState({password})
   }
 
-  onClickSigninBtn () {
-    console.log('clicked!!')
+  onClickSigninBtn (e) {
+    e.preventDefault()
+    const {email, password} = this.state
+    console.log('email', email)
+    console.log('password', password)
+    firebase.auth().signInWithEmailAndPassword(email, password)
   }
 
   render() {
@@ -35,13 +48,13 @@ class Signin extends Component {
           <span className="title-sign">ログイン</span>
           <div className="form-group form-wrapper">
             <label className="form-label" htmlFor="email">Eメール</label>
-            <input className="form-control" id="email" type="text" onInput={this.onInputEmail} />
+            <input className="form-control" id="email" type="text" onInput={this.onInputEmail.bind(this)} />
           </div>
           <div className="form-group form-wrapper">
             <label className="form-label" htmlFor="password">パスワード</label>
-            <input className="form-control" id="password" type="password" onInput={this.onInputPassword} />
+            <input className="form-control" id="password" type="password" onInput={this.onInputPassword.bind(this)} />
           </div>
-          <button className="btn btn-outline-dark register-btn" onClick={this.onClickSigninBtn}>ログイン</button>
+          <button className="btn btn-outline-dark register-btn" onClick={this.onClickSigninBtn.bind(this)}>ログイン</button>
         </form>
       </React.StrictMode>
     )
@@ -50,8 +63,6 @@ class Signin extends Component {
 
 // const mapStateToProps = state => ({ count: state.count })
 const mapStateToProps = (state, props) => {
-  console.log('state', state)
-  console.log('props', props)
   return {
     count: state.sample.count
   }

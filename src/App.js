@@ -4,6 +4,7 @@ import { createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import { BrowserRouter, Route, /*Redirect, Switch */ } from 'react-router-dom'
 import reducer from './reducers'
+import firebase from './firebase-setup'
 
 import Container from './container/Container'
 
@@ -16,21 +17,37 @@ const store = createStore(reducer, enhancer)
 class App extends Component {
   constructor (props) {
     super(props)
-    console.log('App component constructor!!')
-    console.log('props at App', props)
+    // console.log('App component constructor!!')
+    // console.log('props at App', props)
     this.state = {
-      currentRoute: null
+      currentRoute: null,
+      currentUser: null
     }
+
+    // firebase.auth().onAuthStateChanged(user => {
+    //   this.setState({ currentUser: user })
+    // })
+  }
+
+  componentWillMount () {
+    firebase.auth().onAuthStateChanged(user => {
+      this.setState({ currentUser: user })
+    })
+  }
+
+  componentDidUpdate() {
+    console.log('will update at App')
+    console.log('afterUpdate state is ', this.state)
   }
 
   updateState (state) {
+    // console.log('updateState at App!', state)
     this.setState(state)
-    this.props.updateState(state)
   }
 
   componentDidMount () {
     console.log('AppComponent did mount!')
-    console.log('currentUser', this.currentUser())
+    console.log('state at App', this.state)
   }
 
   currentUser () {
@@ -50,8 +67,11 @@ class App extends Component {
     return (
       <div className="container">
         <Route path="/"
-          component={SignContainer}
+          render={routeProps =>
+            <SignContainer updateState={this.updateState.bind(this)} {...routeProps} />}
         />
+        {/* <SignContainer></SignContainer>
+        </Route> */}
         {/* <Route path="/" component={Signin} /> */}
       </div>
     )
@@ -61,11 +81,15 @@ class App extends Component {
    return (
     <Provider store={store}>
     <BrowserRouter>
-      <Header />
+      <Header
+        currentUser={this.state.currentUser}
+        currentRoute={this.state.currentRoute}
+      />
       <div>
+        <span onClick={() => {console.log('currentUser', this.state.currentUser)}}>sample</span>
         {/* <Switch> */}
           {
-            this.currentUser() ?
+            this.state.currentUser ?
             this.renderRegular() :
             this.renderSign()
           }
