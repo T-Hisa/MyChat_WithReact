@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import firebase from "../../firebase-setup"
+const storage = firebase.storage()
 
 class SetProfile extends Component {
   constructor(props) {
@@ -11,9 +12,16 @@ class SetProfile extends Component {
       photoURL: "",
       defaultPhotoURL: "",
       errorMessage: "",
-      errorFlag: false,
+      errorFlag: false
     }
     if (props["image"]) this.state["image"] = props["image"]
+  }
+
+  componentDidMount () {
+    storage.ref('default.png').getDownloadURL().then(url => {
+      const defaultPhotoURL = url
+      this.setState({defaultPhotoURL})
+    })
   }
 
   onInputUsername(e) {
@@ -63,7 +71,7 @@ class SetProfile extends Component {
       contentType: `image/${fileType}`
     }
     const photoRef = `images/${currentUserId}/${saveImageName}`
-      const storageRef = firebase.storage().ref(photoRef)
+      const storageRef = storage.ref(photoRef)
       return storageRef.put(image, metaData).then(retVal => {
         return retVal.ref.getDownloadURL()
       })
@@ -135,7 +143,7 @@ class SetProfile extends Component {
                 {
                   this.state.imgURL ?
                     <img src={this.state.imgURL} /> :
-                    <img src="../../images/default.png" alt="サムネイル" />
+                    <img src={this.state.defaultPhotoURL} alt="サムネイル" />
                 }
                   <span className="reset-btn">取り消し</span>
                 </span>

@@ -18,9 +18,9 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      currentRoute: null,
-      currentUser: null,
+      currentRoute: null
     }
+    console.log('App property', props)
   }
 
   componentDidUpdate() {
@@ -46,8 +46,6 @@ class App extends Component {
       <Route
         path="/"
         component={Container}
-        updateState={this.updateState.bind(this)}
-        currentUser={this.state.currentUser}
       />
     )
   }
@@ -60,7 +58,8 @@ class App extends Component {
           render={(routeProps) => (
             <SignContainer
               updateState={this.updateState.bind(this)}
-              currentUser={this.state.currentUser}
+              // currentUser={this.state.currentUser}
+              currentUser={this.props.currentUser}
               {...routeProps}
             />
           )}
@@ -77,17 +76,11 @@ class App extends Component {
       <Provider store={store}>
         <BrowserRouter>
           <Header
-            currentUser={this.state.currentUser}
+            // currentUser={this.state.currentUser}
+            currentUser={this.props.currentUser}
             currentRoute={this.state.currentRoute}
           />
           <div>
-            <span
-              onClick={() => {
-                console.log("currentUser", this.state.currentUser)
-              }}
-            >
-              sample
-            </span>
             {/* <Switch> */}
             {this.state.currentUser ? this.renderRegular() : this.renderSign()}
             {/* <Route exact path="/">
