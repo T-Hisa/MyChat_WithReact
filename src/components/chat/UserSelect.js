@@ -1,6 +1,9 @@
 import React, { Component } from "react"
 
 class UserSelect extends Component {
+  componentDidMount() {
+    console.log("UserSelect Component!")
+  }
   render() {
     return (
       <React.StrictMode>

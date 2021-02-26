@@ -1,15 +1,15 @@
 import React, { Component } from "react"
-import { Route, Redirect } from "react-router-dom"
+import { Route, Redirect, withRouter } from "react-router-dom"
 import Sidebar from "../components/menu/Sidebar"
 import SetProfile from "../components/Profile/SetProfile"
 import UserSelect from "../components/chat/UserSelect"
 
 class Container extends Component {
 
-  // constructor(props) {
-  //   super(props)
-  //   console.log('container ')
-  // }
+  constructor(props) {
+    super(props)
+    console.log('container props', props)
+  }
 
   componentDidMount() {
     console.log('Container component did mount!')
@@ -30,6 +30,9 @@ class Container extends Component {
               <UserSelect/>
             }}
           />
+          <Route path="/">
+            <Redirect to="/direct"/>
+          </Route>
         </div>
       </React.StrictMode>
     )
@@ -38,7 +41,14 @@ class Container extends Component {
   renderProfile() {
     return (
       <React.StrictMode>
-        <Route exact path="/set-profile" component={SetProfile} />
+        <Route exact path="/set-profile"
+          render={(routeProps) => (
+            <SetProfile
+              currentUser={"sample"}
+              {...routeProps}
+            />
+          )}
+        />
         <Route path="/">
           <Redirect to="/set-profile"/>
         </Route>
@@ -49,10 +59,11 @@ class Container extends Component {
   render() {
     return (
       <React.StrictMode>
-        {this.isSetProfile() ? this.renderMain() : <SetProfile/> }
+        {this.isSetProfile() ? this.renderMain() : this.renderProfile() }
+        {/* {this.isSetProfile() ? this.renderMain() : <SetProfile/> } */}
       </React.StrictMode>
     )
   }
 }
 
-export default Container
+export default withRouter(Container)

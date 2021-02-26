@@ -8,8 +8,8 @@ class SetProfile extends Component {
     this.state = {
       username: "",
       image: "",
-      imgURL: "",
-      photoURL: "",
+      imgURL: null,
+      photoURL: null,
       defaultPhotoURL: "",
       errorMessage: "",
       errorFlag: false
@@ -18,6 +18,7 @@ class SetProfile extends Component {
   }
 
   componentDidMount () {
+    console.log('set-profile component did mount!!', this.props)
     storage.ref('default.png').getDownloadURL().then(url => {
       const defaultPhotoURL = url
       this.setState({defaultPhotoURL})
@@ -45,7 +46,7 @@ class SetProfile extends Component {
 
   onClickSetProfileBtn(e) {
     e.preventDefault()
-    if (this.state.errorMessage) {
+    if (!this.state.errorMessage) {
       if (this.state.imgURL) {
         this.setPhotoURL().then((url) => {
           this.state.photoURL = url
@@ -78,7 +79,24 @@ class SetProfile extends Component {
   }
 
   updateProfileTask() {
-    console.log('update Profile!')
+    const currentUser = firebase.auth().currentUser
+    // const updateValue = {
+    //   uid: currentUserId,
+    //   username: this.state.username,
+    //   photoURL: this.state.photoURL
+    // }
+    const updateValue = {
+      displayName: this.state.username,
+      photoURL: this.state.photoURL
+    }
+    console.log('photoURL', updateValue.photoURL)
+    console.log('currentUser', currentUser)
+    currentUser.updateProfile(updateValue).then(()=> {
+      this.props.history.push('/direct')
+    }).catch((e) => {
+      console.log(e)
+      alert("予期せぬエラーが発生しました")
+    })
   }
 
   handleNameError(username) {

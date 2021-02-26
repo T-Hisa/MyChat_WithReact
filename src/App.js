@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import { Provider } from "react-redux"
 import { createStore, applyMiddleware } from "redux"
 import thunk from "redux-thunk"
-import { BrowserRouter, Route /*Redirect, Switch */ } from "react-router-dom"
+import { BrowserRouter, Route /*Redirect, */, Switch } from "react-router-dom"
 import reducer from "./reducers"
 import firebase from "./firebase-setup"
 
@@ -18,9 +18,9 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      currentRoute: null
+      currentRoute: null,
+      currentUser: null,
     }
-    console.log('App property', props)
   }
 
   componentDidUpdate() {
@@ -45,7 +45,12 @@ class App extends Component {
     return (
       <Route
         path="/"
-        component={Container}
+        render={(routeProps) => (
+          <Container
+            currentUser={this.state.currentUser}
+            {...routeProps}
+          />
+        )}
       />
     )
   }
@@ -58,8 +63,7 @@ class App extends Component {
           render={(routeProps) => (
             <SignContainer
               updateState={this.updateState.bind(this)}
-              // currentUser={this.state.currentUser}
-              currentUser={this.props.currentUser}
+              currentUser={this.state.currentUser}
               {...routeProps}
             />
           )}
@@ -76,11 +80,11 @@ class App extends Component {
       <Provider store={store}>
         <BrowserRouter>
           <Header
-            // currentUser={this.state.currentUser}
-            currentUser={this.props.currentUser}
+            currentUser={this.state.currentUser}
             currentRoute={this.state.currentRoute}
           />
           <div>
+
             {/* <Switch> */}
             {this.state.currentUser ? this.renderRegular() : this.renderSign()}
             {/* <Route exact path="/">

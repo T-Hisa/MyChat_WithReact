@@ -30,6 +30,9 @@ class Signin extends Component {
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
+      .then(() => {
+        this.props.history.push('setup-profile')
+      })
       .catch((e) => {
         alert("ユーザーが見当たりません")
       })

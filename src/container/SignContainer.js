@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Route, Redirect } from "react-router-dom"
+import { Route, Redirect, withRouter } from "react-router-dom"
 import Signin from "../components/Sign/Signin"
 import Signup from "../components/Sign/Signup"
 
@@ -46,4 +46,4 @@ class SignContainer extends Component {
   }
 }
 
-export default SignContainer
+export default withRouter(SignContainer)
