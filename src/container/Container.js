@@ -6,7 +6,9 @@ import SetProfile from "../components/Profile/SetProfile"
 import UserSelect from "../components/chat/UserSelect"
 import UpdateProfile from "../components/Profile/UpdateProfile"
 
+import { getDefaultPhoto } from "../actions/defaultPhoto"
 import { getCurrentUser } from "../actions/currentUser"
+import { getUsers } from "../actions/users"
 
 class Container extends Component {
   constructor(props) {
@@ -39,11 +41,7 @@ class Container extends Component {
               ;<UserSelect />
             }}
           />
-          <Route
-            exact
-            path="/update-profile"
-            component={UpdateProfile}
-          />
+          <Route exact path="/update-profile" component={UpdateProfile} />
           <Route path="/">
             <Redirect to="/direct" />
           </Route>
@@ -81,7 +79,11 @@ const mapStateToProps = (state) => {
   console.log("state at container", state)
   return { currentUser: state.currentUser }
 }
-const mapDispatchToProps = { getCurrentUser }
+const mapDispatchToProps = {
+  getCurrentUser,
+  getUsers,
+  getDefaultPhoto,
+}
 
 export default withRouter(
   connect(mapStateToProps, mapDispatchToProps)(Container)

@@ -1,13 +1,8 @@
 import React, { Component } from "react"
 import { Link } from "react-router-dom"
 import { connect } from "react-redux"
-import { getCurrentUser } from "../../actions/currentUser"
-import { getDefaultPhoto } from "../../actions/defaultPhoto"
 
 class Profile extends Component {
-  componentDidMount() {
-    this.props.getDefaultPhoto()
-  }
 
   getPhotoURL() {
     return this.props.currentUser.photoURL
@@ -36,9 +31,4 @@ const mapStateToProps = (state) => ({
   currentUser: state.currentUser,
 })
 
-const mapDispatchToProps = {
-  getCurrentUser,
-  getDefaultPhoto,
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Profile)
+export default connect(mapStateToProps, null)(Profile)

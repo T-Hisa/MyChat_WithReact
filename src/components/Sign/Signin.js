@@ -1,5 +1,4 @@
 import React, { Component } from "react"
-import { connect } from "react-redux"
 
 import firebase from "../../firebase-setup"
 import SignCommon from "./SignCommon"
@@ -54,12 +53,4 @@ class Signin extends Component {
   }
 }
 
-// const mapStateToProps = state => ({ count: state.count })
-// const mapStateToProps = (state, props) => {
-//   console.log('state at signin', state)
-//   console.log('props at signin', props)
-//   return {}
-// }
-// const mapDispatchToProps = { sampleAction }
-
-export default connect(null, null)(Signin)
+export default Signin

@@ -2,8 +2,6 @@ import React, { Component } from "react"
 import { connect } from "react-redux"
 import { withRouter } from "react-router-dom"
 import { updateUserProfile } from "../../actions/users"
-import { getCurrentUser } from "../../actions/currentUser"
-import { getDefaultPhoto } from "../../actions/defaultPhoto"
 import firebase from "../../firebase-setup"
 const storage = firebase.storage()
 
@@ -18,19 +16,13 @@ class ProfileCommon extends Component {
       username: "",
       photoURL: "",
     }
-    console.log("props at profilecommmon", props)
-    console.log("state at profilecommmon", this.state)
   }
 
   componentDidMount() {
-    this.props.getCurrentUser()
-    this.props.getDefaultPhoto()
     this.setState({
       username: this.props.username,
-      photoURL: this.props.photoURL
+      photoURL: this.props.photoURL,
     })
-    console.log("props at profileCommon", this.props)
-    console.log("state at profileCommon", this.state)
   }
 
   componentWillUnmount() {
@@ -60,7 +52,7 @@ class ProfileCommon extends Component {
   }
 
   nameValidation() {
-    return (this.state.username && this.state.username.length < 8)
+    return this.state.username && this.state.username.length < 8
   }
 
   onClickSetProfileBtn(e) {
@@ -230,15 +222,13 @@ class ProfileCommon extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log("state", state)
-  return { currentUser: state.currentUser, defaultPhoto: state.defaultPhoto }
+  return {
+    currentUser: state.currentUser,
+    defaultPhoto: state.defaultPhoto,
+  }
 }
 
-const mapDispatchToProps = {
-  updateUserProfile,
-  getCurrentUser,
-  getDefaultPhoto,
-}
+const mapDispatchToProps = { updateUserProfile }
 
 export default withRouter(
   connect(mapStateToProps, mapDispatchToProps)(ProfileCommon)

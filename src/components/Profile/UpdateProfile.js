@@ -1,13 +1,11 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
-import { getCurrentUser } from "../../actions/currentUser"
 
 import ProfileCommon from "./ProfileCommon"
 
 class UpdateProfile extends Component {
   componentDidMount() {
     console.log("upddateProfile component did MOunt!")
-    this.props.getCurrentUser()
   }
 
   render () {
@@ -25,8 +23,4 @@ const mapStateToProps = (state) => {
   return { currentUser: state.currentUser }
 }
 
-const mapDispatchToProps = {
-  getCurrentUser,
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(UpdateProfile)
+export default connect(mapStateToProps, null)(UpdateProfile)

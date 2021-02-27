@@ -1,4 +1,3 @@
-import firebase from "../firebase-setup"
 import { db } from "./index"
 
 export const GET_USERS = "GET_USERS"
