@@ -11,7 +11,7 @@ class UpdateProfile extends Component {
   render () {
     return (
       <ProfileCommon
-        username={this.props.currentUser.displayName}
+        username={this.props.currentUser.username}
         photoURL={this.props.currentUser.photoURL}
       />
     )

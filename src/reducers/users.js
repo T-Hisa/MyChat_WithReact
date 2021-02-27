@@ -8,11 +8,8 @@ const users = (users = {}, action) => {
   switch (action.type) {
     case GET_USERS:
       response = action.response
-      console.log('response', response)
-      console.log('{...response}', {...response})
       return { ...response }
     case SET_PROFILE:
-      console.log("SET_PROFILE!!")
       break
     default:
       return users

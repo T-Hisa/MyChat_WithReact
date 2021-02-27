@@ -18,7 +18,7 @@ class Profile extends Component {
                 <img src={this.getPhotoURL()} alt="サムネイル" /> :
                 <img src={this.props.defaultPhoto} alt="サムネイル" />
             }
-            <p className="profile-name">{this.props.currentUser.displayName}</p>
+            <p className="profile-name">{this.props.currentUser.username}</p>
           </Link>
         </div>
       </React.StrictMode>

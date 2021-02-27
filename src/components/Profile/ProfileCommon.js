@@ -19,10 +19,12 @@ class ProfileCommon extends Component {
   }
 
   componentDidMount() {
-    this.setState({
-      username: this.props.username,
-      photoURL: this.props.photoURL,
-    })
+    if (this.props.username) {
+      this.setState({
+        username: this.props.username,
+        photoURL: this.props.photoURL,
+      })
+    }
   }
 
   componentWillUnmount() {
@@ -40,15 +42,15 @@ class ProfileCommon extends Component {
 
   onInputUsername(e) {
     const username = e.target.value
-    this.setState({ username })
-    this.handleNameError(this.state.username)
+    const errorMessage = this.handleNameError(this.state.username)
+    this.setState({ username, errorMessage })
   }
 
   handleNameError(username) {
     let errorMessage = ""
     if (!username) errorMessage = "入力してください"
     else if (username.length > 8) errorMessage = "8文字以内で入力してください"
-    this.setState({ errorMessage })
+    return errorMessage
   }
 
   nameValidation() {
@@ -70,9 +72,9 @@ class ProfileCommon extends Component {
         this.updateProfileTask()
       }
     } else {
-      alert(`名前を${this.state.errorMessage}`)
-      this.handleNameError(this.state.username)
-      this.setState({ errorFlag: true })
+      const errorMessage= this.handleNameError(this.state.username)
+      alert(`名前を${errorMessage}`)
+      this.setState({ errorFlag: true, errorMessage })
     }
   }
 
@@ -81,7 +83,7 @@ class ProfileCommon extends Component {
     const imageNameArray = image.name.split(".")
     const fileType = imageNameArray.pop()
     const saveImageName = `profilePhoto.${fileType}`
-    const currentUserId = this.props.currentUser.uid
+    const currentUserId = this.props.currentUser.currentUserId
     const metaData = {
       contentType: `image/${fileType}`,
     }
@@ -110,7 +112,7 @@ class ProfileCommon extends Component {
       photoURL: this.state.photoURL,
     }
     console.log("photoURL", updateValue.photoURL)
-    const currentUser = this.props.currentUser
+    const currentUser = firebase.auth().currentUser
     currentUser
       .updateProfile(updateValue)
       .then(() => {
@@ -124,7 +126,7 @@ class ProfileCommon extends Component {
 
   updateUserData() {
     const saveData = {
-      userId: this.props.currentUser.uid,
+      userId: this.props.currentUser.currentUserId,
       username: this.state.username,
       photoURL: this.state.photoURL,
     }

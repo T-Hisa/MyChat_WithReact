@@ -7,27 +7,35 @@ import UserSelect from "../components/chat/UserSelect"
 import UpdateProfile from "../components/Profile/UpdateProfile"
 
 import { getDefaultPhoto } from "../actions/defaultPhoto"
-import { getCurrentUser } from "../actions/currentUser"
+import { getCurrentUser, getCurrentUserId } from "../actions/currentUser"
 import { getUsers } from "../actions/users"
 
 class Container extends Component {
-  constructor(props) {
-    super(props)
-    console.log("container props", props)
-  }
+  // constructor(props) {
+  //   super(props)
+  //   console.log("container props", props)
+  // }
 
   componentDidMount() {
     console.log("Container component did mount!")
-    // console.log("isSetProfile")
+    this.props.getCurrentUser()
+    this.props.getDefaultPhoto()
+    this.props.getCurrentUserId()
+    // this.getUsers()
   }
+
+  // componentWillUnmount() {
+  //   this.props.resetAll()
+  // }
 
   isSetProfile() {
     console.log(
       "isSetProfile",
-      !!(this.props.currentUser && this.props.currentUser.displayName)
+      !!(this.props.currentUser && this.props.currentUser.username)
     )
-    return !!(this.props.currentUser && this.props.currentUser.displayName)
+    return !!(this.props.currentUser && this.props.currentUser.username)
   }
+
 
   renderMain() {
     return (
@@ -81,6 +89,7 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = {
   getCurrentUser,
+  getCurrentUserId,
   getUsers,
   getDefaultPhoto,
 }

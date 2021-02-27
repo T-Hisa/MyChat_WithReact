@@ -8,7 +8,7 @@ import Container from "./container/Container"
 import Header from "./components/menu/Header"
 import SignContainer from "./container/SignContainer"
 
-import { getCurrentUser } from "./actions/currentUser"
+// import { getCurrentUser } from "./actions/currentUser"
 
 // firebase.auth().onAuthStateChanged(user => {
 
@@ -32,11 +32,13 @@ class App extends Component {
   }
 
   isSetCurrentUser() {
-    return !!(this.props.currentUser && this.props.currentUser.uid)
+    console.log("currentUser", firebase.auth().currentUser)
+    return firebase.auth().currentUser
+    // return !!(this.props.currentUser && this.props.currentUser.uid)
   }
 
   componentDidMount() {
-    this.props.getCurrentUser()
+    // this.props.getCurrentUser()
   }
 
   renderRegular() {
@@ -69,49 +71,20 @@ class App extends Component {
     )
   }
 
-  sample() {
-    console.log("this.isSet", this.isSetCurrentUser())
-    // console.log("firebase.auth().currentUser", firebase.auth().currentUser)
-  }
 
   render() {
     return (
       <React.StrictMode>
-        {/* <Provider store={store}>
-          <BrowserRouter> */}
         <Header
           currentUser={this.props.currentUser}
           currentRoute={this.state.currentRoute}
         />
-        <div onClick={this.sample.bind(this)}>
-          {/* <Switch> */}
+        <div>
           {this.isSetCurrentUser() ? this.renderRegular() : this.renderSign()}
-          {/* <Route exact path="/">
-            {
-              this.currentUser() ?
-                <Container/> :
-                this.renderSign()
-            }
-          </Route>
-          <Route path="/">
-            <Redirect to="/"></Redirect>
-          </Route> */}
-          {/* </Switch> */}
         </div>
-        {/* </BrowserRouter>
-        </Provider> */}
       </React.StrictMode>
     )
   }
 }
 
-const mapStateToProps = (state) => {
-  console.log("state at App1", state)
-  return {
-    currentUser: state.currentUser,
-  }
-}
-
-const mapDispatchToProps = { getCurrentUser }
-
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default connect(null, null)(App)
