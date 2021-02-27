@@ -5,12 +5,12 @@ import { getCurrentUser } from "../../actions/currentUser"
 import { getDefaultPhoto } from "../../actions/defaultPhoto"
 
 class Profile extends Component {
-  getPhotoURL() {
-    return this.props.currentUser.photoURL
+  componentDidMount() {
+    this.props.getDefaultPhoto()
   }
 
-  displayName() {
-    return this.props.currentUser.displayname
+  getPhotoURL() {
+    return this.props.currentUser.photoURL
   }
 
   render() {
@@ -23,7 +23,7 @@ class Profile extends Component {
                 <img src={this.getPhotoURL()} alt="サムネイル" /> :
                 <img src={this.props.defaultPhoto} alt="サムネイル" />
             }
-            <p className="profile-name">{this.displayName()}</p>
+            <p className="profile-name">{this.props.currentUser.displayName}</p>
           </Link>
         </div>
       </React.StrictMode>

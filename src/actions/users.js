@@ -12,9 +12,9 @@ export const updateUserProfile = (data) => (dispatch) => {
   const usersRef = db.ref(`users/${userId}`)
   const updateData = {
     username: data.username,
-    photoURL: data.photoURL,
+    // photoURL: data.photoURL,
   }
-  // if (data.photoURL) updateData["photoURL"] = data.photoURL
+  if (data.photoURL) updateData["photoURL"] = data.photoURL
   console.log("updatedata", updateData)
   console.log("ref", usersRef)
   usersRef.update(updateData)

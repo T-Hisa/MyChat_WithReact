@@ -4,6 +4,7 @@ import { connect } from "react-redux"
 import Sidebar from "../components/menu/Sidebar"
 import SetProfile from "../components/Profile/SetProfile"
 import UserSelect from "../components/chat/UserSelect"
+import UpdateProfile from "../components/Profile/UpdateProfile"
 
 import { getCurrentUser } from "../actions/currentUser"
 
@@ -37,6 +38,11 @@ class Container extends Component {
             render={(routeProps) => {
               ;<UserSelect />
             }}
+          />
+          <Route
+            exact
+            path="/update-profile"
+            component={UpdateProfile}
           />
           <Route path="/">
             <Redirect to="/direct" />
