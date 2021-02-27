@@ -1,5 +1,11 @@
-import { combineReducers } from 'redux'
-import { reducer as form } from 'redux-form'
-import sample from './sample'
+import { combineReducers } from "redux"
+// import { reducer as form } from 'redux-form'
+import users from "./users"
+import currentUser from "./currentUser"
+import defaultPhoto from "./defaultPhoto"
 
-export default combineReducers({ sample, form })
+export default combineReducers({
+  users,
+  currentUser,
+  defaultPhoto
+})

@@ -2,6 +2,11 @@ import React, { Component } from "react"
 import firebase from "../../firebase-setup"
 import SignCommon from "./SignCommon"
 
+import { connect } from "react-redux"
+import { setUserProfile } from "../../actions/users"
+
+
+
 class Signup extends Component {
   constructor(props) {
     super(props)
@@ -47,7 +52,12 @@ class Signup extends Component {
     } else {
       firebase
         .auth()
-        .createUserWithEmailAndPassword(email, password)
+        .createUserWithEmailAndPassword(email, password).then(data => {
+          console.log("data", data)
+          const {uid} = data.user
+          this.props.setUserProfile({uid, email})
+          this.props.history.push('set-profile')
+        })
         .catch((e) => {
           alert("既に登録してあるメールアドレスです")
         })
@@ -71,4 +81,5 @@ class Signup extends Component {
   }
 }
 
-export default Signup
+const mapDispatchToProps = { setUserProfile }
+export default connect(null, mapDispatchToProps)(Signup)

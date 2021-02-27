@@ -1,22 +1,28 @@
 import React, { Component } from "react"
 import { Route, Redirect, withRouter } from "react-router-dom"
+import { connect } from "react-redux"
 import Sidebar from "../components/menu/Sidebar"
 import SetProfile from "../components/Profile/SetProfile"
 import UserSelect from "../components/chat/UserSelect"
 
-class Container extends Component {
+import { getCurrentUser } from "../actions/currentUser"
 
+class Container extends Component {
   constructor(props) {
     super(props)
-    console.log('container props', props)
+    console.log("container props", props)
   }
 
   componentDidMount() {
-    console.log('Container component did mount!')
+    console.log("Container component did mount!")
+    // console.log("isSetProfile")
   }
 
   isSetProfile() {
-    console.log('isSetProfile', !!(this.props.currentUser && this.props.currentUser.displayName))
+    console.log(
+      "isSetProfile",
+      !!(this.props.currentUser && this.props.currentUser.displayName)
+    )
     return !!(this.props.currentUser && this.props.currentUser.displayName)
   }
 
@@ -25,13 +31,15 @@ class Container extends Component {
       <React.StrictMode>
         <div className="flex-display">
           <Sidebar />
-          <Route exact path="/direct"
+          <Route
+            exact
+            path="/direct"
             render={(routeProps) => {
-              <UserSelect/>
+              ;<UserSelect />
             }}
           />
           <Route path="/">
-            <Redirect to="/direct"/>
+            <Redirect to="/direct" />
           </Route>
         </div>
       </React.StrictMode>
@@ -41,16 +49,13 @@ class Container extends Component {
   renderProfile() {
     return (
       <React.StrictMode>
-        <Route exact path="/set-profile"
-          render={(routeProps) => (
-            <SetProfile
-              currentUser={"sample"}
-              {...routeProps}
-            />
-          )}
+        <Route
+          exact
+          path="/set-profile"
+          render={(routeProps) => <SetProfile {...routeProps} />}
         />
         <Route path="/">
-          <Redirect to="/set-profile"/>
+          <Redirect to="/set-profile" />
         </Route>
       </React.StrictMode>
     )
@@ -59,11 +64,19 @@ class Container extends Component {
   render() {
     return (
       <React.StrictMode>
-        {this.isSetProfile() ? this.renderMain() : this.renderProfile() }
+        {this.isSetProfile() ? this.renderMain() : this.renderProfile()}
         {/* {this.isSetProfile() ? this.renderMain() : <SetProfile/> } */}
       </React.StrictMode>
     )
   }
 }
 
-export default withRouter(Container)
+const mapStateToProps = (state) => {
+  console.log("state at container", state)
+  return { currentUser: state.currentUser }
+}
+const mapDispatchToProps = { getCurrentUser }
+
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(Container)
+)

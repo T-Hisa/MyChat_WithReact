@@ -1,9 +1,6 @@
 import React, { Component } from "react"
-import { Provider } from "react-redux"
-import { createStore, applyMiddleware } from "redux"
-import thunk from "redux-thunk"
-import { BrowserRouter, Route /*Redirect, */, Switch } from "react-router-dom"
-import reducer from "./reducers"
+import { connect } from "react-redux"
+import { Route } from "react-router-dom"
 import firebase from "./firebase-setup"
 
 import Container from "./container/Container"
@@ -11,15 +8,17 @@ import Container from "./container/Container"
 import Header from "./components/menu/Header"
 import SignContainer from "./container/SignContainer"
 
-const enhancer = applyMiddleware(thunk)
-const store = createStore(reducer, enhancer)
+import { getCurrentUser } from "./actions/currentUser"
+
+// firebase.auth().onAuthStateChanged(user => {
+
+// })
 
 class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      currentRoute: null,
-      currentUser: null,
+      currentRoute: null
     }
   }
 
@@ -29,16 +28,15 @@ class App extends Component {
   }
 
   updateState(state) {
-    // console.log('updateState at App!', state)
     this.setState(state)
   }
 
+  isSetCurrentUser() {
+    return !!(this.props.currentUser && this.props.currentUser.uid)
+  }
+
   componentDidMount() {
-    console.log("AppComponent did mount!")
-    console.log("state at App", this.state)
-    firebase.auth().onAuthStateChanged((user) => {
-      this.setState({ currentUser: user })
-    })
+    this.props.getCurrentUser()
   }
 
   renderRegular() {
@@ -47,7 +45,7 @@ class App extends Component {
         path="/"
         render={(routeProps) => (
           <Container
-            currentUser={this.state.currentUser}
+            // currentUser={this.state.currentUser}
             {...routeProps}
           />
         )}
@@ -63,31 +61,32 @@ class App extends Component {
           render={(routeProps) => (
             <SignContainer
               updateState={this.updateState.bind(this)}
-              currentUser={this.state.currentUser}
               {...routeProps}
             />
           )}
         />
-        {/* <SignContainer></SignContainer>
-        </Route> */}
-        {/* <Route path="/" component={Signin} /> */}
       </div>
     )
   }
 
+  sample() {
+    console.log("this.isSet", this.isSetCurrentUser())
+    // console.log("firebase.auth().currentUser", firebase.auth().currentUser)
+  }
+
   render() {
     return (
-      <Provider store={store}>
-        <BrowserRouter>
-          <Header
-            currentUser={this.state.currentUser}
-            currentRoute={this.state.currentRoute}
-          />
-          <div>
-
-            {/* <Switch> */}
-            {this.state.currentUser ? this.renderRegular() : this.renderSign()}
-            {/* <Route exact path="/">
+      <React.StrictMode>
+        {/* <Provider store={store}>
+          <BrowserRouter> */}
+        <Header
+          currentUser={this.props.currentUser}
+          currentRoute={this.state.currentRoute}
+        />
+        <div onClick={this.sample.bind(this)}>
+          {/* <Switch> */}
+          {this.isSetCurrentUser() ? this.renderRegular() : this.renderSign()}
+          {/* <Route exact path="/">
             {
               this.currentUser() ?
                 <Container/> :
@@ -97,12 +96,22 @@ class App extends Component {
           <Route path="/">
             <Redirect to="/"></Redirect>
           </Route> */}
-            {/* </Switch> */}
-          </div>
-        </BrowserRouter>
-      </Provider>
+          {/* </Switch> */}
+        </div>
+        {/* </BrowserRouter>
+        </Provider> */}
+      </React.StrictMode>
     )
   }
 }
 
-export default App
+const mapStateToProps = (state) => {
+  console.log("state at App1", state)
+  return {
+    currentUser: state.currentUser,
+  }
+}
+
+const mapDispatchToProps = { getCurrentUser }
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)

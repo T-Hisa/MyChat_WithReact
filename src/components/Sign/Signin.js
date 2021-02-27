@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
-import { sampleAction } from "../../actions"
+
 import firebase from "../../firebase-setup"
 import SignCommon from "./SignCommon"
 
@@ -13,6 +13,7 @@ class Signin extends Component {
     }
     const currentRoute = props.location.pathname
     props.updateState({ currentRoute })
+    console.log("props at signin", props)
   }
 
   componentDidMount() {
@@ -30,8 +31,10 @@ class Signin extends Component {
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
-      .then(() => {
-        this.props.history.push('setup-profile')
+      .then((data) => {
+        const {user} = data
+        if (user.displayName) this.props.history.push('/direct')
+        else this.props.history.push('/set-profile')
       })
       .catch((e) => {
         alert("ユーザーが見当たりません")
@@ -52,11 +55,11 @@ class Signin extends Component {
 }
 
 // const mapStateToProps = state => ({ count: state.count })
-const mapStateToProps = (state, props) => {
-  return {
-    count: state.sample.count,
-  }
-}
-const mapDispatchToProps = { sampleAction }
+// const mapStateToProps = (state, props) => {
+//   console.log('state at signin', state)
+//   console.log('props at signin', props)
+//   return {}
+// }
+// const mapDispatchToProps = { sampleAction }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Signin)
+export default connect(null, null)(Signin)

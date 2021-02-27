@@ -30,7 +30,7 @@ class Header extends Component {
     )
   }
 
-  renderSignOut() {
+  renderHeaderNav() {
     return (
       <React.StrictMode>
         {this.props.currentUser ? (
@@ -54,7 +54,7 @@ class Header extends Component {
         <span className="title">My Chat</span>
         <div className="menu-container">
           <div className="select-locale-container"></div>
-          {this.renderSignOut()}
+          {this.renderHeaderNav()}
         </div>
       </Navbar>
     )

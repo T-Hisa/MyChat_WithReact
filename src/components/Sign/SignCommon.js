@@ -1,14 +1,10 @@
 import React, { Component } from "react"
 
 class SignCommon extends Component {
-  constructor(props) {
-    super(props)
-  }
 
   onInputPassword(e) {
     const password = e.target.value
     this.props.updateSignState({ password })
-    // this.setState({password})
   }
 
   onInputEmail(e) {

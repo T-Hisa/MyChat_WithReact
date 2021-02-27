@@ -1,4 +1,9 @@
 import React, { Component } from "react"
+import { connect } from "react-redux"
+import { updateUserProfile } from "../../actions/users"
+import { getCurrentUser } from "../../actions/currentUser"
+import { getDefaultPhoto } from "../../actions/defaultPhoto"
+// import {  } from "../../actions/currentUser"
 import firebase from "../../firebase-setup"
 const storage = firebase.storage()
 
@@ -10,19 +15,17 @@ class SetProfile extends Component {
       image: "",
       imgURL: null,
       photoURL: null,
-      defaultPhotoURL: "",
-      errorMessage: "",
-      errorFlag: false
+      errorMessage: "入力してください",
+      errorFlag: false,
     }
+    console.log("props at setProfile", props)
     if (props["image"]) this.state["image"] = props["image"]
+    this.props.getCurrentUser()
   }
 
-  componentDidMount () {
-    console.log('set-profile component did mount!!', this.props)
-    storage.ref('default.png').getDownloadURL().then(url => {
-      const defaultPhotoURL = url
-      this.setState({defaultPhotoURL})
-    })
+  componentDidMount() {
+    this.props.getDefaultPhoto()
+    console.log("set-profile component did mount!!", this.props)
   }
 
   onInputUsername(e) {
@@ -49,7 +52,9 @@ class SetProfile extends Component {
     if (!this.state.errorMessage) {
       if (this.state.imgURL) {
         this.setPhotoURL().then((url) => {
-          this.state.photoURL = url
+          this.setState({
+            photoURL: url,
+          })
           this.updateProfileTask()
           window.URL.revokeObjectURL(this.state.imgURL)
         })
@@ -57,53 +62,61 @@ class SetProfile extends Component {
         this.updateProfileTask()
       }
     } else {
+      alert(`名前を${this.state.errorMessage}`)
       this.handleNameError(this.state.username)
       this.setState({ errorFlag: true })
     }
   }
 
-  setPhotoURL () {
+  setPhotoURL() {
     const image = this.state.image
-    const imageNameArray = image.name.split('.')
+    const imageNameArray = image.name.split(".")
     const fileType = imageNameArray.pop()
     const saveImageName = `profilePhoto.${fileType}`
     const currentUserId = firebase.auth().currentUser.uid
     const metaData = {
-      contentType: `image/${fileType}`
+      contentType: `image/${fileType}`,
     }
     const photoRef = `images/${currentUserId}/${saveImageName}`
-      const storageRef = storage.ref(photoRef)
-      return storageRef.put(image, metaData).then(retVal => {
-        return retVal.ref.getDownloadURL()
-      })
+    const storageRef = storage.ref(photoRef)
+    return storageRef.put(image, metaData).then((retVal) => {
+      return retVal.ref.getDownloadURL()
+    })
   }
 
   updateProfileTask() {
-    const currentUser = firebase.auth().currentUser
-    // const updateValue = {
-    //   uid: currentUserId,
-    //   username: this.state.username,
-    //   photoURL: this.state.photoURL
-    // }
+    this.updateUserData()
     const updateValue = {
       displayName: this.state.username,
-      photoURL: this.state.photoURL
+      photoURL: this.state.photoURL,
     }
-    console.log('photoURL', updateValue.photoURL)
-    console.log('currentUser', currentUser)
-    currentUser.updateProfile(updateValue).then(()=> {
-      this.props.history.push('/direct')
-    }).catch((e) => {
-      console.log(e)
-      alert("予期せぬエラーが発生しました")
-    })
+    console.log("photoURL", updateValue.photoURL)
+    const currentUser = this.props.currentUser
+    currentUser
+      .updateProfile(updateValue)
+      .then(() => {
+        this.props.history.push("/direct")
+      })
+      .catch((e) => {
+        console.log(e)
+        alert("予期せぬエラーが発生しました")
+      })
+  }
+
+  updateUserData(data) {
+    const saveData = {
+      userId: this.props.currentUser.uid,
+      username: this.state.username,
+      photoURL: this.state.photoURL,
+    }
+    console.log("sendData", saveData)
+    this.props.updateUserProfile(saveData)
   }
 
   handleNameError(username) {
     let errorMessage = ""
     if (!username) errorMessage = "入力してください"
-    else if (username.length > 8)
-      errorMessage = "8文字以内で入力してください"
+    else if (username.length > 8) errorMessage = "8文字以内で入力してください"
     this.setState({ errorMessage })
   }
 
@@ -142,7 +155,7 @@ class SetProfile extends Component {
                   className="fas fa-portrait fa-2x"
                   style={{ padding: "10px" }}
                 ></i>
-                <span style={{ margin: "0 auto" }}>
+                <span style={{ margin: "auto 0" }}>
                   サムネイル設定
                   <span>
                     （※設定しない場合は下のデフォルトのものになります。）
@@ -158,14 +171,13 @@ class SetProfile extends Component {
               />
               <p className="img-wrapper">
                 <span className="img-wrapper">
-                {
-                  this.state.imgURL ?
-                    <img src={this.state.imgURL} /> :
-                    <img src={this.state.defaultPhotoURL} alt="サムネイル" />
-                }
+                  {this.state.imgURL ? (
+                    <img src={this.state.imgURL} />
+                  ) : (
+                    <img src={this.props.defaultPhoto} alt="サムネイル" />
+                  )}
                   <span className="reset-btn">取り消し</span>
                 </span>
-                {/* <img src="@/assets/images/default.png" width="100px" height="100px" /> */}
               </p>
             </div>
           </div>
@@ -183,4 +195,16 @@ class SetProfile extends Component {
   }
 }
 
-export default SetProfile
+// const mapStateToProps = (state) => ({ currentUserId: state.currentUserId })
+const mapStateToProps = (state) => {
+  console.log("state", state)
+  return { currentUser: state.currentUser, defaultPhoto: state.defaultPhoto }
+}
+
+const mapDispatchToProps = {
+  updateUserProfile,
+  getCurrentUser,
+  getDefaultPhoto,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SetProfile)
