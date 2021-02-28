@@ -22,8 +22,8 @@ class Sidebar extends Component {
         <ul className="sidebar-ul">
           {this.renderMenu('個人チャット', "/direct")}
           {this.renderMenu('グループ', "/groupchat")}
-          {this.renderMenu('通知', "direct")}
-          {this.renderMenu('グループ作成', "creategroup")}
+          {this.renderMenu('通知', "/notification")}
+          {this.renderMenu('グループ作成', "/creategroup")}
         </ul>
       </div>
     )

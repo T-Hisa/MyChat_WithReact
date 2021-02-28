@@ -10,6 +10,7 @@ import DirectChat from "../components/chat/DirectChat"
 import SelectGroup from "../components/chat/SelectGroup"
 import GroupChat from "../components/chat/GroupChat"
 import CreateGroup from "../components/group/CreateGroup"
+import Notification from "../components/notification/Notification"
 
 import { getDefaultPhoto } from "../actions/defaultPhoto"
 import { getCurrentUser, getCurrentUserId } from "../actions/currentUser"
@@ -59,6 +60,7 @@ class Container extends Component {
             <Route exact path="/groupchat/:groupId" component={GroupChat} />
             <Route exact path="/update-profile" component={UpdateProfile} />
             <Route exact path="/creategroup" component={CreateGroup} />
+            <Route exact path="/notification" component={Notification} />
             <Route path="/">
               <Redirect to="/direct" />
             </Route>
