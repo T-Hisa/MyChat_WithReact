@@ -20,7 +20,9 @@ export const verifiedOtherUserIds = (userIds = {}, action) => {
     case GET_USERS:
       const response = action.response
       const verifiedOtherUserIds = Object.keys(response).filter(uid => {
-        return (!!response[uid].username && uid !== firebase.auth().currentUser.uid)
+        const currentUser = firebase.auth().currentUser || {}
+        const currentUserId = currentUser.uid || ""
+        return (!!response[uid].username && uid !== currentUserId)
       })
       return verifiedOtherUserIds
     default:

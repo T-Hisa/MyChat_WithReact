@@ -4,15 +4,6 @@ import { Link } from "react-router-dom"
 import firebase from "../../firebase-setup"
 
 class Header extends Component {
-  constructor(props) {
-    super(props)
-    console.log("props at header", props)
-    console.log("currentRoute at header", props.currentRoute)
-  }
-
-  componentDidMount() {
-    console.log("this in header", this)
-  }
 
   onClickSignOutBtn() {
     firebase.auth().signOut()

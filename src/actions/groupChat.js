@@ -12,9 +12,9 @@ export const getGroupChat = () => (dispatch) => {
 }
 
 export const sendGroupChat = (data) => {
-  const { groupId, body, uid } = data
+  const { groupId, body, currentUserId } = data
   const timestamp = new Date().getTime()
-  const saveData = { body, timestamp, uid }
+  const saveData = { body, timestamp, uid: currentUserId }
   const groupChatRef = db.ref(`chat/groups/${groupId}`)
   const newKey = groupChatRef.push().key
   groupChatRef.child(newKey).set(saveData)

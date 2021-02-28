@@ -2,16 +2,27 @@ import React, { Component } from "react"
 import { connect } from "react-redux"
 import User from "../user/User"
 
-import {createGroup} from "../../actions/groups"
+import { createGroup, updateGroup } from "../../actions/groups"
 
 class CreateGroup extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      gid: "",
       groupName: "",
       errorMessage: "",
       errorFlag: false,
       selectUserIds: [],
+    }
+  }
+
+  componentDidMount() {
+    const gid = this.props.location.gid
+    if (gid) {
+      const group = this.props.groups[gid]
+      const { groupName, memberIds } = group
+      const selectUserIds = Object.keys(memberIds).filter(uid => uid !== this.props.currentUser.currentUserId)
+      this.setState({ gid, groupName, selectUserIds })
     }
   }
 
@@ -39,20 +50,37 @@ class CreateGroup extends Component {
     return errorMessage
   }
 
-  onClickCreateGroupBtn() {
-    console.log("clicked!!!!", this.groupNameValidation())
+  checkBefore() {
     if (this.groupNameValidation()) {
-      const saveValue = {
+      const value = {
         groupName: this.state.groupName,
         memberIds: {}
       }
       for (const uid of this.state.selectUserIds) {
-        saveValue.memberIds[uid] = 0
+        value.memberIds[uid] = 0
       }
-      saveValue.memberIds[this.props.currentUser.currentUserId] = 0
-      this.props.createGroup(saveValue)
-      // this.props.history.push('/chatgroup')
+      value.memberIds[this.props.currentUser.currentUserId] = 0
+      return value
     }
+    return false
+  }
+
+  onClickCreateGroupBtn() {
+    const saveValue = this.checkBefore()
+    if (saveValue) this.props.createGroup(saveValue)
+  }
+
+  onClickUpdateGroupBtn() {
+    const updateValue = this.checkBefore()
+    if (updateValue) {
+      updateValue["gid"] = this.state.gid
+      this.props.updateGroup(updateValue)
+    }
+  }
+
+  onClickCancelBtn() {
+    console.log("clicked!")
+    this.props.history.push('/groupchat')
   }
 
   onClickCandidateUser(userId) {
@@ -113,22 +141,36 @@ class CreateGroup extends Component {
                 onInput={this.onInputGroupName.bind(this)}
                 type="text"
                 className="form-control"
+                value={this.state.groupName}
               />
             </div>
           </form>
-          {this.renderMemberList('グループメンバーリスト', () => {}, this.onClickDeleteBtn.bind(this), this.state.selectUserIds)}
-          {this.renderMemberList('メンバー選択', this.onClickCandidateUser.bind(this), null, this.candidateMemberIds())}
+          {this.renderMemberList(
+            "グループメンバーリスト",
+            () => {},
+            this.onClickDeleteBtn.bind(this),
+            this.state.selectUserIds
+          )}
+          {this.renderMemberList(
+            "メンバー選択",
+            this.onClickCandidateUser.bind(this),
+            null,
+            this.candidateMemberIds()
+          )}
           <div className="group-create-btn-wrapper">
-            <div className="btn-wrapper">
-              <button className="btn btn-outline-secondary">取り消す</button>
-              <button className="btn btn-dark">グループ更新</button>
-            </div>
-            <button
-              onClick={this.onClickCreateGroupBtn.bind(this)}
-              className="btn btn-dark"
-            >
-              グループ作成
-            </button>
+            {this.state.gid ? (
+              <div className="btn-wrapper">
+                <button onClick={this.onClickCancelBtn.bind(this)} className="btn btn-outline-secondary">取り消す</button>
+                <button onClick={this.onClickUpdateGroupBtn.bind(this)} className="btn btn-dark">グループ更新</button>
+              </div>
+            ) : (
+              <button
+                onClick={this.onClickCreateGroupBtn.bind(this)}
+                className="btn btn-dark"
+              >
+                グループ作成
+              </button>
+            )}
           </div>
         </div>
       </React.StrictMode>
@@ -136,14 +178,16 @@ class CreateGroup extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, props) => {
+  console.log("props at createGroup", props)
   return {
     currentUser: state.currentUser,
     users: state.users,
     verifiedOtherUserIds: state.verifiedOtherUserIds,
+    groups: state.groups,
   }
 }
 
-const mapDispatchToProps = { createGroup }
+const mapDispatchToProps = { createGroup, updateGroup }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateGroup)

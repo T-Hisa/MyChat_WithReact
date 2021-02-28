@@ -42,7 +42,7 @@ class ProfileCommon extends Component {
 
   onInputUsername(e) {
     const username = e.target.value
-    const errorMessage = this.handleNameError(this.state.username)
+    const errorMessage = this.handleNameError(username)
     this.setState({ username, errorMessage })
   }
 
@@ -54,7 +54,7 @@ class ProfileCommon extends Component {
   }
 
   nameValidation() {
-    return this.state.username && this.state.username.length < 8
+    return this.state.username && this.state.username.length < 9
   }
 
   onClickSetProfileBtn(e) {

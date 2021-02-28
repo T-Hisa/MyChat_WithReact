@@ -18,16 +18,16 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      currentRoute: null
+      currentRoute: null,
+      currentUser: null,
     }
+    firebase.auth().onAuthStateChanged((currentUser) => {
+      this.setState({currentUser})
+    })
   }
 
   updateState(state) {
     this.setState(state)
-  }
-
-  isSetCurrentUser() {
-    return firebase.auth().currentUser
   }
 
   componentDidMount() {
@@ -69,11 +69,12 @@ class App extends Component {
     return (
       <React.StrictMode>
         <Header
-          currentUser={this.props.currentUser}
+          currentUser={this.state.currentUser}
           currentRoute={this.state.currentRoute}
+          // updateState={this.updateState.bind(this)}
         />
         <div style={{borderTop: "2px solid darkslateblue"}}>
-          {this.isSetCurrentUser() ? this.renderRegular() : this.renderSign()}
+          {this.state.currentUser ? this.renderRegular() : this.renderSign()}
         </div>
       </React.StrictMode>
     )

@@ -1,6 +1,5 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
-import { sendDirectChat } from "../../actions/directChat"
 
 class ChatForm extends Component {
   constructor(props) {
@@ -28,9 +27,10 @@ class ChatForm extends Component {
     const sendData = {
       currentUserId: this.props.currentUser.currentUserId,
       otherUserId: this.props.otherUserId,
+      groupId: this.props.groupId,
       body: this.state.body
     }
-    this.props.sendDirectChat(sendData)
+    this.props.handleClick(sendData)
   }
 
   // componentDidMount() {
@@ -65,6 +65,4 @@ const mapStateToProps = (state) => ({
   directChat: state.directChat,
 })
 
-const mapDispatchToProps = { sendDirectChat }
-
-export default connect(mapStateToProps, mapDispatchToProps)(ChatForm)
+export default connect(mapStateToProps, null)(ChatForm)

@@ -1,11 +1,12 @@
-import { GET_GROUPS, CREATE_GROUP } from "../actions/groups"
+import { GET_GROUPS, CREATE_GROUP, UPDATE_GROUP } from "../actions/groups"
 
 const groups = (groups = {}, action) => {
-  switch(action.type) {
+  switch (action.type) {
     case GET_GROUPS:
-      const {response} = action
+      const { response } = action
       return response
     case CREATE_GROUP:
+    case UPDATE_GROUP:
       return groups
     default:
       return groups

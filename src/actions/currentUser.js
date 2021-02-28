@@ -6,7 +6,8 @@ export const GET_CURRENT_USER_ID = "GET_CURRENT_USER_ID"
 export const RESET_CURRENT_USER = "RESET_CURRENT_USER"
 
 export const getCurrentUser = () => async (dispatch) => {
-  const uid = (await firebase.auth().currentUser.uid) || {}
+  const currentUser = firebase.auth().currentUser || {}
+  const uid = currentUser.uid || ""
   const currentUserRef = db.ref(`users/${uid}`)
   currentUserRef.on("value", (snapshot) => {
     const currentUser = snapshot.val()

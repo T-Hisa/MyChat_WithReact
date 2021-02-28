@@ -3,12 +3,9 @@ import { connect } from "react-redux"
 import ChatForm from "./ChatForm"
 import ChatSelf from "./ChatSelf"
 import ChatOther from "./ChatOther"
+import { sendDirectChat } from "../../actions/directChat"
 
 class DirectChat extends Component {
-  componentDidMount() {
-    console.log("props at DirectChat", this.props)
-  }
-
   userInfo() {
     return this.props.users[this.otherUserId()]
   }
@@ -22,7 +19,7 @@ class DirectChat extends Component {
   }
 
   directChatIds() {
-    return Object.keys(this.props.directChat || {})
+    return Object.keys(this.props.directChat || {}).reverse()
   }
 
   renderImage(url) {
@@ -37,6 +34,10 @@ class DirectChat extends Component {
     console.log("directChat", this.props.directChat)
     console.log("directChat[cid]", this.props.directChat[cid])
     return this.props.directChat[cid]
+  }
+
+  handleClicKSendBtn(data) {
+    this.props.sendDirectChat(data)
   }
 
   renderChat(cid) {
@@ -76,17 +77,16 @@ class DirectChat extends Component {
             this.directChatIds().map(cid => this.renderChat(cid))
           }
         </div>
-        <ChatForm otherUserId={this.otherUserId()} />
+        <ChatForm otherUserId={this.otherUserId()} handleClick={this.handleClicKSendBtn.bind(this)} />
       </div>
     )
   }
 }
 
 const mapStateToProps = (state, props) => {
-  console.log("state at directchat", state)
   const {currentUserId} = state.currentUser
   const otherUserId = props.match.params.userId
-  const directChat = state.directChat[currentUserId][otherUserId]
+  const directChat = (state.directChat[currentUserId] || {})[otherUserId] || {}
   return {
     users: state.users,
     defaultPhoto: state.defaultPhoto,
@@ -95,4 +95,6 @@ const mapStateToProps = (state, props) => {
   }
 }
 
-export default connect(mapStateToProps, null)(DirectChat)
+const mapDispatchToProps = { sendDirectChat }
+
+export default connect(mapStateToProps, mapDispatchToProps)(DirectChat)
