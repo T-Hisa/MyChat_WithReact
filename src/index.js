@@ -15,8 +15,6 @@ const enhancer = applyMiddleware(thunk)
 const store = createStore(reducer, enhancer)
 
 // React.prototype.$firebase = firebase
-console.log("React", React)
-console.log("ReactDOM", ReactDOM)
 firebase.auth().onAuthStateChanged((user) => {
   // this.setState({ currentUser: user })
   ReactDOM.render(

@@ -10,13 +10,10 @@ export const GET_DEFAULT_PHOTO = "GET_DEFAULT_PHOTO"
 //   })
 
 export const getDefaultPhoto = () => (dispatch) => {
-  // console.log("url at actions", url)
-  // dispatch({})
   const storage = firebase.storage()
   storage
     .ref("default.png")
     .getDownloadURL().then(url => {
       dispatch({ type: GET_DEFAULT_PHOTO, url })
     })
-  // dispatch({ type: GET_DEFAULT_PHOTO, url })
 }

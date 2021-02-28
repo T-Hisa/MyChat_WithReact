@@ -6,7 +6,6 @@ export const GET_CURRENT_USER_DATA = "GET_CURRENT_USER_DATA"
 export const GET_CURRENT_USER_ID = "GET_CURRENT_USER_ID"
 
 export const updateUserProfile = (data) => (dispatch) => {
-  console.log("data", data)
   const { userId } = data
   const usersRef = db.ref(`users/${userId}`)
   const updateData = {

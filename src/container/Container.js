@@ -1,10 +1,12 @@
 import React, { Component } from "react"
 import { Route, Redirect, withRouter } from "react-router-dom"
 import { connect } from "react-redux"
+
 import Sidebar from "../components/menu/Sidebar"
 import SetProfile from "../components/Profile/SetProfile"
 import UserSelect from "../components/chat/UserSelect"
 import UpdateProfile from "../components/Profile/UpdateProfile"
+import DirectChat from "../components/chat/DirectChat"
 
 import { getDefaultPhoto } from "../actions/defaultPhoto"
 import { getCurrentUser, getCurrentUserId } from "../actions/currentUser"
@@ -21,7 +23,7 @@ class Container extends Component {
     this.props.getCurrentUser()
     this.props.getDefaultPhoto()
     this.props.getCurrentUserId()
-    // this.getUsers()
+    this.props.getUsers()
   }
 
   // componentWillUnmount() {
@@ -42,17 +44,20 @@ class Container extends Component {
       <React.StrictMode>
         <div className="flex-display">
           <Sidebar />
-          <Route
-            exact
-            path="/direct"
-            render={(routeProps) => {
-              ;<UserSelect />
-            }}
-          />
-          <Route exact path="/update-profile" component={UpdateProfile} />
-          <Route path="/">
-            <Redirect to="/direct" />
-          </Route>
+          <div className="relative-container">
+            <Route
+              exact
+              path="/direct"
+              render={(routeProps) => (
+                <UserSelect />
+              )}
+            />
+            <Route exact path="/direct/:userId" component={DirectChat} />
+            <Route exact path="/update-profile" component={UpdateProfile} />
+            <Route path="/">
+              <Redirect to="/direct" />
+            </Route>
+          </div>
         </div>
       </React.StrictMode>
     )

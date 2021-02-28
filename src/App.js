@@ -22,19 +22,12 @@ class App extends Component {
     }
   }
 
-  componentDidUpdate() {
-    console.log("will update at App")
-    console.log("afterUpdate state is ", this.state)
-  }
-
   updateState(state) {
     this.setState(state)
   }
 
   isSetCurrentUser() {
-    console.log("currentUser", firebase.auth().currentUser)
     return firebase.auth().currentUser
-    // return !!(this.props.currentUser && this.props.currentUser.uid)
   }
 
   componentDidMount() {
