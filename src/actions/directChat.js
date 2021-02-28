@@ -4,13 +4,10 @@ import { db } from "./index"
 export const GET_DIRECT_CHAT = "GET_DIRECT_CHAT"
 export const SEND_DIRECT_CHAT = "SEND_DIRECT_CHAT"
 
-export const getDirectChat = (uid) => async (dispatch) => {
-  const currentUserId = await firebase.auth().currentUser.uid || ""
-  const directChatRef = db.ref(`chat/direct/${currentUserId}/${uid}`)
-  // const directChatRef = db.ref("chat/direct")
+export const getDirectChat = () => async (dispatch) => {
+  const directChatRef = db.ref("chat/direct")
   directChatRef.on("value", (snapshot) => {
     const data = snapshot.val()
-    console.log("data at getDirectChat", data)
     dispatch({ type: GET_DIRECT_CHAT, data })
   })
 }

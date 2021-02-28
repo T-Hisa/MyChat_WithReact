@@ -84,12 +84,15 @@ class DirectChat extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, props) => {
   console.log("state at directchat", state)
+  const {currentUserId} = state.currentUser
+  const otherUserId = props.match.params.userId
+  const directChat = state.directChat[currentUserId][otherUserId]
   return {
     users: state.users,
     defaultPhoto: state.defaultPhoto,
-    directChat: state.directChat,
+    directChat,
     currentUser: state.currentUser
   }
 }

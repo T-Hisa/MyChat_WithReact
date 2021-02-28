@@ -11,6 +11,7 @@ import DirectChat from "../components/chat/DirectChat"
 import { getDefaultPhoto } from "../actions/defaultPhoto"
 import { getCurrentUser, getCurrentUserId } from "../actions/currentUser"
 import { getUsers } from "../actions/users"
+import { getDirectChat } from "../actions/directChat"
 
 class Container extends Component {
   // constructor(props) {
@@ -24,6 +25,7 @@ class Container extends Component {
     this.props.getDefaultPhoto()
     this.props.getCurrentUserId()
     this.props.getUsers()
+    this.props.getDirectChat()
   }
 
   // componentWillUnmount() {
@@ -97,6 +99,7 @@ const mapDispatchToProps = {
   getCurrentUserId,
   getUsers,
   getDefaultPhoto,
+  getDirectChat,
 }
 
 export default withRouter(
