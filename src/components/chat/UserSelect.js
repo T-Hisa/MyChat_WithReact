@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
-import User from "./User"
+import User from "../user/User"
 
 class UserSelect extends Component {
   componentDidMount() {
@@ -18,6 +18,10 @@ class UserSelect extends Component {
     const otherUserIds = this.props.verifiedOtherUserIds.length > 0 ?
       this.props.verifiedOtherUserIds : []
     return otherUserIds
+  }
+
+  handleClickUser (userId) {
+    this.props.history.push(`/direct/${userId}`)
   }
 
   render() {
@@ -45,6 +49,7 @@ class UserSelect extends Component {
                   <User
                     userId={uid}
                     key={uid}
+                    handleClickUser={this.handleClickUser.bind(this)}
                   />
                 ))
                 /* <user

@@ -72,7 +72,7 @@ class App extends Component {
           currentUser={this.props.currentUser}
           currentRoute={this.state.currentRoute}
         />
-        <div>
+        <div style={{borderTop: "2px solid darkslateblue"}}>
           {this.isSetCurrentUser() ? this.renderRegular() : this.renderSign()}
         </div>
       </React.StrictMode>

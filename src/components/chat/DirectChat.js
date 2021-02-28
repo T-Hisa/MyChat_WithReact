@@ -3,12 +3,10 @@ import { connect } from "react-redux"
 import ChatForm from "./ChatForm"
 import ChatSelf from "./ChatSelf"
 import ChatOther from "./ChatOther"
-import { getDirectChat } from "../../actions/directChat"
 
 class DirectChat extends Component {
   componentDidMount() {
     console.log("props at DirectChat", this.props)
-    this.props.getDirectChat(this.otherUserId())
   }
 
   userInfo() {
@@ -97,6 +95,4 @@ const mapStateToProps = (state, props) => {
   }
 }
 
-const mapDispatchToProps = { getDirectChat }
-
-export default connect(mapStateToProps, mapDispatchToProps)(DirectChat)
+export default connect(mapStateToProps, null)(DirectChat)

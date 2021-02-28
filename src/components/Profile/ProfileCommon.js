@@ -72,7 +72,7 @@ class ProfileCommon extends Component {
         this.updateProfileTask()
       }
     } else {
-      const errorMessage= this.handleNameError(this.state.username)
+      const errorMessage = this.handleNameError(this.state.username)
       alert(`名前を${errorMessage}`)
       this.setState({ errorFlag: true, errorMessage })
     }

@@ -1,10 +1,9 @@
-import firebase from "../firebase-setup"
 import { db } from "./index"
 
 export const GET_DIRECT_CHAT = "GET_DIRECT_CHAT"
 export const SEND_DIRECT_CHAT = "SEND_DIRECT_CHAT"
 
-export const getDirectChat = () => async (dispatch) => {
+export const getDirectChat = () => (dispatch) => {
   const directChatRef = db.ref("chat/direct")
   directChatRef.on("value", (snapshot) => {
     const data = snapshot.val()

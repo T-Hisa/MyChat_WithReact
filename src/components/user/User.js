@@ -3,10 +3,14 @@ import { withRouter } from "react-router-dom"
 import { connect } from "react-redux"
 
 class User extends Component {
-  sample() {
-    console.log("props at UserComponent", this.props)
+  onClickUser() {
     const userId = this.props.userId
-    this.props.history.push(`/direct/${userId}`)
+    this.props.handleClickUser(userId)
+  }
+
+  onClickDeleteBtn() {
+    const userId = this.props.userId
+    this.props.handleClickDelete(userId)
   }
 
   userInfo() {
@@ -21,8 +25,8 @@ class User extends Component {
 
   render() {
     return (
-      <li className="user-info-wrapper">
-        <div onClick={this.sample.bind(this)}>
+      <li  onClick={this.onClickUser.bind(this)} className="user-info-wrapper">
+        <div>
           <div className="user-wrapper">
             {
               this.userInfo().photoURL ?
@@ -30,6 +34,10 @@ class User extends Component {
                 this.renderImage(this.props.defaultPhoto)
             }
             <div className="user-info">{this.userInfo().username}</div>
+            {
+              this.props.handleClickDelete &&
+                <i onClick={this.onClickDeleteBtn.bind(this)} className="fas fa-2x fa-times cross-icon"></i>
+            }
           </div>
         </div>
       </li>

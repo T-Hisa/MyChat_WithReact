@@ -7,11 +7,15 @@ import SetProfile from "../components/Profile/SetProfile"
 import UserSelect from "../components/chat/UserSelect"
 import UpdateProfile from "../components/Profile/UpdateProfile"
 import DirectChat from "../components/chat/DirectChat"
+import SelectGroup from "../components/chat/SelectGroup"
+import CreateGroup from "../components/group/CreateGroup"
 
 import { getDefaultPhoto } from "../actions/defaultPhoto"
 import { getCurrentUser, getCurrentUserId } from "../actions/currentUser"
 import { getUsers } from "../actions/users"
 import { getDirectChat } from "../actions/directChat"
+import { getGroupChat } from "../actions/groupChat"
+import { getGroups } from "../actions/groups"
 
 class Container extends Component {
   // constructor(props) {
@@ -26,6 +30,8 @@ class Container extends Component {
     this.props.getCurrentUserId()
     this.props.getUsers()
     this.props.getDirectChat()
+    this.props.getGroupChat()
+    this.props.getGroups()
   }
 
   // componentWillUnmount() {
@@ -40,22 +46,17 @@ class Container extends Component {
     return !!(this.props.currentUser && this.props.currentUser.username)
   }
 
-
   renderMain() {
     return (
       <React.StrictMode>
         <div className="flex-display">
           <Sidebar />
           <div className="relative-container">
-            <Route
-              exact
-              path="/direct"
-              render={(routeProps) => (
-                <UserSelect />
-              )}
-            />
+            <Route exact path="/direct" component={UserSelect} />
             <Route exact path="/direct/:userId" component={DirectChat} />
+            <Route exact path="/groupchat" component={SelectGroup} />
             <Route exact path="/update-profile" component={UpdateProfile} />
+            <Route exact path="/creategroup" component={CreateGroup} />
             <Route path="/">
               <Redirect to="/direct" />
             </Route>
@@ -100,6 +101,8 @@ const mapDispatchToProps = {
   getUsers,
   getDefaultPhoto,
   getDirectChat,
+  getGroupChat,
+  getGroups,
 }
 
 export default withRouter(
