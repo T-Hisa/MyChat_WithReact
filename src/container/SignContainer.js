@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import { Route, Redirect } from "react-router-dom"
-import Signin from "../components/Sign/Signin"
-import Signup from "../components/Sign/Signup"
+import Signin from "../views/sign/Signin"
+import Signup from "../views/sign/Signup"
 
 class SignContainer extends Component {
   constructor(props) {

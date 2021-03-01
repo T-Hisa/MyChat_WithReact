@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import ProfileCommon from "./ProfileCommon"
+import ProfileCommon from "../../components/profile/ProfileCommon"
 
 class SetProfile extends Component {
   render() {

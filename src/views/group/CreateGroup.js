@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
-import User from "../user/User"
+import User from "../../components/user/User"
 
 import { createGroup, updateGroup } from "../../actions/groups"
 

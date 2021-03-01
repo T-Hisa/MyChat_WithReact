@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 
 import firebase from "../../firebase-setup"
-import SignCommon from "./SignCommon"
+import SignCommon from "../../components/sign/SignCommon"
 
 class Signin extends Component {
   constructor(props) {

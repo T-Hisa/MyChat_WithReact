@@ -1,8 +1,8 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
-import ChatForm from "./ChatForm"
-import ChatSelf from "./ChatSelf"
-import ChatOther from "./ChatOther"
+import ChatForm from "../../components/chat/ChatForm"
+import ChatSelf from "../../components/chat/ChatSelf"
+import ChatOther from "../../components/chat/ChatOther"
 
 import { sendGroupChat } from "../../actions/groupChat"
 

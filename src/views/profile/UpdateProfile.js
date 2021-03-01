@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
 
-import ProfileCommon from "./ProfileCommon"
+import ProfileCommon from "../../components/profile/ProfileCommon"
 
 class UpdateProfile extends Component {
   render() {
