@@ -31,6 +31,9 @@ class ChatForm extends Component {
       body: this.state.body
     }
     this.props.handleClick(sendData)
+    this.setState({
+      body: ""
+    })
   }
 
   // componentDidMount() {
@@ -52,6 +55,7 @@ class ChatForm extends Component {
             rows="1"
             onInput={this.onInputTextarea.bind(this)}
             ref={this.textareaRef}
+            value={this.state.body}
           ></textarea>
           <button onClick={this.onClickSendBtn.bind(this)} className="btn btn-info chat-submit-btn">送信</button>
         </div>

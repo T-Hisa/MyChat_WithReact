@@ -8,12 +8,6 @@ import Container from "./container/Container"
 import Header from "./components/menu/Header"
 import SignContainer from "./container/SignContainer"
 
-// import { getCurrentUser } from "./actions/currentUser"
-
-// firebase.auth().onAuthStateChanged(user => {
-
-// })
-
 class App extends Component {
   constructor(props) {
     super(props)
@@ -71,7 +65,6 @@ class App extends Component {
         <Header
           currentUser={this.state.currentUser}
           currentRoute={this.state.currentRoute}
-          // updateState={this.updateState.bind(this)}
         />
         <div style={{borderTop: "2px solid darkslateblue"}}>
           {this.state.currentUser ? this.renderRegular() : this.renderSign()}
@@ -81,4 +74,9 @@ class App extends Component {
   }
 }
 
-export default connect(null, null)(App)
+const mapStateToProps = state => {
+  console.log("state", state)
+  return {}
+}
+
+export default connect(mapStateToProps, null)(App)

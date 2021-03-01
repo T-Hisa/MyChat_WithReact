@@ -18,12 +18,9 @@ import { getUsers } from "../actions/users"
 import { getDirectChat } from "../actions/directChat"
 import { getGroupChat } from "../actions/groupChat"
 import { getGroups } from "../actions/groups"
+import { getNotifications } from "../actions/notifications"
 
 class Container extends Component {
-  // constructor(props) {
-  //   super(props)
-  //   console.log("container props", props)
-  // }
 
   componentDidMount() {
     console.log("Container component did mount!")
@@ -34,11 +31,8 @@ class Container extends Component {
     this.props.getDirectChat()
     this.props.getGroupChat()
     this.props.getGroups()
+    this.props.getNotifications()
   }
-
-  // componentWillUnmount() {
-  //   this.props.resetAll()
-  // }
 
   isSetProfile() {
     console.log(
@@ -107,6 +101,7 @@ const mapDispatchToProps = {
   getDirectChat,
   getGroupChat,
   getGroups,
+  getNotifications,
 }
 
 export default withRouter(

@@ -7,9 +7,11 @@ const notifications = (notifications = {}, action) => {
   switch (action.type) {
     case GET_NOTIFICATIONS:
       const { response } = action
+      console.log('action at notification reducer', action)
       return response
     case DELETE_NOTIFICATIONS:
-      const 
+    default:
+      return notifications
   }
 }
 
