@@ -14,8 +14,7 @@ class Header extends Component {
     }
   }
 
-  onClickSignOutBtn(e) {
-    e.preventDefault()
+  onClickSignOutBtn() {
     firebase.auth().signOut()
   }
 

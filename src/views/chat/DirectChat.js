@@ -4,6 +4,7 @@ import ChatForm from "../../components/chat/ChatForm"
 import ChatSelf from "../../components/chat/ChatSelf"
 import ChatOther from "../../components/chat/ChatOther"
 import { sendDirectChat } from "../../actions/directChat"
+import { renderImage } from "../../utils"
 
 class DirectChat extends Component {
   userInfo() {
@@ -20,10 +21,6 @@ class DirectChat extends Component {
 
   directChatIds() {
     return Object.keys(this.props.directChat || {}).reverse()
-  }
-
-  renderImage(url) {
-    return <img src={url} alt="サムネイル" />
   }
 
   isMe(cid) {
@@ -44,12 +41,12 @@ class DirectChat extends Component {
         {
           this.isMe(cid) ?
             <ChatSelf
-              photoURL={this.currentUserInfo().photoURL}
+              photoURL={(this.currentUserInfo() || {}).photoURL}
               defaultPhoto={this.props.defaultPhoto}
               body={this.getChat(cid).body}
             /> :
             <ChatOther
-              photoURL={this.userInfo().photoURL}
+              photoURL={(this.userInfo() || {}).photoURL}
               defaultPhoto={this.props.defaultPhoto}
               body={this.getChat(cid).body}
             />
@@ -64,10 +61,10 @@ class DirectChat extends Component {
         <div className="title-wrapper">
           ユーザー:
           <div className="user-wrapper">
-            {this.userInfo().photoURL
-              ? this.renderImage(this.userInfo().photoURL)
-              : this.renderImage(this.props.defaultPhoto)}
-            <span className="name">{this.userInfo().username}</span>
+            {(this.userInfo() || {}).photoURL
+              ? renderImage((this.userInfo() || {}).photoURL)
+              : renderImage(this.props.defaultPhoto)}
+            <span className="name">{(this.userInfo() || {}).username}</span>
           </div>
         </div>
         <div className="chat-whole-wrapper">

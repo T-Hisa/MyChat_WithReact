@@ -5,7 +5,7 @@ import { connect } from "react-redux"
 class Profile extends Component {
 
   getPhotoURL() {
-    return this.props.currentUser.photoURL
+    return (this.props.currentUser || {}).photoURL
   }
 
   render() {

@@ -3,6 +3,7 @@ import { connect } from "react-redux"
 import User from "../../components/user/User"
 
 import { createGroup, updateGroup } from "../../actions/groups"
+import { handleNameError } from "../../utils"
 
 class CreateGroup extends Component {
   constructor(props) {
@@ -10,7 +11,7 @@ class CreateGroup extends Component {
     this.state = {
       gid: "",
       groupName: "",
-      errorMessage: "",
+      errorMessage: "入力してください",
       errorFlag: false,
       selectUserIds: [],
     }
@@ -30,7 +31,7 @@ class CreateGroup extends Component {
 
   onInputGroupName(e) {
     const groupName = e.target.value
-    const errorMessage = this.handleNameError(groupName)
+    const errorMessage = handleNameError(groupName, 20)
     this.setState({ groupName, errorMessage })
   }
 
@@ -42,14 +43,6 @@ class CreateGroup extends Component {
 
   groupNameValidation() {
     return !!this.state.groupName && this.state.groupName.length < 20
-  }
-
-  handleNameError(groupName) {
-    let errorMessage = ""
-    if (!groupName) errorMessage = "入力してください"
-    else if (groupName.length > 20)
-      errorMessage = "20文字以内で入力してください"
-    return errorMessage
   }
 
   checkBefore() {
@@ -70,6 +63,7 @@ class CreateGroup extends Component {
   onClickCreateGroupBtn() {
     const saveValue = this.checkBefore()
     if (saveValue) this.props.createGroup(saveValue)
+    else alert('グループ名を' + this.state.errorMessage)
   }
 
   onClickUpdateGroupBtn() {
@@ -77,6 +71,8 @@ class CreateGroup extends Component {
     if (updateValue) {
       updateValue["gid"] = this.state.gid
       this.props.updateGroup(updateValue)
+    } else {
+      alert('グループ名を' + this.state.errorMessage)
     }
   }
 

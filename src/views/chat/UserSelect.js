@@ -86,8 +86,6 @@ class UserSelect extends Component {
           )}
         </div>
       </React.StrictMode>
-      // <div>
-      // </div>
     )
   }
 }

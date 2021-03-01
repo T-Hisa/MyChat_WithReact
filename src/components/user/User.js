@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
+import { renderImage } from "../../utils"
 
 class User extends Component {
   onClickUser() {
@@ -18,10 +19,6 @@ class User extends Component {
     return user
   }
 
-  renderImage(url) {
-    return <img src={url} alt="サムネイル"/>
-  }
-
   render() {
     return (
       <li  onClick={this.onClickUser.bind(this)} className="user-info-wrapper">
@@ -29,8 +26,8 @@ class User extends Component {
           <div className="user-wrapper">
             {
               this.userInfo().photoURL ?
-                this.renderImage(this.userInfo().photoURL) :
-                this.renderImage(this.props.defaultPhoto)
+                renderImage(this.userInfo().photoURL) :
+                renderImage(this.props.defaultPhoto)
             }
             <div className="user-info">{this.userInfo().username}</div>
             {

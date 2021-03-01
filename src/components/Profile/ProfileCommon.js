@@ -3,6 +3,8 @@ import { connect } from "react-redux"
 import { withRouter } from "react-router-dom"
 import { updateUserProfile } from "../../actions/users"
 import firebase from "../../firebase-setup"
+import { handleNameError } from "../../utils"
+
 const storage = firebase.storage()
 
 class ProfileCommon extends Component {
@@ -42,15 +44,8 @@ class ProfileCommon extends Component {
 
   onInputUsername(e) {
     const username = e.target.value
-    const errorMessage = this.handleNameError(username)
+    const errorMessage = handleNameError(username, 8)
     this.setState({ username, errorMessage })
-  }
-
-  handleNameError(username) {
-    let errorMessage = ""
-    if (!username) errorMessage = "入力してください"
-    else if (username.length > 8) errorMessage = "8文字以内で入力してください"
-    return errorMessage
   }
 
   nameValidation() {
@@ -72,7 +67,7 @@ class ProfileCommon extends Component {
         this.updateProfileTask()
       }
     } else {
-      const errorMessage = this.handleNameError(this.state.username)
+      const errorMessage = handleNameError(this.state.username, 8)
       alert(`名前を${errorMessage}`)
       this.setState({ errorFlag: true, errorMessage })
     }
@@ -132,7 +127,7 @@ class ProfileCommon extends Component {
     this.props.updateUserProfile(saveData)
   }
 
-  renderImage(image) {
+  renderImageWithCancel(image) {
     return (
       <React.StrictMode>
         <img src={image} alt="サムネイル" />
@@ -197,9 +192,9 @@ class ProfileCommon extends Component {
               <p className="img-wrapper">
                 <span className="img-wrapper">
                   {this.state.photoURL ? (
-                    this.renderImage(this.state.photoURL)
+                    this.renderImageWithCancel(this.state.photoURL)
                   ) : this.state.imgURL ? (
-                    this.renderImage(this.state.imgURL)
+                    this.renderImageWithCancel(this.state.imgURL)
                   ) : (
                     <img src={this.props.defaultPhoto} alt="サムネイル" />
                   )}

@@ -1,15 +1,29 @@
 import React, { Component } from "react"
 
 class SignCommon extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      email: "",
+      password: "",
+    }
+  }
 
   onInputPassword(e) {
     const password = e.target.value
-    this.props.updateSignState({ password })
+    // this.props.updateSignState({ password })
+    this.setState({ password })
   }
 
   onInputEmail(e) {
     const email = e.target.value
-    this.props.updateSignState({ email })
+    // this.props.updateSignState({ email })
+    this.setState({ email })
+  }
+
+  onClickSignBtn(e) {
+    e.preventDefault()
+    this.props.handleClick(this.state)
   }
 
   render() {
@@ -22,7 +36,7 @@ class SignCommon extends Component {
         <div className="form-group form-wrapper">
           <label className="form-label" htmlFor="email">
             Eメール
-            {this.props.checkEmail && this.props.emailFlag && (
+            {this.props.checkEmail(this.state.email) && this.props.emailFlag && (
               <span className="text-danger label-text">
                 正しいEメールの形式で入力してください
               </span>
@@ -38,7 +52,7 @@ class SignCommon extends Component {
         <div className="form-group form-wrapper">
           <label className="form-label" htmlFor="password">
             パスワード
-            {this.props.checkPassword && this.props.passwordFlag && (
+            {this.props.checkPassword(this.state.password) && this.props.passwordFlag && (
               <span className="text-danger label-text">
                 パスワードは6文字以上で入力してください
               </span>
@@ -53,7 +67,7 @@ class SignCommon extends Component {
         </div>
         <button
           className="btn btn-outline-dark register-btn"
-          onClick={this.props.handleClick}
+          onClick={this.onClickSignBtn.bind(this)}
         >
           {this.props.title}
         </button>
@@ -65,8 +79,8 @@ class SignCommon extends Component {
 SignCommon.defaultProps = {
   emailFlag: false,
   passwordFlag: false,
-  checkEmail: true,
-  checkPassword: true,
+  checkEmail: () => true,
+  checkPassword: () => true,
 }
 
 export default SignCommon

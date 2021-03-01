@@ -18,9 +18,8 @@ class Signin extends Component {
     this.setState(state)
   }
 
-  onClickSigninBtn(e) {
-    e.preventDefault()
-    const { email, password } = this.state
+  onClickSigninBtn(state) {
+    const { email, password } = state
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
@@ -29,7 +28,7 @@ class Signin extends Component {
         if (user.displayName) this.props.history.push('/direct')
         else this.props.history.push('/set-profile')
       })
-      .catch((e) => {
+      .catch(() => {
         alert("ユーザーが見当たりません")
       })
   }

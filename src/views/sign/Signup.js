@@ -11,8 +11,6 @@ class Signup extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      email: "",
-      password: "",
       emailFlag: false,
       passwordFlag: false,
     }
@@ -20,25 +18,18 @@ class Signup extends Component {
     props.updateState({ currentRoute })
   }
 
-  updateSignState(state) {
-    this.setState(state)
-  }
-
-  checkEmail() {
-    const { email } = this.state
+  checkEmail(email) {
     const flag = !email.match(/^[\w+\-.]+@[a-z\d\-.]+\.[a-z]+$/i)
     return flag
   }
 
-  checkPassword() {
-    const { password } = this.state
+  checkPassword(password) {
     return !(password.length > 5)
   }
 
-  onClickSignupBtn(e) {
-    e.preventDefault()
-    const { email, password } = this.state
-    if (this.checkEmail() || password.length < 6) {
+  onClickSignupBtn(state) {
+    const { email, password } = state
+    if (this.checkEmail(email) || password.length < 6) {
       this.setState({
         emailFlag: true,
         passwordFlag: true,
@@ -63,9 +54,8 @@ class Signup extends Component {
       <React.StrictMode>
         <SignCommon
           title="登録"
-          checkEmail={this.checkEmail()}
-          checkPassword={this.checkPassword()}
-          updateSignState={this.updateSignState.bind(this)}
+          checkEmail={this.checkEmail}
+          checkPassword={this.checkPassword}
           emailFlag={this.state.emailFlag}
           passwordFlag={this.state.passwordFlag}
           handleClick={this.onClickSignupBtn.bind(this)}

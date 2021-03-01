@@ -38,8 +38,8 @@ class Container extends Component {
     this.props.getNotifications()
   }
 
-  async componentWillUnmount() {
-    await this.props.resetAll()
+  componentWillUnmount() {
+    this.props.resetAll()
   }
 
   isSetProfile() {

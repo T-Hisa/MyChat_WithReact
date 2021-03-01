@@ -1,10 +1,8 @@
 import React, { Component } from "react"
+import { renderImage } from "../../utils"
 
 class ChatSelf extends Component {
 
-  renderImage(url) {
-    return <img src={url} alt="サムネイル"/>
-  }
   render() {
     return (
       <div className="chat-container">
@@ -14,8 +12,8 @@ class ChatSelf extends Component {
         <div className="img-me">
         {
           this.props.photoURL ?
-            this.renderImage(this.props.photoURL) :
-            this.renderImage(this.props.defaultPhoto)
+            renderImage(this.props.photoURL) :
+            renderImage(this.props.defaultPhoto)
         }
         </div>
       </div>

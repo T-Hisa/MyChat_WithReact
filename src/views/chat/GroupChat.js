@@ -3,7 +3,7 @@ import { connect } from "react-redux"
 import ChatForm from "../../components/chat/ChatForm"
 import ChatSelf from "../../components/chat/ChatSelf"
 import ChatOther from "../../components/chat/ChatOther"
-
+import { renderImage } from "../../utils"
 import { sendGroupChat } from "../../actions/groupChat"
 
 class GroupChat extends Component {
@@ -13,11 +13,7 @@ class GroupChat extends Component {
   }
 
   groupMemberIds() {
-    return Object.keys(this.getGroupInfo().memberIds)
-  }
-
-  renderImage(url) {
-    return <img src={url} alt="サムネイル" />
+    return Object.keys(((this.getGroupInfo() || {}).memberIds) || [])
   }
 
   getUserInfo(userId) {
@@ -71,7 +67,7 @@ class GroupChat extends Component {
         <div className="title-wrapper title-group">
           グループ
           <span className="name group-name">
-            {this.getGroupInfo().groupName}
+            {(this.getGroupInfo() || {}).groupName}
           </span>
         </div>
         <div className="member-whole-wrapper">
@@ -80,8 +76,8 @@ class GroupChat extends Component {
             {this.groupMemberIds().map((mid) => (
               <div key={mid} className="user-detail">
                 {this.getUserInfo(mid).photoURL
-                  ? this.renderImage(this.getUserInfo(mid).photoURL)
-                  : this.renderImage(this.props.defaultPhoto)}
+                  ? renderImage(this.getUserInfo(mid).photoURL)
+                  : renderImage(this.props.defaultPhoto)}
                 <span>{this.getUserInfo(mid).username}</span>
               </div>
             ))}
