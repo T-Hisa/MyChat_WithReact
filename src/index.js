@@ -9,17 +9,21 @@ import reportWebVitals from "./reportWebVitals"
 import reducer from "./reducers"
 import App from "./App"
 import "./scss/main.scss"
+import firebase from "./firebase-setup"
 
 const enhancer = applyMiddleware(thunk)
 const store = createStore(reducer, enhancer)
 
-ReactDOM.render(
-  <Provider store={store}>
-    <Router>
-      <App
-      />
-    </Router>
-  </Provider>,
-  document.getElementById("root")
-)
+firebase.auth().onAuthStateChanged((user) => {
+  ReactDOM.render(
+    <Provider store={store}>
+      <Router>
+        <App
+          currentUser={user}
+        />
+      </Router>
+    </Provider>,
+    document.getElementById("root")
+  )
+})
 reportWebVitals()

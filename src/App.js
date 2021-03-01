@@ -1,6 +1,5 @@
 import React, { Component } from "react"
 import { Route } from "react-router-dom"
-import firebase from "./firebase-setup"
 
 import Container from "./container/Container"
 
@@ -12,11 +11,7 @@ class App extends Component {
     super(props)
     this.state = {
       currentRoute: null,
-      currentUser: null,
     }
-    firebase.auth().onAuthStateChanged((currentUser) => {
-      this.setState({currentUser})
-    })
   }
 
   updateState(state) {
@@ -29,6 +24,7 @@ class App extends Component {
         path="/"
         render={(routeProps) => (
           <Container
+            currentUser={this.props.currentUser}
             {...routeProps}
           />
         )}
@@ -56,11 +52,11 @@ class App extends Component {
     return (
       <React.StrictMode>
         <Header
-          currentUser={this.state.currentUser}
+          currentUser={this.props.currentUser}
           currentRoute={this.state.currentRoute}
         />
         <div style={{borderTop: "2px solid darkslateblue"}}>
-          {this.state.currentUser ? this.renderRegular() : this.renderSign()}
+          {this.props.currentUser ? this.renderRegular() : this.renderSign()}
         </div>
       </React.StrictMode>
     )

@@ -24,6 +24,10 @@ import { getNotifications } from "../actions/notifications"
 
 class Container extends Component {
   componentDidMount() {
+    this.buildState()
+  }
+
+  buildState() {
     this.props.getCurrentUser()
     this.props.getDefaultPhoto()
     this.props.getCurrentUserId()
@@ -39,7 +43,7 @@ class Container extends Component {
   }
 
   isSetProfile() {
-    return !!(this.props.currentUser && this.props.currentUser.username)
+    return !!(this.props.currentUser && this.props.currentUser.displayName)
   }
 
   renderMain() {
@@ -89,11 +93,9 @@ class Container extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { currentUser } = state
-  const notifications = state.notifications[currentUser.currentUserId] || {}
+  const notifications = state.notifications[state.currentUser.currentUserId] || {}
   const notificationCount = (Object.keys(notifications) || []).length
   return {
-    currentUser,
     notificationCount,
   }
 }
