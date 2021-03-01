@@ -48,7 +48,6 @@ class Header extends Component {
         })
       }
     }
-    console.log("refs", this.refs.foo)
   }
 
   displayNotificationIds() {
@@ -96,13 +95,12 @@ class Header extends Component {
             </div>
             <ul className="top-btn-wrapper navbar-nav">
               <li className="nav-item">
-                <a
+                <span
                   className="nav-link"
                   onClick={this.onClickSignOutBtn}
-                  href="#"
                 >
                   ログアウト
-                </a>
+                </span>
               </li>
               <li className="nav-item">
                 <Link className="nav-link" to="/update-profile">

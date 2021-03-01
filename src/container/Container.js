@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Route, Redirect, withRouter } from "react-router-dom"
+import { Route, Redirect } from "react-router-dom"
 import { connect } from "react-redux"
 
 import Sidebar from "../components/menu/Sidebar"
@@ -12,6 +12,7 @@ import GroupChat from "../components/chat/GroupChat"
 import CreateGroup from "../components/group/CreateGroup"
 import Notification from "../components/notification/Notification"
 
+import { resetAll } from "../actions"
 import { getDefaultPhoto } from "../actions/defaultPhoto"
 import { getCurrentUser, getCurrentUserId } from "../actions/currentUser"
 import { getUsers } from "../actions/users"
@@ -21,9 +22,7 @@ import { getGroups } from "../actions/groups"
 import { getNotifications } from "../actions/notifications"
 
 class Container extends Component {
-
   componentDidMount() {
-    console.log("Container component did mount!")
     this.props.getCurrentUser()
     this.props.getDefaultPhoto()
     this.props.getCurrentUserId()
@@ -34,11 +33,11 @@ class Container extends Component {
     this.props.getNotifications()
   }
 
+  async componentWillUnmount() {
+    await this.props.resetAll()
+  }
+
   isSetProfile() {
-    console.log(
-      "isSetProfile",
-      !!(this.props.currentUser && this.props.currentUser.username)
-    )
     return !!(this.props.currentUser && this.props.currentUser.username)
   }
 
@@ -46,7 +45,7 @@ class Container extends Component {
     return (
       <React.StrictMode>
         <div className="flex-display">
-          <Sidebar />
+          <Sidebar notificationCount={this.props.notificationCount} />
           <div className="relative-container">
             <Route exact path="/direct" component={UserSelect} />
             <Route exact path="/direct/:userId" component={DirectChat} />
@@ -83,15 +82,19 @@ class Container extends Component {
     return (
       <React.StrictMode>
         {this.isSetProfile() ? this.renderMain() : this.renderProfile()}
-        {/* {this.isSetProfile() ? this.renderMain() : <SetProfile/> } */}
       </React.StrictMode>
     )
   }
 }
 
 const mapStateToProps = (state) => {
-  console.log("state at container", state)
-  return { currentUser: state.currentUser }
+  const { currentUser } = state
+  const notifications = state.notifications[currentUser.currentUserId] || {}
+  const notificationCount = (Object.keys(notifications) || []).length
+  return {
+    currentUser,
+    notificationCount,
+  }
 }
 const mapDispatchToProps = {
   getCurrentUser,
@@ -102,8 +105,7 @@ const mapDispatchToProps = {
   getGroupChat,
   getGroups,
   getNotifications,
+  resetAll,
 }
 
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(Container)
-)
+export default connect(mapStateToProps, mapDispatchToProps)(Container)

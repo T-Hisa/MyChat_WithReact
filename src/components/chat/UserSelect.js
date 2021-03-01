@@ -15,11 +15,6 @@ class UserSelect extends Component {
     this.setState({ searchParams })
   }
 
-  componentDidMount() {
-    console.log("UserSelect Component!")
-    console.log("props", this.props)
-  }
-
   verifiedOtherUserIds() {
     const otherUserIds =
       this.props.verifiedOtherUserIds.length > 0

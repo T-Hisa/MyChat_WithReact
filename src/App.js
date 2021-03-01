@@ -1,5 +1,4 @@
 import React, { Component } from "react"
-import { connect } from "react-redux"
 import { Route } from "react-router-dom"
 import firebase from "./firebase-setup"
 
@@ -24,17 +23,12 @@ class App extends Component {
     this.setState(state)
   }
 
-  componentDidMount() {
-    // this.props.getCurrentUser()
-  }
-
   renderRegular() {
     return (
       <Route
         path="/"
         render={(routeProps) => (
           <Container
-            // currentUser={this.state.currentUser}
             {...routeProps}
           />
         )}
@@ -58,7 +52,6 @@ class App extends Component {
     )
   }
 
-
   render() {
     return (
       <React.StrictMode>
@@ -74,9 +67,4 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  console.log("state", state)
-  return {}
-}
-
-export default connect(mapStateToProps, null)(App)
+export default App

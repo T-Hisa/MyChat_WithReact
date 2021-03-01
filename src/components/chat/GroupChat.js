@@ -7,10 +7,6 @@ import ChatOther from "./ChatOther"
 import { sendGroupChat } from "../../actions/groupChat"
 
 class GroupChat extends Component {
-  constructor(props) {
-    super(props)
-  }
-
   getGroupInfo() {
     const { groupId } = this.props.match.params
     return this.props.groups[groupId]
@@ -45,26 +41,26 @@ class GroupChat extends Component {
   }
 
   getChatUserInfo(cid) {
-    const {uid} = this.getChat(cid)
+    const { uid } = this.getChat(cid)
     return this.props.users[uid]
   }
 
   renderChat(cid) {
     return (
       <div key={cid}>
-        {
-          this.isMe(cid) ?
-            <ChatSelf
-              photoURL={this.props.currentUser.photoURL}
-              defaultPhoto={this.props.defaultPhoto}
-              body={this.getChat(cid).body}
-            /> :
-            <ChatOther
-              photoURL={this.getChatUserInfo(cid).photoURL}
-              defaultPhoto={this.props.defaultPhoto}
-              body={this.getChat(cid).body}
-            />
-        }
+        {this.isMe(cid) ? (
+          <ChatSelf
+            photoURL={this.props.currentUser.photoURL}
+            defaultPhoto={this.props.defaultPhoto}
+            body={this.getChat(cid).body}
+          />
+        ) : (
+          <ChatOther
+            photoURL={this.getChatUserInfo(cid).photoURL}
+            defaultPhoto={this.props.defaultPhoto}
+            body={this.getChat(cid).body}
+          />
+        )}
       </div>
     )
   }
@@ -81,23 +77,18 @@ class GroupChat extends Component {
         <div className="member-whole-wrapper">
           メンバー
           <ul className="member-wrapper">
-            {this.groupMemberIds().map((mid) =>(
+            {this.groupMemberIds().map((mid) => (
               <div key={mid} className="user-detail">
-                {
-                  this.getUserInfo(mid).photoURL ?
-                    this.renderImage(this.getUserInfo(mid).photoURL) :
-                    this.renderImage(this.props.defaultPhoto)
-                }
+                {this.getUserInfo(mid).photoURL
+                  ? this.renderImage(this.getUserInfo(mid).photoURL)
+                  : this.renderImage(this.props.defaultPhoto)}
                 <span>{this.getUserInfo(mid).username}</span>
               </div>
-              )
-            )}
+            ))}
           </ul>
         </div>
         <div className="chat-whole-wrapper">
-        {
-          this.groupChatIds().map(cid => this.renderChat(cid))
-        }
+          {this.groupChatIds().map((cid) => this.renderChat(cid))}
         </div>
 
         <ChatForm
@@ -110,7 +101,6 @@ class GroupChat extends Component {
 }
 
 const mapStateToProps = (state, props) => {
-  console.log("state", state)
   const groupChat = state.groupChat[props.match.params.groupId] || {}
   return {
     groups: state.groups,

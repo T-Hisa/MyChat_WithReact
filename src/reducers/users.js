@@ -2,13 +2,15 @@ import firebase from "../firebase-setup"
 import {
   GET_USERS
 } from '../actions/users'
+import { RESET_ALL } from "../actions"
 
 const users = (users = {}, action) => {
   let response
   switch (action.type) {
+    case RESET_ALL:
+      return {}
     case GET_USERS:
       response = action.response
-      console.log("action at getUsers", action)
       return { ...users, ...response }
     default:
       return users
@@ -17,6 +19,8 @@ const users = (users = {}, action) => {
 
 export const verifiedOtherUserIds = (userIds = {}, action) => {
   switch (action.type) {
+    case RESET_ALL:
+      return {}
     case GET_USERS:
       const response = action.response
       const verifiedOtherUserIds = Object.keys(response).filter(uid => {

@@ -102,7 +102,6 @@ class Notification extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log('state at nottification', state)
   const notifications = state.notifications[state.currentUser.currentUserId] || {}
   return {
     users: state.users,

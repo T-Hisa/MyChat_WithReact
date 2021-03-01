@@ -81,8 +81,13 @@
         align-items: center;
         flex-direction: row;
 
-        .nav-link:hover {
-          color: rgba(255, 255, 255, 1);
+        .nav-link {
+          color: rgba(255, 255, 255, 0.5);
+          cursor: pointer;
+
+          &:hover {
+            color: rgba(255, 255, 255, 1);
+          }
         }
       }
 

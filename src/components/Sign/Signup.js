@@ -20,11 +20,6 @@ class Signup extends Component {
     props.updateState({ currentRoute })
   }
 
-  componentDidMount() {
-    console.log("signup component did mount")
-    console.log("this", this)
-  }
-
   updateSignState(state) {
     this.setState(state)
   }
@@ -53,7 +48,6 @@ class Signup extends Component {
       firebase
         .auth()
         .createUserWithEmailAndPassword(email, password).then(data => {
-          console.log("data", data)
           const {uid} = data.user
           this.props.setUserProfile({uid, email})
           this.props.history.push('set-profile')

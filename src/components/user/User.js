@@ -1,5 +1,4 @@
 import React, { Component } from "react"
-import { withRouter } from "react-router-dom"
 import { connect } from "react-redux"
 
 class User extends Component {
@@ -50,4 +49,4 @@ const mapStateToProps = (state) => ({
   users: state.users,
 })
 
-export default withRouter(connect(mapStateToProps, null)(User))
+export default connect(mapStateToProps, null)(User)

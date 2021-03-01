@@ -23,21 +23,8 @@ export const setUserProfile = (data) => (dispatch) => {
 
 export const getUsers = () => (dispatch) => {
   const usersRef = db.ref("users")
-  // console.log("usersRef", usersRef)
-  // const response = await usersRef.once("value")
-  // console.log("response at action", response)
-  // dispatch({ type: GET_USERS, response })
-
   usersRef.on("value", (snapshot) => {
-    console.log("snapshot at action", snapshot)
     const response = snapshot.val()
-    console.log("response at action", response)
     dispatch({ type: GET_USERS, response })
   })
-
-  // usersRef.on("value").then(snapshot => {
-  //   console.log("snapshot", snapshot)
-  //   const response = snapshot.val()
-  //   dispatch({ type: GET_USERS, response })
-  // })
 }

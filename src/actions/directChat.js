@@ -19,6 +19,5 @@ export const sendDirectChat = (data) => {
   const directChatRef = db.ref(`chat/direct/${currentUserId}/${otherUserId}`)
   const newKey = directChatRef.push().key
   directChatRef.child(newKey).set(saveData)
-  console.log("ssaveData at sendDirect", saveData)
   return { type: SEND_DIRECT_CHAT }
 }

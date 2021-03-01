@@ -111,7 +111,6 @@ class ProfileCommon extends Component {
       displayName: this.state.username,
       photoURL: this.state.photoURL,
     }
-    console.log("photoURL", updateValue.photoURL)
     const currentUser = firebase.auth().currentUser
     currentUser
       .updateProfile(updateValue)
@@ -130,14 +129,13 @@ class ProfileCommon extends Component {
       username: this.state.username,
       photoURL: this.state.photoURL,
     }
-    console.log("sendData", saveData)
     this.props.updateUserProfile(saveData)
   }
 
   renderImage(image) {
     return (
       <React.StrictMode>
-        <img src={image} />
+        <img src={image} alt="サムネイル" />
         <span onClick={this.onClickResetBtn.bind(this)} className="reset-btn">
           取り消し
         </span>

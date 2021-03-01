@@ -21,7 +21,9 @@ class CreateGroup extends Component {
     if (gid) {
       const group = this.props.groups[gid]
       const { groupName, memberIds } = group
-      const selectUserIds = Object.keys(memberIds).filter(uid => uid !== this.props.currentUser.currentUserId)
+      const selectUserIds = Object.keys(memberIds).filter(
+        (uid) => uid !== this.props.currentUser.currentUserId
+      )
       this.setState({ gid, groupName, selectUserIds })
     }
   }
@@ -54,7 +56,7 @@ class CreateGroup extends Component {
     if (this.groupNameValidation()) {
       const value = {
         groupName: this.state.groupName,
-        memberIds: {}
+        memberIds: {},
       }
       for (const uid of this.state.selectUserIds) {
         value.memberIds[uid] = 0
@@ -79,8 +81,7 @@ class CreateGroup extends Component {
   }
 
   onClickCancelBtn() {
-    console.log("clicked!")
-    this.props.history.push('/groupchat')
+    this.props.history.push("/groupchat")
   }
 
   onClickCandidateUser(userId) {
@@ -160,8 +161,18 @@ class CreateGroup extends Component {
           <div className="group-create-btn-wrapper">
             {this.state.gid ? (
               <div className="btn-wrapper">
-                <button onClick={this.onClickCancelBtn.bind(this)} className="btn btn-outline-secondary">取り消す</button>
-                <button onClick={this.onClickUpdateGroupBtn.bind(this)} className="btn btn-dark">グループ更新</button>
+                <button
+                  onClick={this.onClickCancelBtn.bind(this)}
+                  className="btn btn-outline-secondary"
+                >
+                  取り消す
+                </button>
+                <button
+                  onClick={this.onClickUpdateGroupBtn.bind(this)}
+                  className="btn btn-dark"
+                >
+                  グループ更新
+                </button>
               </div>
             ) : (
               <button
@@ -178,15 +189,12 @@ class CreateGroup extends Component {
   }
 }
 
-const mapStateToProps = (state, props) => {
-  console.log("props at createGroup", props)
-  return {
-    currentUser: state.currentUser,
-    users: state.users,
-    verifiedOtherUserIds: state.verifiedOtherUserIds,
-    groups: state.groups,
-  }
-}
+const mapStateToProps = (state, props) => ({
+  currentUser: state.currentUser,
+  users: state.users,
+  verifiedOtherUserIds: state.verifiedOtherUserIds,
+  groups: state.groups,
+})
 
 const mapDispatchToProps = { createGroup, updateGroup }
 

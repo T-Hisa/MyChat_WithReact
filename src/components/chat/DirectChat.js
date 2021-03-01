@@ -31,8 +31,6 @@ class DirectChat extends Component {
   }
 
   getChat(cid) {
-    console.log("directChat", this.props.directChat)
-    console.log("directChat[cid]", this.props.directChat[cid])
     return this.props.directChat[cid]
   }
 

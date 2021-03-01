@@ -18,7 +18,7 @@ class Group extends Component {
   displayToolTip () {
     let displayWord = ""
     const memberIds = Object.keys(this.props.group.memberIds)
-    memberIds.some(memberId => {
+    memberIds.forEach(memberId => {
       const memberName = this.props.users[memberId].username
       displayWord += `${memberName} `
     })
@@ -26,7 +26,6 @@ class Group extends Component {
   }
 
   onClickEditBtn() {
-    console.log(this.props)
     const {gid} = this.props
     this.props.history.push({
       pathname: `/creategroup`,

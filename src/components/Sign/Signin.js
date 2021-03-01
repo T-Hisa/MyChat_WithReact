@@ -12,12 +12,6 @@ class Signin extends Component {
     }
     const currentRoute = props.location.pathname
     props.updateState({ currentRoute })
-    console.log("props at signin", props)
-  }
-
-  componentDidMount() {
-    console.log("signin component did mount!!")
-    console.log("this", this)
   }
 
   updateSignState(state) {
