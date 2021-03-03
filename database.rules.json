@@ -1,0 +1,49 @@
+{
+  "rules": {
+    "chat": {
+      ".read": "auth != null",
+      "direct": {
+        ".read": "auth != null",
+        ".write": "auth != null",
+        "$userId": {
+          ".read": "auth != null",
+          ".write": "auth != null",
+          "$otherUserId": {
+            ".read": "auth != null",
+            ".write": "$userId === auth.uid || $otherUserId === auth.uid"
+          }
+        }
+      },
+      "groups": {
+        ".read": "auth != null",
+        ".write": "auth != null",
+        "$groupId": {
+          ".read": "auth != null",
+          ".write": "root.child('groups/' + $groupId + '/memberIds').hasChild(auth.uid)"
+        }
+      }
+    },
+    "groups": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    },
+    "notifications": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    },
+    "users": {
+      ".read": "auth != null",
+      "$userId": {
+        ".read": "auth != null",
+        "groupIds": {
+          ".read": "auth != null",
+          ".write": "auth != null"
+        },
+        "$anyOtherValue": {
+          ".read": "auth != null",
+          ".write": "$userId === auth.uid"
+        }
+      }
+    }
+  }
+}

@@ -1,15 +1,31 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import { BrowserRouter as Ruoter } from "react-router-dom";
+import { createStore, applyMiddleware } from "redux";
+import thunk from "redux-thunk";
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+import reportWebVitals from "./reportWebVitals";
+import reducer from "./reducers"
+import App from "./App";
+import "./scss/main.scss";
+import firebase from "./firebase-setup";
+
+const enhancer = applyMiddleware(thunk)
+const store = createStore(reducer, enhancer)
+firebase.auth().onAuthStateChanged((user) => {
+  console.log("user", user)
+  ReactDOM.render(
+    <Provider store={store}>
+      <Ruoter>
+        <App
+          currentUser={user}
+        />
+      </Ruoter>
+    </Provider>,
+    document.getElementById("root")
+  );
+})
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

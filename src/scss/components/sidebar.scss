@@ -1,0 +1,50 @@
+.sidebar {
+  flex-basis: 20%;
+  max-width: 130px;
+
+  .sidebar-ul {
+    padding: 0;
+
+    .sidebar-anchor {
+     display: inline-block;
+     width: 100%;
+
+      .menu-list {
+        text-align: center;
+        height: 80px;
+        margin: 0 !important;
+        width: 100%;
+        background: azure;
+        border-bottom: 4px solid #17a2b8;
+        display: flex !important;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+
+        .badge-custom {
+          position: absolute;
+          font-size: 20px;
+          border-radius: 50%;
+          right: 10px;
+          z-index: 10;
+        }
+
+        .menu {
+          font-size: 25px;
+          font-weight: 600;
+          color: black;
+        }
+
+        .arrow {
+          display: inline-block;
+          width: 18px;
+          height: 18px;
+          margin: 0 10px;
+          border-top: 4px solid #000;
+          border-right: 4px solid #000;
+          transform: rotate(45deg);
+        }
+      }
+    }
+  }
+}

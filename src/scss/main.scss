@@ -1,0 +1,92 @@
+@import "~bootstrap/scss/bootstrap";
+
+@import "./components/change-profile";
+@import "./components/chat";
+@import "./components/create-group";
+@import "./components/group";
+@import "./components/header";
+@import "./components/notification";
+@import "./components/profile";
+@import "./components/sidebar";
+@import "./components/sign";
+@import "./components/user";
+
+#root {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: left;
+  color: #000;
+  display: flex;
+  flex-direction: column;
+
+  .app-whole-container {
+    margin-top: 20px;
+  }
+
+  .f-black {
+    color: black !important;
+  }
+
+  h1, h2 {
+    font-weight: normal;
+  }
+
+  ul {
+    list-style: none;
+  }
+
+  li {
+    display: inline-block;
+    margin: 0 10px;
+  }
+
+  .flex-display {
+    display: flex;
+  }
+
+  .bg-skyblue {
+    background-color: #87ceeb;
+  }
+
+  .relative-container {
+    margin: 0 20px;
+    margin-top: 20px;
+    width: 100%;
+    position: relative;
+  }
+
+  a {
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  a:hover {
+    cursor: pointer;
+    color: rgba(255, 255, 255, 1);
+  }
+
+  .label-text {
+    font-size: 12px;
+    margin: 0;
+  }
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.sample {
+  padding: 30px;
+  width: 100%;
+  background-color: red;
+}

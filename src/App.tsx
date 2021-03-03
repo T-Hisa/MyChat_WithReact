@@ -1,26 +1,75 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react"
+import { Route } from "react-router-dom"
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import Header from "./components/menu/Header"
+
+import Container from "./containers/Container"
+import SignContainer from "./containers/SignContainer"
+import RouteProps from "./types/RouteProps"
+
+interface BaseProps {
+  currentUser: any
+}
+
+interface BaseState {
+  currentRoute: string
+}
+
+class App extends Component<BaseProps, BaseState> {
+  constructor(props: BaseProps) {
+    super(props)
+    this.state = {
+      currentRoute: "",
+    }
+  }
+
+  updateState(state: BaseState) {
+    this.setState(state)
+  }
+
+  renderRegular() {
+    return (
+      <Route
+        path="/"
+        render={(routeProps: RouteProps) => (
+          <Container
+            currentUser={this.props.currentUser}
+            {...routeProps}
+          />
+        )}
+      />
+    )
+  }
+
+  renderSign() {
+    return (
+      <div className="container">
+        <Route
+          path="/"
+          render={(routeProps: RouteProps) => (
+            <SignContainer
+              updateState={this.updateState.bind(this)}
+              {...routeProps}
+            />
+          )}
+        />
+      </div>
+    )
+  }
+
+  render() {
+    return (
+      <React.StrictMode>
+        <Header
+          currentUser={this.props.currentUser}
+          currentRoute={this.state.currentRoute}
+        />
+        <div style={{borderTop: "2px solid darkslateblue"}}>
+          {this.props.currentUser ? this.renderRegular() : this.renderSign()}
+        </div>
+      </React.StrictMode>
+    )
+  }
 }
 
 export default App;
