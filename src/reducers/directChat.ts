@@ -1,15 +1,15 @@
-import { GET_DIRECT_CHAT, SEND_DIRECT_CHAT } from "../actions/directChat"
+import { GET_DIRECT_CHAT, SEND_DIRECT_CHAT, DirectChatAction } from "../actions/directChat"
 import { RESET_ALL } from "../actions"
 
-const directChat = (directChat = {}, action) => {
+const directChat = (directChat = {}, action: DirectChatAction) => {
   switch (action.type) {
-    case RESET_ALL:
-      return {}
     case GET_DIRECT_CHAT:
-      const { chatData } = action
-      return chatData
+      const { directChatData } = action
+      return directChatData
     case SEND_DIRECT_CHAT:
       return directChat
+    case RESET_ALL:
+      return {}
     default:
       return directChat
   }

@@ -2,13 +2,16 @@ import React, { Component } from "react"
 import { Link } from "react-router-dom"
 import { connect } from "react-redux"
 
+interface ProfileProps {
+  currentUser?: any
+  defaultPhoto?: any
+}
 
-
-class Profile extends Component<{}, {}> {
+class Profile extends Component<ProfileProps, {}> {
 
   getPhotoURL() {
-    return true
-    // return (this.props.currentUser || {}).photoURL
+    // return true
+    return (this.props.currentUser || {}).photoURL
   }
 
   render() {
@@ -16,6 +19,7 @@ class Profile extends Component<{}, {}> {
       <React.StrictMode>
         <div className="nav-link profile-container">
           <Link className="none-style" to="/update-profile">
+            { this.getPhotoURL() && <img src={this.getPhotoURL()} alt="サムネイル" /> }
             {/* {
               this.getPhotoURL() ?
                 <img src={this.getPhotoURL()} alt="サムネイル" /> :
@@ -29,11 +33,11 @@ class Profile extends Component<{}, {}> {
   }
 }
 
-// const mapStateToProps = (state) => ({
-//   defaultPhoto: state.defaultPhoto,
-//   currentUser: state.currentUser,
-// })
+const mapStateToProps = (state) => ({
+  defaultPhoto: state.defaultPhoto,
+  currentUser: state.currentUser,
+})
 
-// export default connect(mapStateToProps, null)(Profile)
+export default connect(mapStateToProps, null)(Profile)
 
-export default Profile
+// export default Profile

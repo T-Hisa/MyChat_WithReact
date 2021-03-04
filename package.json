@@ -31,6 +31,10 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
+    "start:mychat": "cross-env PROJECT=myChat react-scripts start",
+    "build:mychat": "cross-env PROJECT=myChat react-scripts build",
+    "start:chatApp": "cross-env PROJECT=chatApp react-scripts start",
+    "buildd:chatApp": "cross-env PROJECT=chatApp react-scripts build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -53,5 +57,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3"
   }
 }

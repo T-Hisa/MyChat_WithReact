@@ -1,19 +1,43 @@
-import { db } from "./index"
-export const GET_NOTIFICATIONS = "GET_NOTIFICATIONS"
-export const DELETE_NOTIFICATIONS = "DELETE_NOTIFICATIONS"
+import firebase, { db, BaseState } from "./index";
+import { Action, Dispatch } from "redux";
+import { ThunkAction } from "redux-thunk";
+import NotificationProps from "../types/models/Notification";
 
-export const getNotifications = () => (dispatch) => {
-  const notificationsRef = db.ref(`notifications`)
-  notificationsRef.on("value", (snapshot) => {
-    const response = snapshot.val()
-    dispatch({ type: GET_NOTIFICATIONS, response })
-  })
+export const GET_NOTIFICATIONS = "GET_NOTIFICATIONS";
+export const DELETE_NOTIFICATIONS = "DELETE_NOTIFICATIONS";
+
+interface GetNotificationAction extends Action {
+  type: string;
+  notificationData: NotificationProps;
 }
 
-export const deleteNotifications = (data) => (dispatch) => {
-  const { userId, notificationIds } = data
-  const notificationsRef = db.ref(`notifications/${userId}`)
+export interface NotificationAction extends GetNotificationAction {
+  type:
+    | "GET_NOTIFICATIONS"
+    | "DELETE_NOTIFICATIONS"
+    | "RESET_ALL"
+    | "REFRESH_ALL";
+}
+
+export const getNotifications = (): ThunkAction<
+  void,
+  BaseState,
+  null,
+  Action
+> => (dispatch: Dispatch<GetNotificationAction>) => {
+  const notificationsRef: firebase.database.Reference = db.ref(`notifications`);
+  notificationsRef.on("value", (snapshot: firebase.database.DataSnapshot) => {
+    const notificationData: NotificationProps = snapshot.val();
+    dispatch({ type: GET_NOTIFICATIONS, notificationData });
+  });
+};
+
+export const deleteNotifications = (data) => {
+  const { userId, notificationIds } = data;
+  const notificationsRef: firebase.database.Reference = db.ref(
+    `notifications/${userId}`
+  );
   for (const nid of notificationIds) {
-    notificationsRef.child(nid).remove()
+    notificationsRef.child(nid).remove();
   }
-}
+};

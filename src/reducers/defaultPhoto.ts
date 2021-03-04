@@ -1,7 +1,6 @@
 import {
   GET_DEFAULT_PHOTO,
   GetDefaultPhotoAction,
-  // DefaultPhotoState
 } from "../actions/defaultPhoto"
 
 const defaultPhoto = (photo = "", action: GetDefaultPhotoAction) => {

@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "chat-app-db732"
+    "default": "chat-app-db732",
+    "develop": "my-chat-c53fb"
   }
 }

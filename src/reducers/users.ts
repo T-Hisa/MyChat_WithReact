@@ -1,38 +1,34 @@
-import firebase from "../firebase-setup"
-import {
-  GET_USERS,
-  SET_PROFILE
-} from '../actions/users'
-import { RESET_ALL } from "../actions"
+import firebase from "../firebase-setup";
+import { GET_USERS, SET_PROFILE, UserAction } from "../actions/users";
+import { RESET_ALL } from "../actions";
 
-const users = (users = {}, action) => {
-  let response
+const users = (users = {}, action: UserAction) => {
   switch (action.type) {
     case RESET_ALL:
-      return {}
+      return {};
     case GET_USERS:
-      response = action.response
-      return { ...users, ...response }
+      const { usersData } = action;
+      return { ...users, ...usersData };
     case SET_PROFILE:
     default:
-      return users
+      return users;
   }
-}
+};
 
-export const verifiedOtherUserIds = (userIds = {}, action) => {
+export const verifiedOtherUserIds = (userIds = {}, action: UserAction) => {
   switch (action.type) {
     case RESET_ALL:
-      return {}
+      return {};
     case GET_USERS:
-      const response = action.response
-      const verifiedOtherUserIds = Object.keys(response).filter(uid => {
-        const currentUserId = firebase.auth().currentUser?.uid
-        return (!!response[uid].username && uid !== currentUserId)
-      })
-      return verifiedOtherUserIds
+      const { usersData } = action;
+      const verifiedOtherUserIds: Array<string> = Object.keys(usersData).filter((uid) => {
+        const currentUserId: string = firebase.auth().currentUser?.uid!;
+        return !!usersData[uid].username && uid !== currentUserId;
+      });
+      return verifiedOtherUserIds;
     default:
-      return userIds
+      return userIds;
   }
-}
+};
 
-export default users
+export default users;

@@ -4,14 +4,14 @@ import { connect } from "react-redux";
 
 import Sidebar from "../components/menu/Sidebar";
 
-// import SetProfile from "../views/profile/SetProfile"
+import SetProfile from "../views/profile/SetProfile"
 import SelectUser from "../views/chat/SelectUser";
-// import UpdateProfile from "../views/profile/UpdateProfile"
-// import DirectChat from "../views/chat/DirectChat"
-// import SelectGroup from "../views/chat/SelectGroup"
-// import GroupChat from "../views/chat/GroupChat"
-// import CreateGroup from "../views/group/CreateGroup"
-// import Notification from "../views/notification/Notification"
+import UpdateProfile from "../views/profile/UpdateProfile"
+import DirectChat from "../views/chat/DirectChat"
+import SelectGroup from "../views/chat/SelectGroup"
+import GroupChat from "../views/chat/GroupChat"
+import CreateGroup from "../views/groups/CreateGroup"
+import Notification from "../views/notification/Notification"
 
 // import { resetAll } from "../actions"
 import { getDefaultPhoto } from "../actions/defaultPhoto";
@@ -22,31 +22,28 @@ import { getGroupChat } from "../actions/groupChat"
 import { getGroups } from "../actions/groups"
 import { getNotifications } from "../actions/notifications"
 
+import RouteProps from "../types/RouteProps"
+
 interface ContainerProps {
   currentUser: any;
-  notificationCount: number;
-  getDefaultPhoto: any;
-  getCurrentUser: any;
-  getCurrentUserId: any;
-  getUsers: any;
-  getDirectChat: any;
-  getGroupChat: any;
-  getGroups: any;
-  getNotifications: any;
+  notificationCount?: number;
+  getDefaultPhoto?: any;
+  getCurrentUser?: any;
+  getCurrentUserId?: any;
+  getUsers?: any;
+  getDirectChat?: any;
+  getGroupChat?: any;
+  getGroups?: any;
+  getNotifications?: any;
 }
 
 class Container extends Component<ContainerProps, {}> {
-  componentDidMount() {
-    console.log("containenr component");
+  componentDidMount(): void {
     this.buildState()
     // this.props.getDefaultPhoto();
   }
 
-  static defaultProps = {
-    notificationCount: 0,
-  };
-
-  buildState() {
+  buildState(): void {
     this.props.getCurrentUser()
     this.props.getDefaultPhoto()
     this.props.getCurrentUserId()
@@ -61,23 +58,23 @@ class Container extends Component<ContainerProps, {}> {
   //   this.props.resetAll()
   // }
 
-  isSetProfile() {
+  isSetProfile(): boolean {
     return !!(this.props.currentUser && this.props.currentUser.displayName);
   }
 
-  renderMain() {
+  renderMain(): JSX.Element {
     return (
       <React.StrictMode>
         <div className="flex-display">
-          <Sidebar notificationCount={this.props.notificationCount} />
+          <Sidebar notificationCount={this.props.notificationCount!} />
           <div className="relative-container">
             <Route exact path="/direct" component={SelectUser} />
-            {/* <Route exact path="/direct/:userId" component={DirectChat} /> */}
-            {/* <Route exact path="/groupchat" component={SelectGroup} />
+            <Route exact path="/direct/:userId" component={DirectChat} />
+            <Route exact path="/groupchat" component={SelectGroup} />
             <Route exact path="/groupchat/:groupId" component={GroupChat} />
             <Route exact path="/update-profile" component={UpdateProfile} />
             <Route exact path="/creategroup" component={CreateGroup} />
-            <Route exact path="/notification" component={Notification} /> */}
+            <Route exact path="/notification" component={Notification} />
             <Route path="/">
               <Redirect to="/direct" />
             </Route>
@@ -87,14 +84,14 @@ class Container extends Component<ContainerProps, {}> {
     );
   }
 
-  renderProfile() {
+  renderProfile(): JSX.Element {
     return (
       <React.StrictMode>
-        {/* <Route
+        <Route
           exact
           path="/set-profile"
-          render={(routeProps) => <SetProfile {...routeProps} />}
-        /> */}
+          render={(routeProps: RouteProps) => <SetProfile {...routeProps} />}
+        />
         <Route path="/">
           <Redirect to="/set-profile" />
         </Route>
@@ -102,7 +99,7 @@ class Container extends Component<ContainerProps, {}> {
     );
   }
 
-  render() {
+  render(): JSX.Element {
     return (
       <React.StrictMode>
         {this.isSetProfile() ? this.renderMain() : this.renderProfile()}
@@ -111,13 +108,13 @@ class Container extends Component<ContainerProps, {}> {
   }
 }
 
-// const mapStateToProps = (state) => {
-//   const notifications = state.notifications[state.currentUser.currentUserId] || {}
-//   const notificationCount = (Object.keys(notifications) || []).length
-//   return {
-//     notificationCount,
-//   }
-// }
+const mapStateToProps: (state: any) => any = (state) => {
+  const notifications: any = state.notifications[state.currentUser.currentUserId] || {}
+  const notificationCount: number  = (Object.keys(notifications) || []).length
+  return {
+    notificationCount,
+  }
+}
 
 const mapDispatchToProps = {
   getCurrentUser,
@@ -131,10 +128,4 @@ const mapDispatchToProps = {
   // resetAll,
 }
 
-// const mapDispatchToProps = {
-//   getDefaultPhoto,
-// };
-
-// export default connect(mapStateToProps, mapDispatchToProps)(Container);
-export default connect(null, mapDispatchToProps)(Container);
-// export default Container
+export default connect(mapStateToProps, mapDispatchToProps)(Container);

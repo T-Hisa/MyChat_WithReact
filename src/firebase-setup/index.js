@@ -7,7 +7,7 @@ import firebaseConfig from './firebaseConfig'
 
 let projectName = process.env.PROJECT
 if (!firebaseConfig.hasOwnProperty(projectName)) {
-  projectName = 'default' // どのプロジェクトにもマッチしなかったらsample のプロジェクトに。
+  projectName = 'myChat' // どのプロジェクトにもマッチしなかったらsample のプロジェクトに。
 }
 const config = firebaseConfig[projectName]
 

@@ -1,10 +1,13 @@
 import React, { Component, KeyboardEvent } from "react"
 import { connect } from "react-redux"
-// import User from "../../components/user/User"
+import User from "../../components/user/User"
 
 import RouteProps from "../../types/RouteProps"
 
-type SelectUserProps = RouteProps
+interface SelectUserProps extends RouteProps {
+  users?: any
+  verifiedOtherUserIds?: any
+}
 
 interface SelectUserState {
   searchParams: string
@@ -18,44 +21,43 @@ class SelectUser extends Component<SelectUserProps, SelectUserState> {
     }
   }
 
-  onInputSearchField(e: KeyboardEvent<HTMLInputElement>) {
-    const searchParams = e.currentTarget.value
+  onInputSearchField(e: KeyboardEvent<HTMLInputElement>): void {
+    const searchParams: string = e.currentTarget.value
     this.setState({ searchParams })
   }
 
-  verifiedOtherUserIds() {
-    // const otherUserIds =
-    //   this.props.verifiedOtherUserIds.length > 0
-    //     ? this.props.verifiedOtherUserIds
-    //     : []
-    return []
+  verifiedOtherUserIds(): Array<string> {
+    const otherUserIds: Array<string> =
+      this.props.verifiedOtherUserIds.length > 0
+        ? this.props.verifiedOtherUserIds
+        : []
+    return otherUserIds
   }
 
-  searchOtherUserIds() {
-    // const otherUserIds = this.verifiedOtherUserIds()
-    // return otherUserIds.filter(uid => {
-    //   const {username} = this.props.users[uid]
-    //   return username.indexOf(this.state.searchParams) > -1
-    // })
-    return []
+  searchOtherUserIds(): Array<string> {
+    const otherUserIds: Array<string> = this.verifiedOtherUserIds()
+    return otherUserIds.filter(uid => {
+      const {username} = this.props.users[uid]
+      return username.indexOf(this.state.searchParams) > -1
+    })
   }
 
-  getOtherUserFlexibly() {
+  getOtherUserFlexibly(): Array<string> {
     if (this.state.searchParams) return this.searchOtherUserIds()
     else return this.verifiedOtherUserIds()
   }
 
-  handleClickUser(userId: string) {
+  handleClickUser(userId: string): void {
     this.props.history.push(`/direct/${userId}`)
   }
 
-  renderSearchResult() {
+  renderSearchResult(): JSX.Element {
     return (
       <React.StrictMode>
       {
         this.getOtherUserFlexibly().length > 0 ?
           (<ul className="user-select-list">
-            {/* {
+            {
               this.getOtherUserFlexibly().map((uid) => (
                 <User
                   userId={uid}
@@ -63,7 +65,7 @@ class SelectUser extends Component<SelectUserProps, SelectUserState> {
                   handleClickUser={this.handleClickUser.bind(this)}
                 />
               ))
-            } */}
+            }
           </ul>) :
           <div className="no-user">検索にヒットしたユーザーはいません。</div>
       }
@@ -71,7 +73,7 @@ class SelectUser extends Component<SelectUserProps, SelectUserState> {
     )
   }
 
-  render() {
+  render(): JSX.Element {
     return (
       <React.StrictMode>
         <div className="user-select-wrapper bg-lightskyblue">
@@ -99,10 +101,10 @@ class SelectUser extends Component<SelectUserProps, SelectUserState> {
   }
 }
 
-// const mapStateToProps = (state) => ({
-//   verifiedOtherUserIds: state.verifiedOtherUserIds,
-//   users: state.users,
-// })
+const mapStateToProps = (state) => ({
+  verifiedOtherUserIds: state.verifiedOtherUserIds,
+  users: state.users,
+})
 
-// export default connect(mapStateToProps, null)(UserSelect)
-export default SelectUser
+export default connect(mapStateToProps, null)(SelectUser)
+// export default SelectUser

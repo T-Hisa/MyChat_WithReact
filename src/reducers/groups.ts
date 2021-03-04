@@ -1,19 +1,24 @@
-import { GET_GROUPS, CREATE_GROUP, UPDATE_GROUP } from "../actions/groups"
-import { RESET_ALL } from "../actions"
+import {
+  GET_GROUPS,
+  CREATE_GROUP,
+  UPDATE_GROUP,
+  GroupAction,
+} from "../actions/groups";
+import { RESET_ALL } from "../actions";
 
-const groups = (groups = {}, action) => {
+const groups = (groups = {}, action: GroupAction) => {
   switch (action.type) {
-    case RESET_ALL:
-      return {}
     case GET_GROUPS:
-      const { response } = action
-      return response
+      const { groupData } = action;
+      return groupData;
     case CREATE_GROUP:
     case UPDATE_GROUP:
-      return groups
+      return groups;
+    case RESET_ALL:
+      return {};
     default:
-      return groups
+      return groups;
   }
-}
+};
 
-export default groups
+export default groups;

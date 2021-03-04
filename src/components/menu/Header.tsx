@@ -3,12 +3,18 @@ import { connect } from "react-redux"
 import { Navbar } from "react-bootstrap"
 import { Link } from "react-router-dom"
 import firebase from "../../firebase-setup"
-// import { deleteNotifications } from "../../actions/notifications"
-// import NotificationCard from "./NotificationCard"
+import { deleteNotifications } from "../../actions/notifications"
+import NotificationCard from "./NotificationCard"
+
+import NoticeProps from "../../types/models/Notification"
 
 interface HeaderProps {
-  currentRoute: string
   currentUser: any
+  currentUserId: string
+  currentRoute: string
+
+  notifications: any
+  deleteNotifications: any
 }
 
 interface HeaderState {
@@ -23,11 +29,11 @@ class Header extends Component<HeaderProps, HeaderState> {
     }
   }
 
-  onClickSignOutBtn() {
+  onClickSignOutBtn(): void {
     firebase.auth().signOut()
   }
 
-  renderSign() {
+  renderSign(): JSX.Element {
     return (
       <div className="sign-wrapper">
         {this.props.currentRoute === "/signin" ? (
@@ -39,46 +45,44 @@ class Header extends Component<HeaderProps, HeaderState> {
     )
   }
 
-  className() {
-    let baseClass = "notify-detail-wrapper bg-info"
+  className(): string {
+    let baseClass: string = "notify-detail-wrapper bg-info"
     if (this.state.dropdownFlag) baseClass += " active"
     return baseClass
   }
 
-  onClickDropdown() {
-    let dropdownFlag = !this.state.dropdownFlag
+  onClickDropdown(): void {
+    let dropdownFlag: boolean = !this.state.dropdownFlag
     this.setState({ dropdownFlag })
     if (!dropdownFlag) {
-      // if (this.displayNotificationIds().length > 0) {
-      //   this.props.deleteNotifications({
-      //     userId: this.props.currentUserId,
-      //     notificationIds: this.displayNotificationIds(),
-      //   })
-      // }
+      if (this.displayNotificationIds().length > 0) {
+        this.props.deleteNotifications({
+          userId: this.props.currentUserId,
+          notificationIds: this.displayNotificationIds(),
+        })
+      }
     }
   }
 
-  displayNotificationIds() {
-    return []
-    // return Object.keys(this.props.notifications).slice(0, 10)
+  displayNotificationIds(): Array<string> {
+    return Object.keys(this.props.notifications).slice(0, 10)
   }
 
-  displayCount() {
+  displayCount(): string {
     let displayWord = ""
-    // let length = Object.keys(this.props.notifications || {}).length
-    // displayWord = length
-    // if (length > 10) {
-    //   displayWord = "10+"
-    // }
+    let length = Object.keys(this.props.notifications || {}).length
+    displayWord = `${length}`
+    if (length > 10) {
+      displayWord = "10+"
+    }
     return displayWord
   }
 
-  getNoticeInfo(nid: string) {
-    return {}
-    // return this.props.notifications[nid]
+  getNoticeInfo(nid: string): NoticeProps {
+    return this.props.notifications[nid]
   }
 
-  renderHeaderNav() {
+  renderHeaderNav(): JSX.Element {
     return (
       <React.StrictMode>
         {this.props.currentUser ? (
@@ -93,14 +97,14 @@ class Header extends Component<HeaderProps, HeaderState> {
                 <i className="fas fa-angle-down"></i>
               </span>
               <div className={this.className()}>
-                {/* <div>
+                <div>
                   {this.displayNotificationIds().map((nid) => (
                     <NotificationCard
                       key={nid}
                       notice={this.getNoticeInfo(nid)}
                     />
                   ))}
-                </div> */}
+                </div>
               </div>
             </div>
             <ul className="top-btn-wrapper navbar-nav">
@@ -126,7 +130,7 @@ class Header extends Component<HeaderProps, HeaderState> {
     )
   }
 
-  renderNavBar() {
+  renderNavBar(): JSX.Element {
     return (
       <Navbar className="custom-nav-bar" bg="info" expand="lg">
         <span className="title">My Chat</span>
@@ -138,21 +142,21 @@ class Header extends Component<HeaderProps, HeaderState> {
     )
   }
 
-  render() {
+  render(): JSX.Element {
     return <div className="header bg-info">{this.renderNavBar()}</div>
   }
 }
 
-// const mapStateToProps = (state) => {
-//   const notifications =
-//     state.notifications[state.currentUser.currentUserId] || {}
-//   return {
-//     notifications,
-//     currentUserId: state.currentUser.currentUserId,
-//   }
-// }
+const mapStateToProps = (state) => {
+  const notifications =
+    state.notifications[state.currentUser.currentUserId] || {}
+  return {
+    notifications,
+    currentUserId: state.currentUser.currentUserId,
+  }
+}
 
-// const mapDispatchToProps = { deleteNotifications }
+const mapDispatchToProps = { deleteNotifications }
 
-// export default connect(mapStateToProps, mapDispatchToProps)(Header)
-export default Header
+export default connect(mapStateToProps, mapDispatchToProps)(Header)
+// export default Header

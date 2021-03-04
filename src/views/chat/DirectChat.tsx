@@ -1,9 +1,9 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
-// import ChatForm from "../../components/chat/ChatForm"
-// import ChatSelf from "../../components/chat/ChatSelf"
-// import ChatOther from "../../components/chat/ChatOther"
-// import { sendDirectChat } from "../../actions/directChat"
+import ChatForm from "../../components/chat/ChatForm"
+import ChatSelf from "../../components/chat/ChatSelf"
+import ChatOther from "../../components/chat/ChatOther"
+import { sendDirectChat } from "../../actions/directChat"
 import { renderImage } from "../../utils"
 import RouteProps from "../../types/RouteProps"
 
@@ -13,6 +13,8 @@ interface DirectChatProps extends RouteProps {
   directChat: any
   defaultPhoto: any
   notifications: any
+
+  sendDirectChat: any
 }
 
 class DirectChat extends Component<DirectChatProps, {}> {
@@ -44,14 +46,14 @@ class DirectChat extends Component<DirectChatProps, {}> {
     return this.props.directChat[cid]
   }
 
-  handleClicKSendBtn() {
-    // this.props.sendDirectChat(data)
+  handleClicKSendBtn(data) {
+    this.props.sendDirectChat(data)
   }
 
   renderChat(cid: string) {
     return (
       <div key={cid}>
-        {/* {
+        {
           this.isMe(cid) ?
             <ChatSelf
               photoURL={(this.currentUserInfo() || {}).photoURL}
@@ -63,7 +65,7 @@ class DirectChat extends Component<DirectChatProps, {}> {
               defaultPhoto={this.props.defaultPhoto}
               body={this.getChat(cid).body}
             />
-        } */}
+        }
       </div>
     )
   }
@@ -85,26 +87,26 @@ class DirectChat extends Component<DirectChatProps, {}> {
             this.directChatIds().map(cid => this.renderChat(cid))
           }
         </div>
-        {/* <ChatForm otherUserId={this.otherUserId()} handleClick={this.handleClicKSendBtn.bind(this)} /> */}
+        <ChatForm otherUserId={this.otherUserId()} handleClick={this.handleClicKSendBtn.bind(this)} />
       </div>
     )
   }
 }
 
-// const mapStateToProps = (state, props) => {
-//   const {currentUserId} = state.currentUser
-//   const otherUserId = props.match.params.userId
-//   const directChat = (state.directChat[currentUserId] || {})[otherUserId] || {}
-//   return {
-//     users: state.users,
-//     defaultPhoto: state.defaultPhoto,
-//     directChat,
-//     currentUser: state.currentUser
-//   }
-// }
+const mapStateToProps = (state, props) => {
+  const {currentUserId} = state.currentUser
+  const otherUserId = props.match.params.userId
+  const directChat = (state.directChat[currentUserId] || {})[otherUserId] || {}
+  return {
+    users: state.users,
+    defaultPhoto: state.defaultPhoto,
+    directChat,
+    currentUser: state.currentUser
+  }
+}
 
-// const mapDispatchToProps = { sendDirectChat }
+const mapDispatchToProps = { sendDirectChat }
 
-// export default connect(mapStateToProps, mapDispatchToProps)(DirectChat)
+export default connect(mapStateToProps, mapDispatchToProps)(DirectChat)
 
-export default DirectChat
+// export default DirectChat
