@@ -7,12 +7,15 @@ import RouteProps from "../../types/RouteProps"
 import NoticeProps from "../../types/models/Notification"
 // import UserProps from "../../types/models/User"
 // import GroupProps from "../../types/models/Group"
+import BaseState, { UsersState, GroupsState} from "../../types/state"
 
-interface NotificationCardProps extends RouteProps {
+interface MapStateToProps {
+  groups?: GroupsState
+  users?: UsersState
+}
+
+interface NotificationCardProps extends RouteProps, MapStateToProps {
   notice: NoticeProps
-
-  groups?: any
-  users?: any
 }
 
 interface NotificationCardState {
@@ -30,7 +33,10 @@ class NotificationCard extends Component<NotificationCardProps, NotificationCard
   }
 
   componentDidMount(): void {
-    const { notice, users, groups, history } = this.props
+    // const { notice, users, groups, history } = this.props
+    const { notice, history } = this.props
+    const users: UsersState = this.props.users!
+    const groups: GroupsState = this.props.groups!
     const { displayWord, handleClickEvent } = devideByNoticeType(
       notice,
       users,
@@ -56,7 +62,7 @@ class NotificationCard extends Component<NotificationCardProps, NotificationCard
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps: (state: BaseState) => MapStateToProps = (state) => ({
   users: state.users,
   groups: state.groups,
 })

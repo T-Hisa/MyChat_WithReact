@@ -1,36 +1,43 @@
-import React, { Component } from "react"
-import { connect } from "react-redux"
-import { Navbar } from "react-bootstrap"
-import { Link } from "react-router-dom"
-import firebase from "../../firebase-setup"
-import { deleteNotifications } from "../../actions/notifications"
-import NotificationCard from "./NotificationCard"
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { Navbar } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import firebase from "../../firebase-setup";
+import { deleteNotifications } from "../../actions/notifications";
+import NotificationCard from "./NotificationCard";
 
-import NoticeProps from "../../types/models/Notification"
+import NoticeProps from "../../types/models/Notification";
+import BaseState, {
+  NotificationsProps,
+  CurrentUserState,
+} from "../../types/state";
 
-interface HeaderProps {
-  currentUser: any
+interface MapStateToProps {
+  notifications: NotificationsProps
   currentUserId: string
-  currentRoute: string
+  currentUser: CurrentUserState
+}
 
-  notifications: any
-  deleteNotifications: any
+interface HeaderProps extends MapStateToProps {
+  currentRoute: string;
+
+  deleteNotifications?: any
 }
 
 interface HeaderState {
-  dropdownFlag: boolean
+  dropdownFlag: boolean;
 }
 
 class Header extends Component<HeaderProps, HeaderState> {
   constructor(props: HeaderProps) {
-    super(props)
+    super(props);
     this.state = {
       dropdownFlag: false,
-    }
+    };
   }
 
   onClickSignOutBtn(): void {
-    firebase.auth().signOut()
+    firebase.auth().signOut();
   }
 
   renderSign(): JSX.Element {
@@ -42,50 +49,50 @@ class Header extends Component<HeaderProps, HeaderState> {
           <Link to={"/signin"}>ログイン</Link>
         )}
       </div>
-    )
+    );
   }
 
   className(): string {
-    let baseClass: string = "notify-detail-wrapper bg-info"
-    if (this.state.dropdownFlag) baseClass += " active"
-    return baseClass
+    let baseClass: string = "notify-detail-wrapper bg-info";
+    if (this.state.dropdownFlag) baseClass += " active";
+    return baseClass;
   }
 
   onClickDropdown(): void {
-    let dropdownFlag: boolean = !this.state.dropdownFlag
-    this.setState({ dropdownFlag })
+    let dropdownFlag: boolean = !this.state.dropdownFlag;
+    this.setState({ dropdownFlag });
     if (!dropdownFlag) {
       if (this.displayNotificationIds().length > 0) {
         this.props.deleteNotifications({
           userId: this.props.currentUserId,
           notificationIds: this.displayNotificationIds(),
-        })
+        });
       }
     }
   }
 
   displayNotificationIds(): Array<string> {
-    return Object.keys(this.props.notifications).slice(0, 10)
+    return Object.keys(this.props.notifications).slice(0, 10);
   }
 
   displayCount(): string {
-    let displayWord = ""
-    let length = Object.keys(this.props.notifications || {}).length
-    displayWord = `${length}`
+    let displayWord = "";
+    let length = Object.keys(this.props.notifications || {}).length;
+    displayWord = `${length}`;
     if (length > 10) {
-      displayWord = "10+"
+      displayWord = "10+";
     }
-    return displayWord
+    return displayWord;
   }
 
   getNoticeInfo(nid: string): NoticeProps {
-    return this.props.notifications[nid]
+    return this.props.notifications[nid];
   }
 
   renderHeaderNav(): JSX.Element {
     return (
       <React.StrictMode>
-        {this.props.currentUser ? (
+        {this.props.currentUser?.email ? (
           <div className="flex-display">
             <div
               className="notify-display-wrapper"
@@ -109,10 +116,7 @@ class Header extends Component<HeaderProps, HeaderState> {
             </div>
             <ul className="top-btn-wrapper navbar-nav">
               <li className="nav-item">
-                <span
-                  className="nav-link"
-                  onClick={this.onClickSignOutBtn}
-                >
+                <span className="nav-link" onClick={this.onClickSignOutBtn}>
                   ログアウト
                 </span>
               </li>
@@ -127,7 +131,7 @@ class Header extends Component<HeaderProps, HeaderState> {
           this.renderSign()
         )}
       </React.StrictMode>
-    )
+    );
   }
 
   renderNavBar(): JSX.Element {
@@ -139,24 +143,35 @@ class Header extends Component<HeaderProps, HeaderState> {
           {this.renderHeaderNav()}
         </div>
       </Navbar>
-    )
+    );
   }
 
   render(): JSX.Element {
-    return <div className="header bg-info">{this.renderNavBar()}</div>
+    return <div className="header bg-info">{this.renderNavBar()}</div>;
   }
 }
 
-const mapStateToProps = (state) => {
-  const notifications =
-    state.notifications[state.currentUser.currentUserId] || {}
+const mapStateToProps: (
+  data: BaseState
+) => MapStateToProps = (state) => {
+  let notifications: NotificationsProps = {};
+  let currentUserId: string = "";
+  let currentUser: CurrentUserState = null
+  if (state.currentUser) {
+    currentUser = state.currentUser
+  }
+  if (state.notifications) {
+    currentUserId = state.currentUser?.currentUserId!;
+    notifications = state.notifications
+  }
   return {
     notifications,
-    currentUserId: state.currentUser.currentUserId,
-  }
-}
+    currentUserId,
+    currentUser,
+  };
+};
 
-const mapDispatchToProps = { deleteNotifications }
+const mapDispatchToProps = { deleteNotifications };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header)
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
 // export default Header

@@ -6,9 +6,10 @@ import Header from "./components/menu/Header"
 import Container from "./containers/Container"
 import SignContainer from "./containers/SignContainer"
 import RouteProps from "./types/RouteProps"
+import firebase from "./firebase-setup"
 
 interface BaseProps {
-  currentUser: any
+  currentUser: firebase.User | null
 }
 
 interface BaseState {
@@ -61,7 +62,7 @@ class App extends Component<BaseProps, BaseState> {
     return (
       <React.StrictMode>
         <Header
-          currentUser={this.props.currentUser}
+          // currentUser={this.props.currentUser}
           currentRoute={this.state.currentRoute}
         />
         <div style={{borderTop: "2px solid darkslateblue"}}>

@@ -1,15 +1,15 @@
-import firebase, { db, BaseState } from "./index";
+import firebase, { db } from "./index";
 import { Action, Dispatch } from "redux";
 import { ThunkAction } from "redux-thunk";
 
-import { NotificationsProps, NotificationsPropsWithUserId } from "../types/state";
+import BaseState, { NotificationsPropsWithUserId, NotificationsProps } from "../types/state";
 
 export const GET_NOTIFICATIONS = "GET_NOTIFICATIONS";
 export const DELETE_NOTIFICATIONS = "DELETE_NOTIFICATIONS";
 
 interface GetNotificationAction extends Action {
   type: string;
-  notificationData: NotificationsPropsWithUserId;
+  notifications: NotificationsProps | undefined; // userのnotificationがundefined になってる可能性もあるので。
 }
 
 export interface NotificationAction extends GetNotificationAction {
@@ -21,11 +21,17 @@ export const getNotifications = (): ThunkAction<
   BaseState,
   null,
   Action
-> => (dispatch: Dispatch<GetNotificationAction>) => {
+> => (dispatch: Dispatch<GetNotificationAction>, getState: () => BaseState) => {
   const notificationsRef: firebase.database.Reference = db.ref(`notifications`);
   notificationsRef.on("value", (snapshot: firebase.database.DataSnapshot) => {
+    const state: BaseState = getState()
+    console.log("state at notificationAction!", state)
+    const userId: string = state.currentUser?.currentUserId!
     const notificationData: NotificationsPropsWithUserId = snapshot.val();
-    dispatch({ type: GET_NOTIFICATIONS, notificationData });
+    console.log("notificationData", notificationData)
+    const notifications: NotificationsProps = notificationData[userId]
+    console.log("notifications", notifications)
+    dispatch({ type: GET_NOTIFICATIONS, notifications });
   });
 };
 

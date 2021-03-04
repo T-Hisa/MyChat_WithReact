@@ -2,15 +2,18 @@ import React, { Component } from "react"
 import { connect } from "react-redux"
 import { renderImage } from "../../utils"
 
-import UserModelProps from "../../types/models/User"
+import UserDataProps from "../../types/models/User"
+import BaseState, { UsersState } from "../../types/state"
 
-interface UserProps {
-  userId: string
-  handleClickUser: Function
-  handleClickDelete?: Function | undefined
-
-  users?: any
+interface MapStateToProps {
+  users?: UsersState;
   defaultPhoto?: string
+}
+
+interface UserProps extends MapStateToProps {
+  userId: string
+  handleClickUser: (data: string) => void
+  handleClickDelete?: ((data: string) => void)
 }
 
 class User extends Component<UserProps, {}> {
@@ -22,9 +25,9 @@ class User extends Component<UserProps, {}> {
     if (this.props.handleClickDelete) this.props.handleClickDelete(this.props.userId)
   }
 
-  userInfo(): UserModelProps {
+  userInfo(): UserDataProps {
     const userId: string = this.props.userId
-    const user: UserModelProps = this.props.users[userId]
+    const user: UserDataProps = this.props.users![userId]
     return user
   }
 
@@ -50,7 +53,7 @@ class User extends Component<UserProps, {}> {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps: (state: BaseState) => MapStateToProps = (state) => ({
   defaultPhoto: state.defaultPhoto,
   users: state.users,
 })

@@ -14,7 +14,6 @@ import firebase from "./firebase-setup";
 const enhancer = applyMiddleware(thunk)
 const store = createStore(reducer, enhancer)
 firebase.auth().onAuthStateChanged((user) => {
-  console.log("user", user)
   ReactDOM.render(
     <Provider store={store}>
       <Ruoter>

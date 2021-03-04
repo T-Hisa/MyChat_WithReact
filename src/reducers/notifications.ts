@@ -10,16 +10,17 @@ import { NotificationsState } from "../types/state";
 const notifications: (
   notifications: NotificationsState,
   action: NotificationAction
-) => NotificationsState = (notifications = null, action: NotificationAction) => {
+) => NotificationsState = (notificationsData = null, action: NotificationAction) => {
   switch (action.type) {
     case RESET_ALL:
       return null;
     case GET_NOTIFICATIONS:
-      const { notificationData } = action;
-      return notificationData;
+      const { notifications } = action;
+      if (notifications) return notifications;
+      return null
     case DELETE_NOTIFICATIONS:
     default:
-      return notifications;
+      return notificationsData;
   }
 };
 

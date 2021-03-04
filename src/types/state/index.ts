@@ -40,7 +40,7 @@ export interface NotificationsPropsWithUserId {
 }
 
 // export type NotificationsState = NotificationsProps | null;
-export type NotificationsState = NotificationsPropsWithUserId | null;
+export type NotificationsState = NotificationsProps | null;
 
 export interface UsersProps {
   [userId: string]: UserProps;

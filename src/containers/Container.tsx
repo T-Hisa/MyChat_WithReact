@@ -4,25 +4,33 @@ import { connect } from "react-redux";
 
 import Sidebar from "../components/menu/Sidebar";
 
-import SetProfile from "../views/profile/SetProfile"
+import SetProfile from "../views/profile/SetProfile";
 import SelectUser from "../views/chat/SelectUser";
-import UpdateProfile from "../views/profile/UpdateProfile"
-import DirectChat from "../views/chat/DirectChat"
-import SelectGroup from "../views/chat/SelectGroup"
-import GroupChat from "../views/chat/GroupChat"
-import CreateGroup from "../views/groups/CreateGroup"
-import Notification from "../views/notification/Notification"
+import UpdateProfile from "../views/profile/UpdateProfile";
+import DirectChat from "../views/chat/DirectChat";
+import SelectGroup from "../views/chat/SelectGroup";
+import GroupChat from "../views/chat/GroupChat";
+import CreateGroup from "../views/groups/CreateGroup";
+import Notification from "../views/notification/Notification";
 
 // import { resetAll } from "../actions"
 import { getDefaultPhoto } from "../actions/defaultPhoto";
-import { getCurrentUser, getCurrentUserId } from "../actions/currentUser"
-import { getUsers } from "../actions/users"
-import { getDirectChat } from "../actions/directChat"
-import { getGroupChat } from "../actions/groupChat"
-import { getGroups } from "../actions/groups"
-import { getNotifications } from "../actions/notifications"
+import { getCurrentUser, getCurrentUserId } from "../actions/currentUser";
+import { getUsers } from "../actions/users";
+import { getDirectChat } from "../actions/directChat";
+import { getGroupChat } from "../actions/groupChat";
+import { getGroups } from "../actions/groups";
+import { getNotifications } from "../actions/notifications";
 
-import RouteProps from "../types/RouteProps"
+import RouteProps from "../types/RouteProps";
+import BaseState, {
+  // NotificationsState,
+  NotificationsProps,
+} from "../types/state";
+
+interface MapStateToProps {
+  notificationCount: number
+}
 
 interface ContainerProps {
   currentUser: any;
@@ -39,19 +47,19 @@ interface ContainerProps {
 
 class Container extends Component<ContainerProps, {}> {
   componentDidMount(): void {
-    this.buildState()
+    this.buildState();
     // this.props.getDefaultPhoto();
   }
 
   buildState(): void {
-    this.props.getCurrentUser()
-    this.props.getDefaultPhoto()
-    this.props.getCurrentUserId()
-    this.props.getUsers()
-    this.props.getDirectChat()
-    this.props.getGroupChat()
-    this.props.getGroups()
-    this.props.getNotifications()
+    this.props.getCurrentUser();
+    this.props.getDefaultPhoto();
+    this.props.getCurrentUserId();
+    this.props.getUsers();
+    this.props.getDirectChat();
+    this.props.getGroupChat();
+    this.props.getGroups();
+    this.props.getNotifications();
   }
 
   // componentWillUnmount(): void {
@@ -108,13 +116,20 @@ class Container extends Component<ContainerProps, {}> {
   }
 }
 
-const mapStateToProps: (data: any) => any = (state) => {
-  const notifications: any = state.notifications[state.currentUser.currentUserId] || {}
-  const notificationCount: number  = (Object.keys(notifications) || []).length
-  return {
-    notificationCount,
+const mapStateToProps: (data: BaseState) => MapStateToProps = (
+  state
+) => {
+  console.log("state", state);
+  let notifications: NotificationsProps;
+  let notificationCount: number;
+  if (state.notifications && state.currentUser) {
+    notifications = state.notifications
+    notificationCount = Object.keys(notifications).length;
+  } else {
+    notificationCount = 0;
   }
-}
+  return { notificationCount };
+};
 
 const mapDispatchToProps = {
   getCurrentUser,
@@ -126,6 +141,6 @@ const mapDispatchToProps = {
   getGroups,
   getNotifications,
   // resetAll,
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Container);

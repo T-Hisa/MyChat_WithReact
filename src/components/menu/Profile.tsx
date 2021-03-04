@@ -2,16 +2,19 @@ import React, { Component } from "react"
 import { Link } from "react-router-dom"
 import { connect } from "react-redux"
 
-interface ProfileProps {
-  currentUser?: any
-  defaultPhoto?: any
+import BaseState, { CurrentUserState } from "../../types/state"
+
+interface MapStateToProps {
+  currentUser?: CurrentUserState
+  defaultPhoto?: string
 }
+
+type ProfileProps = MapStateToProps
 
 class Profile extends Component<ProfileProps, {}> {
 
   getPhotoURL(): string {
-    // return true
-    return (this.props.currentUser || {}).photoURL
+    return this.props.currentUser?.photoURL!
   }
 
   render(): JSX.Element {
@@ -19,13 +22,13 @@ class Profile extends Component<ProfileProps, {}> {
       <React.StrictMode>
         <div className="nav-link profile-container">
           <Link className="none-style" to="/update-profile">
-            { this.getPhotoURL() && <img src={this.getPhotoURL()} alt="サムネイル" /> }
-            {/* {
+            {/* { this.getPhotoURL() && <img src={this.getPhotoURL()} alt="サムネイル" /> } */}
+            {
               this.getPhotoURL() ?
                 <img src={this.getPhotoURL()} alt="サムネイル" /> :
                 <img src={this.props.defaultPhoto} alt="サムネイル" />
-            } */}
-            {/* <p className="profile-name">{this.props.currentUser.username}</p> */}
+            }
+            <p className="profile-name">{this.props.currentUser?.username}</p>
           </Link>
         </div>
       </React.StrictMode>
@@ -33,9 +36,9 @@ class Profile extends Component<ProfileProps, {}> {
   }
 }
 
-const mapStateToProps = (state) => ({
-  defaultPhoto: state.defaultPhoto,
+const mapStateToProps: (state: BaseState) => MapStateToProps = (state) => ({
   currentUser: state.currentUser,
+  defaultPhoto: state.defaultPhoto,
 })
 
 export default connect(mapStateToProps, null)(Profile)

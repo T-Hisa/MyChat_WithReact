@@ -5,18 +5,26 @@ import User from "../../components/user/User";
 import { createGroup, updateGroup } from "../../actions/groups";
 import { handleNameError } from "../../utils";
 
-import CreateGroupDataProps from "../../types/models/Group";
+import GroupDataProps from "../../types/models/Group";
 import RouteProps from "../../types/RouteProps";
 import UpdateGroupProps from "../../types/UpdateGroup";
+import BaseState, {
+  CurrentUserState,
+  GroupsState,
+  UsersState,
+  VerifiedOtherUserIdsState,
+} from "../../types/state";
 
-interface CreateGroupProps extends RouteProps {
+interface MapStateToProps {
+  currentUser: CurrentUserState;
+  groups: GroupsState;
+  users: UsersState;
+  verifiedOtherUserIds: VerifiedOtherUserIdsState;
+}
+
+interface CreateGroupProps extends RouteProps, MapStateToProps {
   createGroup: any;
   updateGroup: any;
-
-  currentUser: any;
-  groups: any;
-  users: any;
-  verifiedOtherUserIds: any;
 }
 
 interface CreateGroupState {
@@ -40,20 +48,20 @@ class CreateGroup extends Component<CreateGroupProps, CreateGroupState> {
   }
 
   componentDidMount(): void {
-    const gid = this.props.location.gid;
-    if (gid) {
-      const group = this.props.groups[gid];
+    const gid: string = this.props.location.gid;
+    if (gid && this.props.groups) {
+      const group: GroupDataProps = this.props.groups[gid];
       const { groupName, memberIds } = group;
-      const selectUserIds = Object.keys(memberIds).filter(
-        (uid) => uid !== this.props.currentUser.currentUserId
+      const selectUserIds: Array<string> = Object.keys(memberIds).filter(
+        (uid) => uid !== this.props.currentUser?.currentUserId
       );
       this.setState({ gid, groupName, selectUserIds });
     }
   }
 
   onInputGroupName(e: KeyboardEvent<HTMLInputElement>): void {
-    const groupName = e.currentTarget.value;
-    const errorMessage = handleNameError(groupName, 20);
+    const groupName: string = e.currentTarget.value;
+    const errorMessage: string = handleNameError(groupName, 20);
     this.setState({ groupName, errorMessage });
   }
 
@@ -67,21 +75,21 @@ class CreateGroup extends Component<CreateGroupProps, CreateGroupState> {
     return !!this.state.groupName && this.state.groupName.length < 20;
   }
 
-  getSendData(): CreateGroupDataProps {
-    const value: CreateGroupDataProps = {
+  getSendData(): GroupDataProps {
+    const value: GroupDataProps = {
       groupName: this.state.groupName,
       memberIds: {},
     };
     for (const uid of this.state.selectUserIds) {
       value.memberIds[uid] = 0;
     }
-    value.memberIds[this.props.currentUser.currentUserId] = 0;
+    value.memberIds[this.props.currentUser?.currentUserId!] = 0;
     return value;
   }
 
   onClickCreateGroupBtn(): void {
     if (this.groupNameValidation()) {
-      const saveValue: CreateGroupDataProps = this.getSendData();
+      const saveValue: GroupDataProps = this.getSendData();
       this.props.createGroup(saveValue);
     } else alert("グループ名を" + this.state.errorMessage);
   }
@@ -115,14 +123,19 @@ class CreateGroup extends Component<CreateGroupProps, CreateGroupState> {
   }
 
   verifiedOtherUserIds(): Array<string> {
-    const otherUserIds: Array<string> =
-      this.props.verifiedOtherUserIds.length > 0
-        ? this.props.verifiedOtherUserIds
-        : [];
+    let otherUserIds: Array<string> = [];
+    if (this.props.verifiedOtherUserIds) {
+      otherUserIds = this.props.verifiedOtherUserIds;
+    }
     return otherUserIds;
   }
 
-  renderMemberList(text: string, handleClick: Function, handleDelete: Function | undefined, memberIds: Array<string>) {
+  renderMemberList(
+    text: string,
+    handleClick: (data: string) => void,
+    handleDelete: ((data: string) => void) | undefined,
+    memberIds: Array<string>
+  ) {
     return (
       <div className="whole-member-list">
         <p className="member-title">{text}</p>
@@ -205,7 +218,7 @@ class CreateGroup extends Component<CreateGroupProps, CreateGroupState> {
   }
 }
 
-const mapStateToProps = (state, props) => ({
+const mapStateToProps: (state: BaseState) => MapStateToProps = (state) => ({
   currentUser: state.currentUser,
   users: state.users,
   verifiedOtherUserIds: state.verifiedOtherUserIds,
