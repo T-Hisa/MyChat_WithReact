@@ -1,14 +1,14 @@
-import React, { Component } from "react";
+import { Component } from "react";
 import { renderImage } from "../../utils";
 
 interface ChatSelfProps {
   body: string;
   defaultPhoto: string;
-  photoURL: string;
+  photoURL?: string | undefined;
 }
 
 class ChatSelf extends Component<ChatSelfProps, {}> {
-  render() {
+  render(): JSX.Element {
     return (
       <div className="chat-container">
         <div className="chat-me chat-common">

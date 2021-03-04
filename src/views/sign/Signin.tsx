@@ -20,7 +20,7 @@ class Signin extends Component<SigninProps, {}> {
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
-      .then((data) => {
+      .then((data: firebase.auth.UserCredential) => {
         const {user} = data
         if (user?.displayName) this.props.history.push('/direct')
         else this.props.history.push('/set-profile')

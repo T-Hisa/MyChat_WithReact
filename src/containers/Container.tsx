@@ -54,7 +54,7 @@ class Container extends Component<ContainerProps, {}> {
     this.props.getNotifications()
   }
 
-  // componentWillUnmount() {
+  // componentWillUnmount(): void {
   //   this.props.resetAll()
   // }
 
@@ -108,7 +108,7 @@ class Container extends Component<ContainerProps, {}> {
   }
 }
 
-const mapStateToProps: (state: any) => any = (state) => {
+const mapStateToProps: (data: any) => any = (state) => {
   const notifications: any = state.notifications[state.currentUser.currentUserId] || {}
   const notificationCount: number  = (Object.keys(notifications) || []).length
   return {

@@ -21,22 +21,8 @@ interface GetCurrentUserIdAction extends Action {
 export interface GetCurrentUserAction
   extends GetCurrentUserDataAction,
     GetCurrentUserIdAction {
-  type: "GET_CURRENT_USER" | "GET_CURRENT_USER_ID" | "RESET_ALL" | "REFRESH_ALL";
+  type: "GET_CURRENT_USER" | "GET_CURRENT_USER_ID" | "RESET_ALL";
 }
-
-// export interface GetCurrentUserState {
-//   currentUser: {
-//     currentUserId: string
-//     username: string
-//     email: string
-//     photoURL: string
-//   }
-// }
-
-// export interface GetCurrentUserIdState {
-//   type: string
-//   currrentUserId:string
-// }
 
 export const getCurrentUser = (): ThunkAction<
   void,

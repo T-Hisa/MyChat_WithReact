@@ -1,7 +1,9 @@
 import { Action, Dispatch } from "redux";
 import { ThunkAction } from "redux-thunk";
 import firebase, { db, BaseState } from "./index";
+
 import { GroupChatProps } from "../types/models/Chat";
+import SendChatProps from "../types/SendChat";
 
 export const GET_GROUP_CHAT = "GET_GROUP_CHAT";
 export const SEND_GROUP_CHAT = "SEND_GROUP_CHAT";
@@ -11,8 +13,14 @@ interface GetGroupChatAction extends Action {
   groupChatData: GroupChatProps;
 }
 
-export interface GroupChatAction extends GetGroupChatAction {
-  type: "GET_GROUP_CHAT" | "SEND_GROUP_CHAT" | "RESET_ALL" | "REFRESH_ALL";
+interface SetGroupChatAction extends Action {
+  type: string;
+}
+
+export interface GroupChatAction
+  extends GetGroupChatAction,
+    SetGroupChatAction {
+  type: "GET_GROUP_CHAT" | "SEND_GROUP_CHAT" | "RESET_ALL";
 }
 
 export const getGroupChat = (): ThunkAction<void, BaseState, null, Action> => (
@@ -25,8 +33,11 @@ export const getGroupChat = (): ThunkAction<void, BaseState, null, Action> => (
   });
 };
 
-export const sendGroupChat = (data) => {
-  const { groupId, body, currentUserId } = data;
+export const sendGroupChat: (data: SendChatProps) => SetGroupChatAction = (
+  data
+) => {
+  const groupId: string = data.groupId!;
+  const { body, currentUserId } = data;
   const timestamp: number = new Date().getTime();
   const saveData: GroupChatProps = { body, timestamp, uid: currentUserId };
   const groupChatRef: firebase.database.Reference = db.ref(

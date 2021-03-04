@@ -1,23 +1,23 @@
-import NoticeProps from "../types/models/Notification"
+import NoticeProps from "../types/models/Notification";
 
 export const renderImage: (data: string) => JSX.Element = (url) => (
   <img src={url} alt="サムネイル" />
 );
 
 export const devideByNoticeType: (
-  notice: NoticeProps,
+  data1: NoticeProps,
   data2: any,
   data3: any,
   data4: any
-) => { displayWord: string; handleClickEvent: () => void }= (
+) => { displayWord: string; handleClickEvent: () => void } = (
   notice,
   users,
   groups,
   history
 ) => {
-  let fromName: string
-  let displayWord: string
-  let handleClickEvent: () => void
+  let fromName: string;
+  let displayWord: string;
+  let handleClickEvent: () => void;
   const { type, fromId } = notice;
   switch (type) {
     case "chat-direct":
@@ -56,14 +56,19 @@ export const devideByNoticeType: (
       };
       break;
     default:
-      displayWord=""
-      handleClickEvent = () => { alert("予期せぬエラーが発生しました。ご一報ください。")}
+      displayWord = "";
+      handleClickEvent = () => {
+        alert("予期せぬエラーが発生しました。ご一報ください。");
+      };
       break;
   }
   return { displayWord, handleClickEvent };
 };
 
-export const handleNameError = (name, maxLength) => {
+export const handleNameError: (data1: string, data2: number) => string = (
+  name,
+  maxLength
+) => {
   let errorMessage = "";
   if (!name) errorMessage = "入力してください";
   else if (name.length > maxLength)

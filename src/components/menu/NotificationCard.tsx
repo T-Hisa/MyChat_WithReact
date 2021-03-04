@@ -1,5 +1,5 @@
-import React, { Component, MouseEvent } from "react"
-import { Route, withRouter } from "react-router-dom"
+import { Component } from "react"
+import { withRouter } from "react-router-dom"
 import { connect } from "react-redux"
 import { devideByNoticeType } from "../../utils"
 
@@ -21,7 +21,7 @@ interface NotificationCardState {
 }
 
 class NotificationCard extends Component<NotificationCardProps, NotificationCardState> {
-  constructor(props) {
+  constructor(props: NotificationCardProps) {
     super(props)
     this.state = {
       displayWord: "",
@@ -29,7 +29,7 @@ class NotificationCard extends Component<NotificationCardProps, NotificationCard
     }
   }
 
-  componentDidMount() {
+  componentDidMount(): void {
     const { notice, users, groups, history } = this.props
     const { displayWord, handleClickEvent } = devideByNoticeType(
       notice,
@@ -40,7 +40,7 @@ class NotificationCard extends Component<NotificationCardProps, NotificationCard
     this.setState({ displayWord, handleClickEvent })
   }
 
-  render() {
+  render(): JSX.Element {
     return (
       <div className="notify-dropdown">
         <div

@@ -3,6 +3,7 @@ import { Action, Dispatch } from "redux";
 import { ThunkAction } from "redux-thunk";
 
 import { DirectChatProps } from "../types/models/Chat";
+import SendChatProps from "../types/SendChat"
 
 export const GET_DIRECT_CHAT = "GET_DIRECT_CHAT";
 export const SEND_DIRECT_CHAT = "SEND_DIRECT_CHAT";
@@ -13,7 +14,7 @@ interface GetDirectChatAction extends Action {
 }
 
 export interface DirectChatAction extends GetDirectChatAction {
-  type: "GET_DIRECT_CHAT" | "SEND_DIRECT_CHAT" | "RESET_ALL" | "REFRESH_ALL";
+  type: "GET_DIRECT_CHAT" | "SEND_DIRECT_CHAT" | "RESET_ALL";
 }
 
 export const getDirectChat = (): ThunkAction<void, BaseState, null, Action> => (
@@ -26,7 +27,7 @@ export const getDirectChat = (): ThunkAction<void, BaseState, null, Action> => (
   });
 };
 
-export const sendDirectChat = (data) => {
+export const sendDirectChat = (data: SendChatProps) => {
   const { currentUserId, otherUserId, body } = data;
   const which: string = "me";
   const timestamp: number = new Date().getTime();

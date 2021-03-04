@@ -10,6 +10,7 @@ import { GroupChatProps as GroupChatModelProps } from "../../types/models/Chat";
 import UserProps from "../../types/models/User";
 import GroupProps from "../../types/models/Group";
 import RouteProps from "../../types/RouteProps";
+import SendChatProps from "../../types/SendChat"
 
 interface GroupChatProps extends RouteProps {
   currentUser: any;
@@ -38,7 +39,7 @@ class GroupChat extends Component<GroupChatProps, {}> {
     return Object.keys(this.props.groupChat || {}).reverse();
   }
 
-  handleClickSendBtn(data: any): void {
+  handleClickSendBtn(data: SendChatProps): void {
     this.props.sendGroupChat(data);
   }
 

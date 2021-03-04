@@ -7,7 +7,7 @@ interface SidebarProps {
 }
 
 class Sidebar extends Component<SidebarProps, {}> {
-  renderMenu(text: string, path: string, flag: boolean) {
+  renderMenu(text: string, path: string, flag: boolean): JSX.Element {
     return (
       <Link className="sidebar-anchor" to={path}>
         <li className="menu-list">
@@ -25,7 +25,7 @@ class Sidebar extends Component<SidebarProps, {}> {
     )
   }
 
-  render() {
+  render(): JSX.Element {
     return (
       <div className="bg-info sidebar">
         <Profile />

@@ -2,8 +2,8 @@ import React, { Component, MouseEvent, KeyboardEvent } from "react"
 
 interface SignCommonProps {
   title: string
-  checkEmail: Function
-  checkPassword: Function
+  checkEmail: (data: string) => boolean
+  checkPassword: (data: string) => boolean
   emailFlag: boolean
   passwordFlag: boolean
   handleClick: Function
@@ -30,22 +30,22 @@ class SignCommon extends Component<SignCommonProps, SignCommonState> {
     checkPassword: () => true,
   }
 
-  onInputPassword(e: KeyboardEvent<HTMLInputElement>) {
+  onInputPassword(e: KeyboardEvent<HTMLInputElement>): void {
     const password = e.currentTarget.value
     this.setState({ password })
   }
 
-  onInputEmail(e: KeyboardEvent<HTMLInputElement>) {
+  onInputEmail(e: KeyboardEvent<HTMLInputElement>): void {
     const email = e.currentTarget.value
     this.setState({ email })
   }
 
-  onClickSignBtn(e: MouseEvent<HTMLButtonElement>) {
+  onClickSignBtn(e: MouseEvent<HTMLButtonElement>): void {
     e.preventDefault()
     this.props.handleClick(this.state)
   }
 
-  render() {
+  render(): JSX.Element {
     return (
       <form
         className="form-container sign-form-container bg-skyblue"

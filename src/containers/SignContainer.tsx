@@ -19,12 +19,12 @@ class SignContainer extends Component<SignContainerProps, SignContainerState> {
     }
   }
 
-  updateState(state: SignContainerState) {
+  updateState(state: SignContainerState): void {
     this.setState(state)
     this.props.updateState(state)
   }
 
-  render() {
+  render(): JSX.Element {
     return (
       <div className="relative-container">
         <Route

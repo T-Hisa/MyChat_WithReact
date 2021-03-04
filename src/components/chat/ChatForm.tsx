@@ -1,7 +1,7 @@
 import React, { Component, KeyboardEvent } from "react";
 import { connect } from "react-redux";
 
-import SendChatProps from "../../types/SendChat"
+import SendChatProps from "../../types/SendChat";
 
 interface ChatFormProps {
   otherUserId?: string;
@@ -13,6 +13,7 @@ interface ChatFormProps {
 }
 
 interface ChatFormState {
+  errorFlag: boolean;
   errorMessage: string;
   body: string;
 }
@@ -23,13 +24,14 @@ class ChatForm extends Component<ChatFormProps, ChatFormState> {
   constructor(props: ChatFormProps) {
     super(props);
     this.state = {
-      errorMessage: "",
+      errorMessage: "入力してください",
+      errorFlag: false,
       body: "",
     };
     this.textareaRef = React.createRef();
   }
 
-  onInputTextarea(e: KeyboardEvent<HTMLTextAreaElement>) {
+  onInputTextarea(e: KeyboardEvent<HTMLTextAreaElement>): void {
     const body: string = e.currentTarget.value;
     const textarea: HTMLTextAreaElement = this.textareaRef.current!;
     const height: number = textarea.scrollHeight;
@@ -38,26 +40,36 @@ class ChatForm extends Component<ChatFormProps, ChatFormState> {
       textarea.style.height = "auto";
       textarea.style.height = textarea.scrollHeight + "px";
     }
-    this.setState({ body });
+    const errorMessage: string = this.handleCommentError(body);
+    this.setState({ body, errorMessage });
   }
 
-  onClickSendBtn() {
-    const sendData: SendChatProps = {
-      currentUserId: this.props.currentUser.currentUserId,
-      otherUserId: this.props.otherUserId,
-      groupId: this.props.groupId,
-      body: this.state.body,
-    };
-    this.props.handleClick(sendData);
-    this.setState({
-      body: "",
-    });
+  handleCommentError(comment: string): string {
+    if (comment) return "";
+    else return "入力してください";
   }
 
-  render() {
+  onClickSendBtn(): void {
+    if (!!this.state.body) {
+      const sendData: SendChatProps = {
+        currentUserId: this.props.currentUser.currentUserId,
+        otherUserId: this.props.otherUserId,
+        groupId: this.props.groupId,
+        body: this.state.body,
+      };
+      this.props.handleClick(sendData);
+      this.setState({
+        body: "",
+      });
+    } else {
+      this.setState({ errorFlag: true });
+    }
+  }
+
+  render(): JSX.Element {
     return (
       <div className="chat-form-container">
-        {!!this.state.errorMessage && (
+        {!!this.state.errorMessage && this.state.errorFlag && (
           <label className="text-danger label-text" htmlFor="chat">
             {this.state.errorMessage}
           </label>

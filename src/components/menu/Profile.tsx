@@ -9,12 +9,12 @@ interface ProfileProps {
 
 class Profile extends Component<ProfileProps, {}> {
 
-  getPhotoURL() {
+  getPhotoURL(): string {
     // return true
     return (this.props.currentUser || {}).photoURL
   }
 
-  render() {
+  render(): JSX.Element {
     return (
       <React.StrictMode>
         <div className="nav-link profile-container">

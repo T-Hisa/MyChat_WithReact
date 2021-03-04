@@ -2,7 +2,7 @@ import firebase, { db, BaseState } from "./index";
 import { Action, Dispatch } from "redux";
 import { ThunkAction } from "redux-thunk";
 
-import UpDateGroupProps from "../types/UpdateGroup"
+import UpDateGroupProps from "../types/UpdateGroup";
 import GroupProps from "../types/models/Group";
 
 export const GET_GROUPS = "GET_GROUPS";
@@ -15,16 +15,11 @@ interface GetGroupAction extends Action {
 }
 
 interface SendGroupAction extends Action {
-  type: string
+  type: string;
 }
 
 export interface GroupAction extends GetGroupAction, SendGroupAction {
-  type:
-    | "GET_GROUPS"
-    | "CREATE_GROUP"
-    | "UPDATE_GROUP"
-    | "RESET_ALL"
-    | "REFRESH_ALL";
+  type: "GET_GROUPS" | "CREATE_GROUP" | "UPDATE_GROUP" | "RESET_ALL";
 }
 
 export const getGroups = (): ThunkAction<void, BaseState, null, Action> => (

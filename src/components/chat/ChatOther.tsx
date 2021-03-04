@@ -8,7 +8,7 @@ interface ChatOtherProps {
 }
 
 class ChatOther extends Component<ChatOtherProps, {}> {
-  render() {
+  render(): JSX.Element {
     return (
       <div className="chat-container">
         <div className="img-other">

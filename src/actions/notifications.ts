@@ -12,11 +12,7 @@ interface GetNotificationAction extends Action {
 }
 
 export interface NotificationAction extends GetNotificationAction {
-  type:
-    | "GET_NOTIFICATIONS"
-    | "DELETE_NOTIFICATIONS"
-    | "RESET_ALL"
-    | "REFRESH_ALL";
+  type: "GET_NOTIFICATIONS" | "DELETE_NOTIFICATIONS" | "RESET_ALL";
 }
 
 export const getNotifications = (): ThunkAction<
@@ -40,4 +36,5 @@ export const deleteNotifications = (data) => {
   for (const nid of notificationIds) {
     notificationsRef.child(nid).remove();
   }
+  return { type: DELETE_NOTIFICATIONS };
 };

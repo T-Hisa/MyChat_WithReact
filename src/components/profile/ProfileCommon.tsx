@@ -1,4 +1,9 @@
-import React, { Component, ChangeEvent } from "react";
+import React, {
+  Component,
+  ChangeEvent,
+  KeyboardEvent,
+  MouseEvent,
+} from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { updateUserProfile } from "../../actions/users";
@@ -8,7 +13,6 @@ import { handleNameError } from "../../utils";
 import {
   UpdateProfilePropsForData,
   UpdateProfilePropsForAuth,
-  SetProfileProps,
 } from "../../types/Profile";
 import RouteProps from "../../types/RouteProps";
 
@@ -37,14 +41,6 @@ interface ProfileCommonState {
 }
 
 class ProfileCommon extends Component<ProfileCommonProps, ProfileCommonState> {
-  // static defaultProps: ProfileCommonProps = {
-  //   currentUser: "",
-  //   username: "",
-  //   photoURL: null,
-  //   updateUserProfile: () => {},
-  //   defaultPhoto: ""
-  // }
-
   constructor(props) {
     super(props);
     this.state = {
@@ -80,17 +76,17 @@ class ProfileCommon extends Component<ProfileCommonProps, ProfileCommonState> {
     }
   }
 
-  onInputUsername(e) {
-    const username = e.target.value;
-    const errorMessage = handleNameError(username, 8);
+  onInputUsername(e: KeyboardEvent<HTMLInputElement>): void {
+    const username: string = e.currentTarget.value;
+    const errorMessage: string = handleNameError(username, 8);
     this.setState({ username, errorMessage });
   }
 
-  nameValidation() {
-    return this.state.username && this.state.username.length < 9;
+  nameValidation(): boolean {
+    return !!(this.state.username && this.state.username.length < 9);
   }
 
-  onClickSetProfileBtn(e) {
+  onClickSetProfileBtn(e: MouseEvent<HTMLButtonElement>): void {
     e.preventDefault();
     if (this.nameValidation()) {
       if (this.state.imgURL) {
@@ -111,7 +107,7 @@ class ProfileCommon extends Component<ProfileCommonProps, ProfileCommonState> {
     }
   }
 
-  setPhotoURL() {
+  setPhotoURL(): Promise<string> {
     const image: File = this.state.image as File;
     const imageNameArray: Array<string> = image.name.split(".");
     const fileType: string = imageNameArray.pop()!;
@@ -129,7 +125,7 @@ class ProfileCommon extends Component<ProfileCommonProps, ProfileCommonState> {
       });
   }
 
-  onClickResetBtn() {
+  onClickResetBtn(): void {
     if (this.state.imgURL) window.URL.revokeObjectURL(this.state.imgURL);
     this.setState({
       imgURL: null,
@@ -138,7 +134,7 @@ class ProfileCommon extends Component<ProfileCommonProps, ProfileCommonState> {
     });
   }
 
-  updateProfileTask() {
+  updateProfileTask(): void {
     this.updateUserData();
     let updateValue: UpdateProfilePropsForAuth = {
       displayName: this.state.username,
@@ -155,7 +151,7 @@ class ProfileCommon extends Component<ProfileCommonProps, ProfileCommonState> {
       });
   }
 
-  updateUserData() {
+  updateUserData(): void {
     const saveData: UpdateProfilePropsForData = {
       userId: this.props.currentUser.currentUserId,
       username: this.state.username,
@@ -164,7 +160,7 @@ class ProfileCommon extends Component<ProfileCommonProps, ProfileCommonState> {
     this.props.updateUserProfile(saveData);
   }
 
-  renderImageWithCancel(image) {
+  renderImageWithCancel(image: string): JSX.Element {
     return (
       <React.StrictMode>
         <img src={image} alt="サムネイル" />
@@ -175,7 +171,7 @@ class ProfileCommon extends Component<ProfileCommonProps, ProfileCommonState> {
     );
   }
 
-  render() {
+  render(): JSX.Element {
     return (
       <div className="container">
         <form
@@ -260,8 +256,10 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = { updateUserProfile }
+const mapDispatchToProps = { updateUserProfile };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ProfileCommon));
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(ProfileCommon)
+);
 
 // export default withRouter(ProfileCommon)

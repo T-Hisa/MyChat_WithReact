@@ -14,21 +14,21 @@ interface UserProps {
 }
 
 class User extends Component<UserProps, {}> {
-  onClickUser() {
+  onClickUser(): void {
     this.props.handleClickUser(this.props.userId)
   }
 
-  onClickDeleteBtn() {
+  onClickDeleteBtn(): void {
     if (this.props.handleClickDelete) this.props.handleClickDelete(this.props.userId)
   }
 
-  userInfo() {
+  userInfo(): UserModelProps {
     const userId: string = this.props.userId
     const user: UserModelProps = this.props.users[userId]
     return user
   }
 
-  render() {
+  render(): JSX.Element {
     return (
       <li  onClick={this.onClickUser.bind(this)} className="user-info-wrapper">
         <div>

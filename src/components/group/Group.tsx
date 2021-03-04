@@ -1,4 +1,4 @@
-import React, { Component } from "react"
+import { Component } from "react"
 import { withRouter } from "react-router-dom"
 
 import GroupModelProps from "../../types/models/Group"
@@ -42,7 +42,7 @@ class Group extends Component<GroupProps, {}> {
     })
   }
 
-  render() {
+  render(): JSX.Element {
     return (
       <div data-bs-toggle="tooltip" data-bs-placement="top" title={this.displayToolTip()} className="group-container">
         <div onClick={this.onClickGroup.bind(this)} className="group-wrapper">

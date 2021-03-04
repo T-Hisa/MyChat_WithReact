@@ -1,6 +1,6 @@
-export default interface SendChat {
-  currentUserId: string
-  otherUserId?: string
-  groupId?: string
-  body: string
+export default interface SendChatProps {
+  currentUserId: string;
+  otherUserId?: string;
+  groupId?: string;
+  body: string;
 }
