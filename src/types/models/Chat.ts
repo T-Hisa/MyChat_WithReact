@@ -1,12 +1,12 @@
-interface Chat {
+interface ChatProps {
   body: string;
   timestamp: number;
 }
 
-export interface DirectChatProps extends Chat {
+export interface DirectChatProps extends ChatProps {
   which: string
 }
 
-export interface GroupChatProps extends Chat {
+export interface GroupChatProps extends ChatProps {
   uid: string
 }

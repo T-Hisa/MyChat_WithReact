@@ -1,14 +1,15 @@
 import firebase, { db, BaseState } from "./index";
 import { Action, Dispatch } from "redux";
 import { ThunkAction } from "redux-thunk";
-import NotificationProps from "../types/models/Notification";
+
+import { NotificationsProps, NotificationsPropsWithUserId } from "../types/state";
 
 export const GET_NOTIFICATIONS = "GET_NOTIFICATIONS";
 export const DELETE_NOTIFICATIONS = "DELETE_NOTIFICATIONS";
 
 interface GetNotificationAction extends Action {
   type: string;
-  notificationData: NotificationProps;
+  notificationData: NotificationsPropsWithUserId;
 }
 
 export interface NotificationAction extends GetNotificationAction {
@@ -23,7 +24,7 @@ export const getNotifications = (): ThunkAction<
 > => (dispatch: Dispatch<GetNotificationAction>) => {
   const notificationsRef: firebase.database.Reference = db.ref(`notifications`);
   notificationsRef.on("value", (snapshot: firebase.database.DataSnapshot) => {
-    const notificationData: NotificationProps = snapshot.val();
+    const notificationData: NotificationsPropsWithUserId = snapshot.val();
     dispatch({ type: GET_NOTIFICATIONS, notificationData });
   });
 };

@@ -1,6 +1,8 @@
 import { GET_CURRENT_USER, GET_CURRENT_USER_ID, GetCurrentUserAction } from "../actions/currentUser"
 import { RESET_ALL } from "../actions"
 
+import { CurrentUserState} from "../types/state"
+
 const currentUser = (user = {}, action: GetCurrentUserAction) => {
   switch (action.type) {
     case GET_CURRENT_USER_ID:

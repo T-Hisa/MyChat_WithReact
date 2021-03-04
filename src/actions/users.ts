@@ -2,23 +2,23 @@ import firebase, { db, BaseState } from "./index";
 import { Action, Dispatch } from "redux";
 import { ThunkAction } from "redux-thunk";
 
-import UserProps from "../types/models/User";
+import { UsersProps } from "../types/state";
 import { SetProfileProps, UpdateProfilePropsForData } from "../types/Profile";
 
 export const GET_USERS = "GET_USERS";
 export const SET_PROFILE = "SET_PROFILE";
 
-interface GetUsersAction {
+interface GetUsersAction extends Action {
   type: string;
-  usersData: UserProps;
+  usersData: UsersProps;
 }
 
-interface SetProfileAction {
+interface SetProfileAction extends Action {
   type: string;
 }
 
 export interface UserAction extends GetUsersAction, SetProfileAction {
-  type: "GET_USERS" | "SET_PROFILE" | "RESET_ALL" ;
+  type: "GET_USERS" | "SET_PROFILE" | "RESET_ALL";
 }
 
 export const updateUserProfile: (
@@ -47,8 +47,10 @@ export const getUsers = (): ThunkAction<void, BaseState, null, Action> => (
   dispatch: Dispatch<GetUsersAction>
 ) => {
   const usersRef: firebase.database.Reference = db.ref("users");
+  console.log("getusersAction")
   usersRef.on("value", (snapshot: firebase.database.DataSnapshot) => {
-    const usersData: UserProps = snapshot.val();
+    const usersData: UsersProps = snapshot.val();
+    console.log("usersData", usersData)
     dispatch({ type: GET_USERS, usersData });
   });
 };

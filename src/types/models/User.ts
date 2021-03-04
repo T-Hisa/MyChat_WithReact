@@ -1,4 +1,4 @@
-export default interface User {
+export default interface UserProps {
   username: string
   email: string
   photoURL?: string
