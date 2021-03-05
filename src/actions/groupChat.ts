@@ -1,9 +1,10 @@
 import { Action, Dispatch } from "redux";
 import { ThunkAction } from "redux-thunk";
-import firebase, { db, BaseState } from "./index";
+import firebase, { db } from "./index";
 
 import { GroupChatProps } from "../types/models/Chat";
 import SendChatProps from "../types/SendChat";
+// import BaseState from "../types/state"
 
 export const GET_GROUP_CHAT = "GET_GROUP_CHAT";
 export const SEND_GROUP_CHAT = "SEND_GROUP_CHAT";
@@ -23,7 +24,7 @@ export interface GroupChatAction
   type: "GET_GROUP_CHAT" | "SEND_GROUP_CHAT" | "RESET_ALL";
 }
 
-export const getGroupChat = (): ThunkAction<void, BaseState, null, Action> => (
+export const getGroupChat = (): ThunkAction<void, any, null, Action> => (
   dispatch: Dispatch<GetGroupChatAction>
 ) => {
   const groupChatRef: firebase.database.Reference = db.ref("chat/groups");

@@ -10,21 +10,30 @@ import { GroupChatProps as GroupChatModelProps } from "../../types/models/Chat";
 import UserProps from "../../types/models/User";
 import GroupProps from "../../types/models/Group";
 import RouteProps from "../../types/RouteProps";
-import SendChatProps from "../../types/SendChat"
+import SendChatProps from "../../types/SendChat";
+import BaseState, {
+  CurrentUserState,
+  GroupChatDataState,
+  GroupsState,
+  UsersState,
+} from "../../types/state";
 
-interface GroupChatProps extends RouteProps {
-  currentUser: any;
+interface MapStateToProps {
+  currentUser: CurrentUserState;
   defaultPhoto: string;
-  groupChat: any;
-  groups: any;
+  groupChat: GroupChatDataState;
+  groups: GroupsState;
+  users: UsersState;
+}
+
+interface GroupChatProps extends RouteProps, MapStateToProps {
   sendGroupChat: Function;
-  users: any;
 }
 
 class GroupChat extends Component<GroupChatProps, {}> {
   getGroupInfo(): GroupProps {
     const { groupId } = this.props.match.params;
-    return this.props.groups[groupId];
+    return this.props.groups![groupId];
   }
 
   groupMemberIds(): Array<string> {
@@ -32,7 +41,7 @@ class GroupChat extends Component<GroupChatProps, {}> {
   }
 
   getUserInfo(userId: string): UserProps {
-    return this.props.users[userId];
+    return this.props.users![userId];
   }
 
   groupChatIds(): Array<string> {
@@ -44,16 +53,16 @@ class GroupChat extends Component<GroupChatProps, {}> {
   }
 
   getChat(cid: string): GroupChatModelProps {
-    return this.props.groupChat[cid];
+    return this.props.groupChat![cid];
   }
 
   isMe(cid: string): boolean {
-    return this.getChat(cid).uid === this.props.currentUser.currentUserId;
+    return this.getChat(cid).uid === this.props.currentUser!.currentUserId;
   }
 
   getChatUserInfo(cid: string): UserProps {
     const { uid } = this.getChat(cid);
-    return this.props.users[uid];
+    return this.props.users![uid];
   }
 
   renderChat(cid: string): JSX.Element {
@@ -61,7 +70,7 @@ class GroupChat extends Component<GroupChatProps, {}> {
       <div key={cid}>
         {this.isMe(cid) ? (
           <ChatSelf
-            photoURL={this.props.currentUser.photoURL}
+            photoURL={this.props.currentUser!.photoURL}
             defaultPhoto={this.props.defaultPhoto}
             body={this.getChat(cid).body}
           />
@@ -111,8 +120,14 @@ class GroupChat extends Component<GroupChatProps, {}> {
   }
 }
 
-const mapStateToProps = (state, props) => {
-  const groupChat = state.groupChat[props.match.params.groupId] || {};
+const mapStateToProps: (state: BaseState, props: any) => MapStateToProps = (
+  state,
+  props
+) => {
+  let groupChat: GroupChatDataState = null;
+  if (state.groupChat) {
+    groupChat = state.groupChat[props.match.params.groupId];
+  }
   return {
     groups: state.groups,
     defaultPhoto: state.defaultPhoto,

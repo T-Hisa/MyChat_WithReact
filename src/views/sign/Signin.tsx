@@ -3,9 +3,10 @@ import RouteProps from "../../types/RouteProps"
 
 import firebase from "../../firebase-setup"
 import SignCommon, { SignCommonState } from "../../components/sign/SignCommon"
+import { UpdateSignStateFunction } from "../../containers/SignContainer"
 
 interface SigninProps extends RouteProps {
-  updateState: Function
+  updateState: UpdateSignStateFunction
 }
 
 class Signin extends Component<SigninProps, {}> {
@@ -15,7 +16,7 @@ class Signin extends Component<SigninProps, {}> {
     props.updateState({ currentRoute })
   }
 
-  onClickSigninBtn(state: SignCommonState) {
+  onClickSigninBtn(state: SignCommonState): void {
     const { email, password } = state
     firebase
       .auth()
@@ -30,7 +31,7 @@ class Signin extends Component<SigninProps, {}> {
       })
   }
 
-  render() {
+  render(): JSX.Element {
     return (
       <React.StrictMode>
         <SignCommon

@@ -1,13 +1,12 @@
 import NoticeProps from "../types/models/Notification";
 import {UsersState, GroupsState} from "../types/state"
-import RouteProps from "../types/RouteProps"
 
 export const renderImage: (data: string) => JSX.Element = (url) => (
   <img src={url} alt="サムネイル" />
 );
 
 export const devideByNoticeType: (
-  data1: NoticeProps,
+  data1: NoticeProps | undefined,
   data2: UsersState,
   data3: GroupsState,
   data4: any
@@ -20,7 +19,8 @@ export const devideByNoticeType: (
   let fromName: string;
   let displayWord: string;
   let handleClickEvent: () => void;
-  const { type, fromId } = notice;
+  const type: string = notice?.type as string
+  const fromId: string = notice?.fromId as string
   switch (type) {
     case "chat-direct":
       fromName = users![fromId].username;

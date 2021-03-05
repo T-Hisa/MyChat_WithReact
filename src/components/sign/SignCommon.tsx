@@ -6,7 +6,7 @@ interface SignCommonProps {
   checkPassword: (data: string) => boolean
   emailFlag: boolean
   passwordFlag: boolean
-  handleClick: Function
+  handleClick: (state: SignCommonState) => void
 }
 
 export interface SignCommonState {

@@ -2,7 +2,7 @@ import firebase, { db } from "./index";
 import { Action, Dispatch } from "redux";
 import { ThunkAction } from "redux-thunk";
 
-import BaseState, { NotificationsPropsWithUserId, NotificationsProps } from "../types/state";
+import BaseState, { NotificationsStateWithUserId, NotificationsProps } from "../types/state";
 
 export const GET_NOTIFICATIONS = "GET_NOTIFICATIONS";
 export const DELETE_NOTIFICATIONS = "DELETE_NOTIFICATIONS";
@@ -27,9 +27,9 @@ export const getNotifications = (): ThunkAction<
     const state: BaseState = getState()
     console.log("state at notificationAction!", state)
     const userId: string = state.currentUser?.currentUserId!
-    const notificationData: NotificationsPropsWithUserId = snapshot.val();
+    const notificationData: NotificationsStateWithUserId = snapshot.val();
     console.log("notificationData", notificationData)
-    const notifications: NotificationsProps = notificationData[userId]
+    const notifications: NotificationsProps = notificationData![userId]
     console.log("notifications", notifications)
     dispatch({ type: GET_NOTIFICATIONS, notifications });
   });

@@ -1,4 +1,4 @@
-import firebase, { db, BaseState } from "./index";
+import firebase, { db } from "./index";
 import { Action, Dispatch } from "redux";
 import { ThunkAction } from "redux-thunk";
 
@@ -22,7 +22,7 @@ export interface GroupAction extends GetGroupAction, SendGroupAction {
   type: "GET_GROUPS" | "CREATE_GROUP" | "UPDATE_GROUP" | "RESET_ALL";
 }
 
-export const getGroups = (): ThunkAction<void, BaseState, null, Action> => (
+export const getGroups = (): ThunkAction<void, any, null, Action> => (
   dispatch: Dispatch<GetGroupAction>
 ) => {
   const groupRef: firebase.database.Reference = db.ref("groups");

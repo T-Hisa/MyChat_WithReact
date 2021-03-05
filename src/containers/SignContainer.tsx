@@ -3,8 +3,10 @@ import { Route, Redirect } from "react-router-dom"
 import Signin from "../views/sign/Signin"
 import Signup from "../views/sign/Signup"
 
+export type UpdateSignStateFunction = (state: SignContainerState) => void
+
 interface SignContainerProps {
-  updateState: Function
+  updateState: UpdateSignStateFunction
 }
 
 interface SignContainerState {

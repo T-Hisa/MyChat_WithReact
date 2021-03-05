@@ -1,6 +1,6 @@
 import { Action, Dispatch } from "redux";
 import { ThunkAction } from "redux-thunk";
-import { BaseState, storage } from "./index";
+import { storage } from "./index";
 
 export const GET_DEFAULT_PHOTO = "GET_DEFAULT_PHOTO";
 
@@ -11,12 +11,10 @@ export interface GetDefaultPhotoAction extends Action {
 
 export const getDefaultPhoto = (): ThunkAction<
   void,
-  BaseState,
+  any,
   unknown,
   Action
-> => (dispatch: Dispatch<GetDefaultPhotoAction>, getState: () => BaseState) => {
-  const state: BaseState = getState()
-  console.log("getStateResult!", state);
+> => (dispatch: Dispatch<GetDefaultPhotoAction>) => {
   storage
     .ref("default.png")
     .getDownloadURL()

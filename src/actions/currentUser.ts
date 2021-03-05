@@ -1,8 +1,9 @@
 import { Action, Dispatch } from "redux";
 import { ThunkAction } from "redux-thunk";
-import firebase, { db, BaseState } from "./index";
+import firebase, { db } from "./index";
 
 import UserProps from "../types/models/User";
+// import BaseState from "../types/state"
 
 export const GET_CURRENT_USER: "GET_CURRENT_USER" = "GET_CURRENT_USER";
 export const GET_CURRENT_USER_ID = "GET_CURRENT_USER_ID";
@@ -26,7 +27,7 @@ export interface GetCurrentUserAction
 
 export const getCurrentUser = (): ThunkAction<
   void,
-  BaseState,
+  any,
   null,
   Action
 > => async (dispatch: Dispatch<GetCurrentUserDataAction>) => {
@@ -40,7 +41,7 @@ export const getCurrentUser = (): ThunkAction<
 
 export const getCurrentUserId = (): ThunkAction<
   void,
-  BaseState,
+  any,
   unknown,
   Action
 > => async (dispatch: Dispatch<GetCurrentUserIdAction>) => {

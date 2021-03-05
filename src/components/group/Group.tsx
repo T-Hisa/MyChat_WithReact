@@ -1,12 +1,13 @@
 import { Component } from "react"
 import { withRouter } from "react-router-dom"
 
-import GroupModelProps from "../../types/models/Group"
+import GroupDataProps from "../../types/models/Group"
 import RouteProps from "../../types/RouteProps"
+// import { UsersState }
 
 interface GroupProps extends RouteProps {
   gid: string
-  group: GroupModelProps
+  group: GroupDataProps
   users: any
 }
 

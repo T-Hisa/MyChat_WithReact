@@ -1,4 +1,4 @@
-import firebase, { db, BaseState } from "./index";
+import firebase, { db } from "./index";
 import { Action, Dispatch } from "redux";
 import { ThunkAction } from "redux-thunk";
 
@@ -43,7 +43,7 @@ export const setUserProfile: (data: SetProfileProps) => SetProfileAction = (
   return { type: SET_PROFILE };
 };
 
-export const getUsers = (): ThunkAction<void, BaseState, null, Action> => (
+export const getUsers = (): ThunkAction<void, any, null, Action> => (
   dispatch: Dispatch<GetUsersAction>
 ) => {
   const usersRef: firebase.database.Reference = db.ref("users");
