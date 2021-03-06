@@ -14,9 +14,9 @@ import BaseState, {
 } from "../../types/state";
 
 interface MapStateToProps {
-  notifications: NotificationsState
-  currentUserId: string
   currentUser: CurrentUserState
+  currentUserId: string
+  notifications: NotificationsState
 }
 
 interface MapDispatchToProps {
@@ -162,13 +162,13 @@ const mapStateToProps = (state: BaseState): MapStateToProps => {
     currentUser = state.currentUser
   }
   if (state.notifications) {
-    currentUserId = state.currentUser?.currentUserId!;
+    currentUserId = state.currentUserId;
     notifications = state.notifications
   }
   return {
-    notifications,
-    currentUserId,
     currentUser,
+    currentUserId,
+    notifications,
   };
 };
 

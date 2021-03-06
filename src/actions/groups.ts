@@ -22,9 +22,7 @@ export interface GroupAction extends GetGroupAction, SendGroupAction {
   type: "GET_GROUPS" | "CREATE_GROUP" | "UPDATE_GROUP" | "RESET_ALL";
 }
 
-export const getGroups = (): ThunkAction<void, any, null, Action> => (
-  dispatch: Dispatch<GetGroupAction>
-) => {
+export const getGroups = () => (dispatch: Dispatch<GetGroupAction>) => {
   const groupRef: firebase.database.Reference = db.ref("groups");
   groupRef.on("value", (snapshot: firebase.database.DataSnapshot) => {
     const groupData: GroupProps = snapshot.val();

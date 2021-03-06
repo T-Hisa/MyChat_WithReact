@@ -6,14 +6,14 @@ import UserDataProps from "../../types/models/User"
 import BaseState, { UsersState } from "../../types/state"
 
 interface MapStateToProps {
-  users?: UsersState;
   defaultPhoto?: string
+  users?: UsersState;
 }
 
 interface UserProps extends MapStateToProps {
-  userId: string
-  handleClickUser: (data: string) => void
   handleClickDelete?: ((data: string) => void)
+  handleClickUser: (data: string) => void
+  userId: string
 }
 
 class User extends Component<UserProps, {}> {

@@ -4,11 +4,7 @@ import { RESET_ALL } from "../actions";
 
 import { UsersState, VerifiedOtherUserIdsState } from "../types/state";
 
-// const users = (users = {}, action) => {
-const users: (users: UsersState, action: UserAction) => UsersState = (
-  users = null,
-  action
-) => {
+const users = (users: UsersState = null, action: UserAction): UsersState => {
   switch (action.type) {
     case RESET_ALL:
       return null;
@@ -18,15 +14,14 @@ const users: (users: UsersState, action: UserAction) => UsersState = (
       else return usersData;
     case SET_PROFILE:
     default:
-      console.log("users", users);
       return users;
   }
 };
 
-export const verifiedOtherUserIds: (
-  userIds: VerifiedOtherUserIdsState,
+export const verifiedOtherUserIds = (
+  userIds: VerifiedOtherUserIdsState = null,
   action: UserAction
-) => VerifiedOtherUserIdsState = (userIds = null, action) => {
+): VerifiedOtherUserIdsState => {
   switch (action.type) {
     case RESET_ALL:
       return null;

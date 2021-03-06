@@ -1,23 +1,29 @@
-import { GET_CURRENT_USER, GET_CURRENT_USER_ID, GetCurrentUserAction } from "../actions/currentUser"
-import { RESET_ALL } from "../actions"
+import {
+  GET_CURRENT_USER,
+  GET_CURRENT_USER_ID,
+  // GetCurrentUserAction,
+  GetCurrentUserDataAction,
+  GetCurrentUserIdAction,
+} from "../actions/currentUser";
+import { RESET_ALL } from "../actions";
 
-import { CurrentUserState} from "../types/state"
+import { CurrentUserState } from "../types/state";
 
-const currentUser = (user = {}, action: GetCurrentUserAction) => {
+const currentUser = (
+  user: CurrentUserState = null,
+  action: GetCurrentUserDataAction
+): CurrentUserState => {
   switch (action.type) {
-    case GET_CURRENT_USER_ID:
-      const { currentUserId } = action
-      return { ...user, currentUserId }
     case GET_CURRENT_USER:
-      const { currentUser } = action
-      if (!currentUser.photoURL) currentUser.photoURL = ""
+      const { currentUser } = action;
+      if (!currentUser.photoURL) currentUser.photoURL = "";
       // ↑ この記述をしておかないと、有 -> 無 に変化した際に変更がProfile コンポーネントに伝わらなくなる
-      return { ...user, ...currentUser }
+      return { ...user, ...currentUser };
     case RESET_ALL:
-      return {}
+      return null;
     default:
-      return user
+      return user;
   }
-}
+};
 
-export default currentUser
+export default currentUser;

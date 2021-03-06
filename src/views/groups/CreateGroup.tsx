@@ -17,6 +17,7 @@ import BaseState, {
 
 interface MapStateToProps {
   currentUser: CurrentUserState;
+  currentUserId: string;
   groups: GroupsState;
   users: UsersState;
   verifiedOtherUserIds: VerifiedOtherUserIdsState;
@@ -30,10 +31,10 @@ interface MapDispatchToProps {
 type CreateGroupProps = RouteProps & MapStateToProps & MapDispatchToProps
 
 interface CreateGroupState {
-  gid: string;
-  groupName: string;
-  errorMessage: string;
   errorFlag: boolean;
+  errorMessage: string;
+  groupName: string;
+  gid: string;
   selectUserIds: Array<string>;
 }
 
@@ -55,7 +56,7 @@ class CreateGroup extends Component<CreateGroupProps, CreateGroupState> {
       const group: GroupDataProps = this.props.groups[gid];
       const { groupName, memberIds } = group;
       const selectUserIds: Array<string> = Object.keys(memberIds).filter(
-        (uid) => uid !== this.props.currentUser?.currentUserId
+        (uid) => uid !== this.props.currentUserId
       );
       this.setState({ gid, groupName, selectUserIds });
     }
@@ -85,7 +86,7 @@ class CreateGroup extends Component<CreateGroupProps, CreateGroupState> {
     for (const uid of this.state.selectUserIds) {
       value.memberIds[uid] = 0;
     }
-    value.memberIds[this.props.currentUser?.currentUserId!] = 0;
+    value.memberIds[this.props.currentUserId!] = 0;
     return value;
   }
 
@@ -222,9 +223,10 @@ class CreateGroup extends Component<CreateGroupProps, CreateGroupState> {
 
 const mapStateToProps = (state: BaseState): MapStateToProps => ({
   currentUser: state.currentUser,
+  currentUserId: state.currentUserId,
+  groups: state.groups,
   users: state.users,
   verifiedOtherUserIds: state.verifiedOtherUserIds,
-  groups: state.groups,
 });
 
 const mapDispatchToProps: MapDispatchToProps = { createGroup, updateGroup };

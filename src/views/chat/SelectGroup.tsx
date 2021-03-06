@@ -11,6 +11,7 @@ import BaseState, {
 
 interface MapStateToProps {
   currentUser: CurrentUserState;
+  currentUserId: string;
   groups: GroupsState;
   users: UsersState;
 }
@@ -51,7 +52,7 @@ class SelectGroup extends Component<SelectGroupProps, SelectGroupState> {
     const groups: GroupsProps = this.props.groups ?? {}
     const wholeGroupIds: Array<string> = Object.keys(groups);
     const belongingGroupIds: Array<string> = wholeGroupIds.filter((gid) => {
-      const currentUserId = this.props.currentUser?.currentUserId!
+      const currentUserId = this.props.currentUserId!
       return Object.keys((groups[gid] || {}).memberIds).includes(currentUserId);
     });
     return belongingGroupIds;
@@ -98,8 +99,9 @@ class SelectGroup extends Component<SelectGroupProps, SelectGroupState> {
 }
 
 const mapStateToProps = (state: BaseState): MapStateToProps => ({
-  groups: state.groups,
   currentUser: state.currentUser,
+  currentUserId: state.currentUserId,
+  groups: state.groups,
   users: state.users,
 });
 export default connect(mapStateToProps)(SelectGroup);

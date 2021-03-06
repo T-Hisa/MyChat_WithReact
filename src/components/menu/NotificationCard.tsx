@@ -60,7 +60,7 @@ class NotificationCard extends Component<NotificationCardProps, NotificationCard
 }
 
 const mapStateToProps = (state: BaseState): MapStateToProps => ({
-  users: state.users,
   groups: state.groups,
+  users: state.users,
 })
 export default withRouter(connect(mapStateToProps)(NotificationCard))

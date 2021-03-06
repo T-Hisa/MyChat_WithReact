@@ -19,6 +19,7 @@ import BaseState, {
 
 interface MapStateToProps {
   currentUser: CurrentUserState;
+  currentUserId: string;
   defaultPhoto: string;
   directChat: DirectChatDataState;
   users: UsersState;
@@ -104,22 +105,24 @@ class DirectChat extends Component<DirectChatProps, {}> {
   }
 }
 
-const mapStateToProps = (state: BaseState, props: RouteProps): MapStateToProps => {
-  const currentUserId: string = state.currentUser?.currentUserId!;
+const mapStateToProps = (
+  state: BaseState,
+  props: RouteProps
+): MapStateToProps => {
+  const currentUserId: string = state.currentUserId!;
   const otherUserId: string = props.match.params.userId;
   let directChat: DirectChatDataState = null;
   if (state.directChat)
     directChat = (state.directChat[currentUserId] || {})[otherUserId] || null;
   return {
-    users: state.users,
+    currentUser: state.currentUser,
+    currentUserId,
     defaultPhoto: state.defaultPhoto,
     directChat,
-    currentUser: state.currentUser,
+    users: state.users,
   };
 };
 
 const mapDispatchToProps: MapDispatchToProps = { sendDirectChat };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DirectChat);
-
-// export default DirectChat

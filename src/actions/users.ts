@@ -4,6 +4,7 @@ import { ThunkAction } from "redux-thunk";
 
 import { UsersProps } from "../types/state";
 import { SetProfileProps, UpdateProfilePropsForData } from "../types/Profile";
+import SetProfile from "../views/profile/SetProfile";
 
 export const GET_USERS = "GET_USERS";
 export const SET_PROFILE = "SET_PROFILE";
@@ -21,9 +22,9 @@ export interface UserAction extends GetUsersAction, SetProfileAction {
   type: "GET_USERS" | "SET_PROFILE" | "RESET_ALL";
 }
 
-export const updateUserProfile: (
+export const updateUserProfile = (
   data: UpdateProfilePropsForData
-) => SetProfileAction = (data) => {
+): SetProfileAction => {
   const { userId } = data;
   const usersRef: firebase.database.Reference = db.ref(`users/${userId}`);
   const updateData: any = {
@@ -34,23 +35,17 @@ export const updateUserProfile: (
   return { type: SET_PROFILE };
 };
 
-export const setUserProfile: (data: SetProfileProps) => SetProfileAction = (
-  data
-) => {
+export const setUserProfile = (data: SetProfileProps): SetProfileAction => {
   const { userId, email } = data;
   const usersRef: firebase.database.Reference = db.ref(`users/${userId}`);
   usersRef.set({ email });
   return { type: SET_PROFILE };
 };
 
-export const getUsers = (): ThunkAction<void, any, null, Action> => (
-  dispatch: Dispatch<GetUsersAction>
-) => {
+export const getUsers = () => (dispatch: Dispatch<GetUsersAction>) => {
   const usersRef: firebase.database.Reference = db.ref("users");
-  console.log("getusersAction")
   usersRef.on("value", (snapshot: firebase.database.DataSnapshot) => {
     const usersData: UsersProps = snapshot.val();
-    console.log("usersData", usersData)
     dispatch({ type: GET_USERS, usersData });
   });
 };

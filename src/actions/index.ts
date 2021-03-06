@@ -1,18 +1,6 @@
 import firebase from "../firebase-setup"
 
-import { GetCurrentUserDataAction, GetCurrentUserIdAction } from "./currentUser"
-
 export default firebase
-
-// export interface BaseState {
-//   currentUser: any
-//   defaultPhoto: string
-//   directChat: any
-//   groups: any
-//   notifications: any
-//   users: any
-//   verifiedOtherUserIds: any
-// }
 
 export const RESET_ALL: string = "RESET_ALL"
 export const REFRESH_ALL: string = "REFRESH_ALL"
@@ -27,5 +15,3 @@ export const resetAll = () => {
 export const refreshAll = () => {
   return { type: REFRESH_ALL }
 }
-
-export type BaseAction = GetCurrentUserDataAction | GetCurrentUserIdAction

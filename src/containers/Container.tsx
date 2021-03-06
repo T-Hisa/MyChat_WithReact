@@ -31,14 +31,14 @@ interface MapStateToProps {
 }
 
 interface MapDispatchToProps {
-  getDefaultPhoto: () => void;
   getCurrentUser: () => void;
   getCurrentUserId: () => void;
-  getUsers: () => void;
+  getDefaultPhoto: () => void;
   getDirectChat: () => void;
   getGroupChat: () => void;
   getGroups: () => void;
   getNotifications: () => void;
+  getUsers: () => void;
   resetAll: () => void;
 }
 
@@ -55,11 +55,11 @@ class Container extends Component<ContainerProps, {}> {
     this.props.getCurrentUser();
     this.props.getCurrentUserId();
     this.props.getDefaultPhoto();
-    this.props.getUsers();
     this.props.getDirectChat();
     this.props.getGroupChat();
     this.props.getGroups();
     this.props.getNotifications();
+    this.props.getUsers();
   }
 
   componentWillUnmount(): void {
@@ -132,12 +132,12 @@ const mapStateToProps = (state: BaseState): MapStateToProps => {
 const mapDispatchToProps: MapDispatchToProps = {
   getCurrentUser,
   getCurrentUserId,
-  getUsers,
   getDefaultPhoto,
   getDirectChat,
   getGroupChat,
   getGroups,
   getNotifications,
+  getUsers,
   resetAll,
 };
 

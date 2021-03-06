@@ -1,12 +1,12 @@
 import { Component, MouseEvent, KeyboardEvent } from "react"
 
 interface SignCommonProps {
-  title: string
   checkEmail: (data: string) => boolean
   checkPassword: (data: string) => boolean
   emailFlag: boolean
-  passwordFlag: boolean
   handleClick: (state: SignCommonState) => void
+  passwordFlag: boolean
+  title: string
 }
 
 export interface SignCommonState {
@@ -24,10 +24,10 @@ class SignCommon extends Component<SignCommonProps, SignCommonState> {
   }
 
   static defaultProps = {
-    emailFlag: false,
-    passwordFlag: false,
     checkEmail: () => true,
     checkPassword: () => true,
+    emailFlag: false,
+    passwordFlag: false,
   }
 
   onInputPassword(e: KeyboardEvent<HTMLInputElement>): void {

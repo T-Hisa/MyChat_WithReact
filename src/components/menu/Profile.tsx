@@ -41,6 +41,4 @@ const mapStateToProps = (state: BaseState): MapStateToProps => ({
   defaultPhoto: state.defaultPhoto,
 })
 
-export default connect(mapStateToProps, null)(Profile)
-
-// export default Profile
+export default connect(mapStateToProps)(Profile)

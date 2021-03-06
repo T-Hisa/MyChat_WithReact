@@ -106,8 +106,8 @@ class SelectUser extends Component<SelectUserProps, SelectUserState> {
 }
 
 const mapStateToProps = (state: BaseState): MapStateToProps => ({
-  verifiedOtherUserIds: state.verifiedOtherUserIds,
   users: state.users,
+  verifiedOtherUserIds: state.verifiedOtherUserIds,
 });
 
 export default connect(mapStateToProps)(SelectUser);

@@ -97,10 +97,10 @@ const mapStateToProps = (state: BaseState): MapStateToProps => {
     notifications = state.notifications;
   }
   return {
-    users: state.users,
+    currentUserId: state.currentUserId,
     groups: state.groups,
-    currentUserId: currentUser?.currentUserId,
     notifications,
+    users: state.users,
   };
 };
 

@@ -26,6 +26,4 @@ const mapStateToProps = (state: BaseState): MapStateToProps => {
   return {currentUser: state.currentUser}
 }
 
-export default connect(mapStateToProps, null)(UpdateProfile);
-
-// export default UpdateProfile
+export default connect(mapStateToProps)(UpdateProfile);

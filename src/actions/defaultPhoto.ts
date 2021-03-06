@@ -9,12 +9,7 @@ export interface GetDefaultPhotoAction extends Action {
   url: string;
 }
 
-export const getDefaultPhoto = (): ThunkAction<
-  void,
-  any,
-  unknown,
-  Action
-> => (dispatch: Dispatch<GetDefaultPhotoAction>) => {
+export const getDefaultPhoto = () => (dispatch: Dispatch<GetDefaultPhotoAction>) => {
   storage
     .ref("default.png")
     .getDownloadURL()

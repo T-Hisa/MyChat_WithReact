@@ -4,7 +4,6 @@ import firebase, { db } from "./index";
 
 import { GroupChatProps } from "../types/models/Chat";
 import SendChatProps from "../types/SendChat";
-// import BaseState from "../types/state"
 
 export const GET_GROUP_CHAT = "GET_GROUP_CHAT";
 export const SEND_GROUP_CHAT = "SEND_GROUP_CHAT";
@@ -14,19 +13,17 @@ interface GetGroupChatAction extends Action {
   groupChatData: GroupChatProps;
 }
 
-interface SetGroupChatAction extends Action {
+interface SendGroupChatAction extends Action {
   type: string;
 }
 
 export interface GroupChatAction
   extends GetGroupChatAction,
-    SetGroupChatAction {
+    SendGroupChatAction {
   type: "GET_GROUP_CHAT" | "SEND_GROUP_CHAT" | "RESET_ALL";
 }
 
-export const getGroupChat = (): ThunkAction<void, any, null, Action> => (
-  dispatch: Dispatch<GetGroupChatAction>
-) => {
+export const getGroupChat = () => (dispatch: Dispatch<GetGroupChatAction>) => {
   const groupChatRef: firebase.database.Reference = db.ref("chat/groups");
   groupChatRef.on("value", (snapshot: firebase.database.DataSnapshot) => {
     const groupChatData: GroupChatProps = snapshot.val();
@@ -34,9 +31,7 @@ export const getGroupChat = (): ThunkAction<void, any, null, Action> => (
   });
 };
 
-export const sendGroupChat: (data: SendChatProps) => SetGroupChatAction = (
-  data
-) => {
+export const sendGroupChat = (data: SendChatProps): SendGroupChatAction => {
   const groupId: string = data.groupId!;
   const { body, currentUserId } = data;
   const timestamp: number = new Date().getTime();

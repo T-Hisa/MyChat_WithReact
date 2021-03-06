@@ -3,11 +3,7 @@ import { DirectChatProps, GroupChatProps } from "../models/Chat";
 import GroupProps from "../models/Group";
 import NotificationProps from "../models/Notification";
 
-export interface CurrentUserProps extends UserProps {
-  currentUserId: string;
-}
-
-export type CurrentUserState = CurrentUserProps | null;
+export type CurrentUserState = UserProps | null;
 
 export interface DirectChatDataProps {
   [cid: string]: DirectChatProps;
@@ -51,7 +47,7 @@ export type NotificationsState = NotificationsProps | null;
 interface NotificationsPropsWithUserId {
   [uid: string]: NotificationsProps;
 }
-export type NotificationsStateWithUserId = NotificationsPropsWithUserId | null
+export type NotificationsStateWithUserId = NotificationsPropsWithUserId | null;
 
 export interface UsersProps {
   [userId: string]: UserProps;
@@ -63,6 +59,7 @@ export type VerifiedOtherUserIdsState = VerifiedOtherUserIdsProps | null;
 
 export default interface BaseState {
   currentUser: CurrentUserState;
+  currentUserId: string;
   defaultPhoto: string;
   directChat: DirectChatBaseState;
   groupChat: GroupChatBaseState;

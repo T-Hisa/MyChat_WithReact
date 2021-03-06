@@ -1,10 +1,9 @@
 import firebase, { db } from "./index";
 import { Action, Dispatch } from "redux";
-import { ThunkAction } from "redux-thunk";
 
 import { DirectChatProps } from "../types/models/Chat";
-import SendChatProps from "../types/SendChat"
-import  { /* DirectChatBaseProps,*/ DirectChatBaseState } from "../types/state"
+import SendChatProps from "../types/SendChat";
+import { DirectChatBaseState } from "../types/state";
 
 export const GET_DIRECT_CHAT = "GET_DIRECT_CHAT";
 export const SEND_DIRECT_CHAT = "SEND_DIRECT_CHAT";
@@ -15,13 +14,15 @@ interface GetDirectChatAction extends Action {
   // 本当は DirectChatBaseProps にしたかったが、reducers/directChat の方でエラーが吐かれるので渋々
 }
 
+interface SendDirectChatAction extends Action {
+  type: string
+}
+
 export interface DirectChatAction extends GetDirectChatAction {
   type: "GET_DIRECT_CHAT" | "SEND_DIRECT_CHAT" | "RESET_ALL";
 }
 
-export const getDirectChat = (): ThunkAction<void, any, null, Action> => (
-  dispatch: Dispatch<DirectChatAction>
-) => {
+export const getDirectChat = () => (dispatch: Dispatch<DirectChatAction>) => {
   const directChatRef: firebase.database.Reference = db.ref("chat/direct");
   directChatRef.on("value", (snapshot: firebase.database.DataSnapshot) => {
     const directChat: DirectChatBaseState = snapshot.val();
@@ -29,7 +30,7 @@ export const getDirectChat = (): ThunkAction<void, any, null, Action> => (
   });
 };
 
-export const sendDirectChat = (data: SendChatProps) => {
+export const sendDirectChat = (data: SendChatProps): SendDirectChatAction => {
   const { currentUserId, otherUserId, body } = data;
   const which: string = "me";
   const timestamp: number = new Date().getTime();

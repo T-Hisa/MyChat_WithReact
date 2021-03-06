@@ -6,19 +6,20 @@ import BaseState, { CurrentUserState, DirectChatDataState } from "../../types/st
 
 interface MapStateToProps {
   currentUser?: CurrentUserState
+  currentUserId?: string
   directChat?: DirectChatDataState
 }
 
 interface ChatFormProps extends MapStateToProps {
-  otherUserId?: string;
   groupId?: string;
   handleClick: (data: SendChatProps) => void;
+  otherUserId?: string;
 }
 
 interface ChatFormState {
+  body: string;
   errorFlag: boolean;
   errorMessage: string;
-  body: string;
 }
 
 class ChatForm extends Component<ChatFormProps, ChatFormState> {
@@ -55,7 +56,7 @@ class ChatForm extends Component<ChatFormProps, ChatFormState> {
   onClickSendBtn(): void {
     if (!!this.state.body) {
       const sendData: SendChatProps = {
-        currentUserId: this.props.currentUser?.currentUserId!,
+        currentUserId: this.props.currentUserId!,
         otherUserId: this.props.otherUserId,
         groupId: this.props.groupId,
         body: this.state.body,
@@ -100,8 +101,9 @@ class ChatForm extends Component<ChatFormProps, ChatFormState> {
 }
 
 const mapStateToProps = (state: BaseState): MapStateToProps => ({
+  currentUserId: state.currentUserId,
   currentUser: state.currentUser,
   directChat: state.directChat,
 });
 
-export default connect(mapStateToProps, null)(ChatForm);
+export default connect(mapStateToProps)(ChatForm);

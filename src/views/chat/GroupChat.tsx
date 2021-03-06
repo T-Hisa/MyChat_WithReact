@@ -20,6 +20,7 @@ import BaseState, {
 
 interface MapStateToProps {
   currentUser: CurrentUserState;
+  currentUserId: string;
   defaultPhoto: string;
   groupChat: GroupChatDataState;
   groups: GroupsState;
@@ -59,7 +60,7 @@ class GroupChat extends Component<GroupChatProps, {}> {
   }
 
   isMe(cid: string): boolean {
-    return this.getChat(cid).uid === this.props.currentUser!.currentUserId;
+    return this.getChat(cid).uid === this.props.currentUserId;
   }
 
   getChatUserInfo(cid: string): UserProps {
@@ -131,11 +132,12 @@ const mapStateToProps = (
     groupChat = state.groupChat[props.match.params.groupId];
   }
   return {
-    groups: state.groups,
-    defaultPhoto: state.defaultPhoto,
-    users: state.users,
     currentUser: state.currentUser,
+    currentUserId: state.currentUserId,
+    defaultPhoto: state.defaultPhoto,
     groupChat,
+    groups: state.groups,
+    users: state.users,
   };
 };
 
