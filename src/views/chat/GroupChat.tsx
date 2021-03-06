@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import { Component } from "react";
 import { connect } from "react-redux";
 import ChatForm from "../../components/chat/ChatForm";
 import ChatSelf from "../../components/chat/ChatSelf";
@@ -26,9 +26,11 @@ interface MapStateToProps {
   users: UsersState;
 }
 
-interface GroupChatProps extends RouteProps, MapStateToProps {
-  sendGroupChat: Function;
+interface MapDispatchToProps {
+  sendGroupChat: (data: SendChatProps) => void;
 }
+
+type GroupChatProps = RouteProps & MapStateToProps & MapDispatchToProps;
 
 class GroupChat extends Component<GroupChatProps, {}> {
   getGroupInfo(): GroupProps {
@@ -120,10 +122,10 @@ class GroupChat extends Component<GroupChatProps, {}> {
   }
 }
 
-const mapStateToProps: (state: BaseState, props: any) => MapStateToProps = (
-  state,
-  props
-) => {
+const mapStateToProps = (
+  state: BaseState,
+  props: RouteProps
+): MapStateToProps => {
   let groupChat: GroupChatDataState = null;
   if (state.groupChat) {
     groupChat = state.groupChat[props.match.params.groupId];
@@ -137,6 +139,6 @@ const mapStateToProps: (state: BaseState, props: any) => MapStateToProps = (
   };
 };
 
-const mapDispatchToProps = { sendGroupChat };
+const mapDispatchToProps: MapDispatchToProps = { sendGroupChat };
 
 export default connect(mapStateToProps, mapDispatchToProps)(GroupChat);

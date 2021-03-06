@@ -10,12 +10,11 @@ import BaseState, {
 } from "../../types/state";
 
 interface MapStateToProps {
-  users: UsersState,
-  verifiedOtherUserIds: VerifiedOtherUserIdsState
+  users: UsersState;
+  verifiedOtherUserIds: VerifiedOtherUserIdsState;
 }
 
-// interface SelectUserProps extends RouteProps, MapStateToProps
-type SelectUserProps = RouteProps & MapStateToProps
+type SelectUserProps = RouteProps & MapStateToProps;
 
 interface SelectUserState {
   searchParams: string;
@@ -106,14 +105,9 @@ class SelectUser extends Component<SelectUserProps, SelectUserState> {
   }
 }
 
-const mapStateToProps: (
-  state: BaseState
-) => MapStateToProps = (
-  state
-) => ({
+const mapStateToProps = (state: BaseState): MapStateToProps => ({
   verifiedOtherUserIds: state.verifiedOtherUserIds,
   users: state.users,
 });
 
-export default connect(mapStateToProps, null)(SelectUser);
-// export default SelectUser
+export default connect(mapStateToProps)(SelectUser);

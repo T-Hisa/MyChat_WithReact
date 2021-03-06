@@ -3,6 +3,7 @@ import { Action, Dispatch } from "redux";
 import { ThunkAction } from "redux-thunk";
 
 import BaseState, { NotificationsStateWithUserId, NotificationsProps } from "../types/state";
+import DeleteNotificationsData from "../types/DeleteNotifications"
 
 export const GET_NOTIFICATIONS = "GET_NOTIFICATIONS";
 export const DELETE_NOTIFICATIONS = "DELETE_NOTIFICATIONS";
@@ -12,7 +13,11 @@ interface GetNotificationAction extends Action {
   notifications: NotificationsProps | undefined; // userのnotificationがundefined になってる可能性もあるので。
 }
 
-export interface NotificationAction extends GetNotificationAction {
+interface DeleteNotificationAction extends Action {
+  type: string
+}
+
+export interface NotificationAction extends GetNotificationAction, DeleteNotificationAction {
   type: "GET_NOTIFICATIONS" | "DELETE_NOTIFICATIONS" | "RESET_ALL";
 }
 
@@ -25,7 +30,6 @@ export const getNotifications = (): ThunkAction<
   const notificationsRef: firebase.database.Reference = db.ref(`notifications`);
   notificationsRef.on("value", (snapshot: firebase.database.DataSnapshot) => {
     const state: BaseState = getState()
-    console.log("state at notificationAction!", state)
     const userId: string = state.currentUser?.currentUserId!
     const notificationData: NotificationsStateWithUserId = snapshot.val();
     console.log("notificationData", notificationData)
@@ -35,7 +39,7 @@ export const getNotifications = (): ThunkAction<
   });
 };
 
-export const deleteNotifications = (data) => {
+export const deleteNotifications = (data: DeleteNotificationsData): DeleteNotificationAction => {
   const { userId, notificationIds } = data;
   const notificationsRef: firebase.database.Reference = db.ref(
     `notifications/${userId}`

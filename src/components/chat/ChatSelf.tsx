@@ -4,7 +4,7 @@ import { renderImage } from "../../utils";
 interface ChatSelfProps {
   body: string;
   defaultPhoto: string;
-  photoURL?: string | undefined;
+  photoURL?: string;
 }
 
 class ChatSelf extends Component<ChatSelfProps, {}> {

@@ -8,10 +8,12 @@ import { setUserProfile } from "../../actions/users";
 import RouteProps from "../../types/RouteProps";
 import { SetProfileProps } from "../../types/Profile";
 
-interface SignupProps extends RouteProps {
-  updateState: (data: { currentRoute: string }) => void;
+interface MapDispatchToProps {
+  setUserProfile: (data: SetProfileProps) => void;
+}
 
-  setUserProfile: any;
+interface SignupProps extends RouteProps, MapDispatchToProps {
+  updateState: (data: { currentRoute: string }) => void;
 }
 
 interface SignupState {
@@ -53,7 +55,7 @@ class Signup extends Component<SignupProps, SignupState> {
         .createUserWithEmailAndPassword(email, password)
         .then((data: firebase.auth.UserCredential) => {
           const userId: string = data?.user?.uid!;
-          const sendData: SetProfileProps = {userId, email};
+          const sendData: SetProfileProps = { userId, email };
           this.props.setUserProfile(sendData);
           this.props.history.push("set-profile");
         })
@@ -79,7 +81,5 @@ class Signup extends Component<SignupProps, SignupState> {
   }
 }
 
-const mapDispatchToProps = { setUserProfile };
+const mapDispatchToProps: MapDispatchToProps = { setUserProfile };
 export default connect(null, mapDispatchToProps)(Signup);
-
-// export default Signup;

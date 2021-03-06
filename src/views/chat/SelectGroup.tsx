@@ -97,9 +97,9 @@ class SelectGroup extends Component<SelectGroupProps, SelectGroupState> {
   }
 }
 
-const mapStateToProps: (state: BaseState) => MapStateToProps = (state) => ({
+const mapStateToProps = (state: BaseState): MapStateToProps => ({
   groups: state.groups,
   currentUser: state.currentUser,
   users: state.users,
 });
-export default connect(mapStateToProps, null)(SelectGroup);
+export default connect(mapStateToProps)(SelectGroup);

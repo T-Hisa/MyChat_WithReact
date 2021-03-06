@@ -3,21 +3,23 @@ import { ThunkAction } from "redux-thunk";
 import firebase, { db } from "./index";
 
 import UserProps from "../types/models/User";
-// import BaseState from "../types/state"
+import { BaseAction } from "./index";
+import BaseState from "../types/state";
 
 export const GET_CURRENT_USER: "GET_CURRENT_USER" = "GET_CURRENT_USER";
 export const GET_CURRENT_USER_ID = "GET_CURRENT_USER_ID";
-export const RESET_CURRENT_USER = "RESET_CURRENT_USER";
 
-interface GetCurrentUserDataAction extends Action {
+export interface GetCurrentUserDataAction extends Action {
   type: string;
   currentUser: UserProps;
 }
 
-interface GetCurrentUserIdAction extends Action {
+export interface GetCurrentUserIdAction extends Action {
   type: string;
   currentUserId: string;
 }
+
+type SampleAction<T> = ThunkAction<Promise<T>, BaseState, undefined, Action>;
 
 export interface GetCurrentUserAction
   extends GetCurrentUserDataAction,
@@ -26,10 +28,10 @@ export interface GetCurrentUserAction
 }
 
 export const getCurrentUser = (): ThunkAction<
-  void,
-  any,
-  null,
-  Action
+  Promise<void>,
+  BaseState,
+  undefined,
+  BaseAction
 > => async (dispatch: Dispatch<GetCurrentUserDataAction>) => {
   const userId: string = (await firebase.auth().currentUser?.uid) ?? "";
   const currentUserRef: firebase.database.Reference = db.ref(`users/${userId}`);
@@ -41,9 +43,9 @@ export const getCurrentUser = (): ThunkAction<
 
 export const getCurrentUserId = (): ThunkAction<
   void,
-  any,
-  unknown,
-  Action
+  BaseState,
+  undefined,
+  BaseAction
 > => async (dispatch: Dispatch<GetCurrentUserIdAction>) => {
   const currentUser: firebase.User = await firebase.auth().currentUser!;
   const currentUserId: string = currentUser.uid;

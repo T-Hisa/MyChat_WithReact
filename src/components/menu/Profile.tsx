@@ -36,7 +36,7 @@ class Profile extends Component<ProfileProps, {}> {
   }
 }
 
-const mapStateToProps: (state: BaseState) => MapStateToProps = (state) => ({
+const mapStateToProps = (state: BaseState): MapStateToProps => ({
   currentUser: state.currentUser,
   defaultPhoto: state.defaultPhoto,
 })

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import { Component } from "react";
 import { connect } from "react-redux";
 import ChatForm from "../../components/chat/ChatForm";
 import ChatSelf from "../../components/chat/ChatSelf";
@@ -24,15 +24,16 @@ interface MapStateToProps {
   users: UsersState;
 }
 
-interface DirectChatProps extends RouteProps, MapStateToProps {
-  sendDirectChat: any;
+interface MapDispatchToProps {
+  sendDirectChat: (data: SendChatProps) => void;
 }
+
+type DirectChatProps = RouteProps & MapStateToProps & MapDispatchToProps;
 
 class DirectChat extends Component<DirectChatProps, {}> {
   userInfo(): UserProps | null {
-    if (this.props.users)
-      return this.props.users[this.otherUserId()];
-    return null
+    if (this.props.users) return this.props.users[this.otherUserId()];
+    return null;
   }
 
   otherUserId(): string {
@@ -103,14 +104,12 @@ class DirectChat extends Component<DirectChatProps, {}> {
   }
 }
 
-const mapStateToProps: (state: BaseState, props: any) => MapStateToProps = (
-  state,
-  props
-) => {
+const mapStateToProps = (state: BaseState, props: RouteProps): MapStateToProps => {
   const currentUserId: string = state.currentUser?.currentUserId!;
   const otherUserId: string = props.match.params.userId;
-  let directChat = null
-  if (state.directChat) directChat = (state.directChat[currentUserId] || {})[otherUserId] || null;
+  let directChat: DirectChatDataState = null;
+  if (state.directChat)
+    directChat = (state.directChat[currentUserId] || {})[otherUserId] || null;
   return {
     users: state.users,
     defaultPhoto: state.defaultPhoto,
@@ -119,7 +118,7 @@ const mapStateToProps: (state: BaseState, props: any) => MapStateToProps = (
   };
 };
 
-const mapDispatchToProps = { sendDirectChat };
+const mapDispatchToProps: MapDispatchToProps = { sendDirectChat };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DirectChat);
 

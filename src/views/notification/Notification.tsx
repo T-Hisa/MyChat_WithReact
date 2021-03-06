@@ -1,8 +1,9 @@
-import React, { Component } from "react";
+import { Component } from "react";
 import { connect } from "react-redux";
 import { deleteNotifications } from "../../actions/notifications";
 import { devideByNoticeType } from "../../utils";
 
+import DeleteNotificationsData from "../../types/DeleteNotifications"
 import NotificationDataProps from "../../types/models/Notification";
 import RouteProps from "../../types/RouteProps";
 import BaseState, {
@@ -19,9 +20,11 @@ interface MapStateToProps {
   users: UsersState;
 }
 
-interface NotificationProps extends RouteProps, MapStateToProps {
-  deleteNotifications: any;
+interface MapDispatchToProps {
+  deleteNotifications: (data: DeleteNotificationsData) => void;
 }
+
+type NotificationProps = RouteProps & MapStateToProps & MapDispatchToProps
 
 class Notification extends Component<NotificationProps, {}> {
   displayWord(nid: string): string {
@@ -54,7 +57,7 @@ class Notification extends Component<NotificationProps, {}> {
 
   componentWillUnmount(): void {
     this.props.deleteNotifications({
-      userId: this.props.currentUserId,
+      userId: this.props.currentUserId!,
       notificationIds: this.getNotificationIds(),
     });
   }
@@ -86,7 +89,7 @@ class Notification extends Component<NotificationProps, {}> {
   }
 }
 
-const mapStateToProps: (state: BaseState) => MapStateToProps = (state) => {
+const mapStateToProps = (state: BaseState): MapStateToProps => {
   let notifications: NotificationsState = null;
   let currentUser: CurrentUserState = null;
   if (state.notifications && state.currentUser) {
@@ -101,6 +104,6 @@ const mapStateToProps: (state: BaseState) => MapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = { deleteNotifications };
+const mapDispatchToProps: MapDispatchToProps = { deleteNotifications };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Notification);

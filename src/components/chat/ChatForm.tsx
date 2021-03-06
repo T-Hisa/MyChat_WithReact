@@ -2,14 +2,17 @@ import React, { Component, KeyboardEvent } from "react";
 import { connect } from "react-redux";
 
 import SendChatProps from "../../types/SendChat";
+import BaseState, { CurrentUserState, DirectChatDataState } from "../../types/state"
 
-interface ChatFormProps {
+interface MapStateToProps {
+  currentUser?: CurrentUserState
+  directChat?: DirectChatDataState
+}
+
+interface ChatFormProps extends MapStateToProps {
   otherUserId?: string;
   groupId?: string;
-  handleClick: Function;
-
-  currentUser?: any;
-  directChat?: any;
+  handleClick: (data: SendChatProps) => void;
 }
 
 interface ChatFormState {
@@ -52,7 +55,7 @@ class ChatForm extends Component<ChatFormProps, ChatFormState> {
   onClickSendBtn(): void {
     if (!!this.state.body) {
       const sendData: SendChatProps = {
-        currentUserId: this.props.currentUser.currentUserId,
+        currentUserId: this.props.currentUser?.currentUserId!,
         otherUserId: this.props.otherUserId,
         groupId: this.props.groupId,
         body: this.state.body,
@@ -96,7 +99,7 @@ class ChatForm extends Component<ChatFormProps, ChatFormState> {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: BaseState): MapStateToProps => ({
   currentUser: state.currentUser,
   directChat: state.directChat,
 });

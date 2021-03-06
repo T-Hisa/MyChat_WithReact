@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
+import firebase from "../firebase-setup";
 
 import Sidebar from "../components/menu/Sidebar";
 
@@ -13,7 +14,7 @@ import GroupChat from "../views/chat/GroupChat";
 import CreateGroup from "../views/groups/CreateGroup";
 import Notification from "../views/notification/Notification";
 
-// import { resetAll } from "../actions"
+import { resetAll } from "../actions";
 import { getDefaultPhoto } from "../actions/defaultPhoto";
 import { getCurrentUser, getCurrentUserId } from "../actions/currentUser";
 import { getUsers } from "../actions/users";
@@ -23,38 +24,37 @@ import { getGroups } from "../actions/groups";
 import { getNotifications } from "../actions/notifications";
 
 import RouteProps from "../types/RouteProps";
-import BaseState, {
-  // NotificationsState,
-  NotificationsProps,
-} from "../types/state";
+import BaseState, { NotificationsProps } from "../types/state";
 
 interface MapStateToProps {
-  notificationCount: number
+  notificationCount: number;
 }
 
-interface ContainerProps {
-  currentUser: any;
-  notificationCount?: number;
-  getDefaultPhoto?: any;
-  getCurrentUser?: any;
-  getCurrentUserId?: any;
-  getUsers?: any;
-  getDirectChat?: any;
-  getGroupChat?: any;
-  getGroups?: any;
-  getNotifications?: any;
+interface MapDispatchToProps {
+  getDefaultPhoto: () => void;
+  getCurrentUser: () => void;
+  getCurrentUserId: () => void;
+  getUsers: () => void;
+  getDirectChat: () => void;
+  getGroupChat: () => void;
+  getGroups: () => void;
+  getNotifications: () => void;
+  resetAll: () => void;
+}
+
+interface ContainerProps extends MapStateToProps, MapDispatchToProps {
+  currentUser: firebase.User;
 }
 
 class Container extends Component<ContainerProps, {}> {
   componentDidMount(): void {
     this.buildState();
-    // this.props.getDefaultPhoto();
   }
 
   buildState(): void {
     this.props.getCurrentUser();
-    this.props.getDefaultPhoto();
     this.props.getCurrentUserId();
+    this.props.getDefaultPhoto();
     this.props.getUsers();
     this.props.getDirectChat();
     this.props.getGroupChat();
@@ -62,9 +62,9 @@ class Container extends Component<ContainerProps, {}> {
     this.props.getNotifications();
   }
 
-  // componentWillUnmount(): void {
-  //   this.props.resetAll()
-  // }
+  componentWillUnmount(): void {
+    this.props.resetAll();
+  }
 
   isSetProfile(): boolean {
     return !!(this.props.currentUser && this.props.currentUser.displayName);
@@ -116,14 +116,12 @@ class Container extends Component<ContainerProps, {}> {
   }
 }
 
-const mapStateToProps: (data: BaseState) => MapStateToProps = (
-  state
-) => {
-  console.log("state", state);
+const mapStateToProps = (state: BaseState): MapStateToProps => {
   let notifications: NotificationsProps;
   let notificationCount: number;
+  // let currentUser: CurrentUserState
   if (state.notifications && state.currentUser) {
-    notifications = state.notifications
+    notifications = state.notifications;
     notificationCount = Object.keys(notifications).length;
   } else {
     notificationCount = 0;
@@ -131,7 +129,7 @@ const mapStateToProps: (data: BaseState) => MapStateToProps = (
   return { notificationCount };
 };
 
-const mapDispatchToProps = {
+const mapDispatchToProps: MapDispatchToProps = {
   getCurrentUser,
   getCurrentUserId,
   getUsers,
@@ -140,7 +138,7 @@ const mapDispatchToProps = {
   getGroupChat,
   getGroups,
   getNotifications,
-  // resetAll,
+  resetAll,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Container);

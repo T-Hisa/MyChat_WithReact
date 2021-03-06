@@ -1,26 +1,26 @@
 import NoticeProps from "../types/models/Notification";
-import {UsersState, GroupsState} from "../types/state"
+import { UsersState, GroupsState } from "../types/state";
 
 export const renderImage: (data: string) => JSX.Element = (url) => (
   <img src={url} alt="サムネイル" />
 );
 
-export const devideByNoticeType: (
-  data1: NoticeProps | undefined,
-  data2: UsersState,
-  data3: GroupsState,
-  data4: any
-) => { displayWord: string; handleClickEvent: () => void } = (
-  notice,
-  users,
-  groups,
-  history
-) => {
+interface RetValProps {
+  displayWord: string
+  handleClickEvent: () => void
+}
+
+export const devideByNoticeType = (
+  notice: NoticeProps | undefined,
+  users: UsersState,
+  groups: GroupsState,
+  history: any
+): RetValProps => {
   let fromName: string;
   let displayWord: string;
   let handleClickEvent: () => void;
-  const type: string = notice?.type as string
-  const fromId: string = notice?.fromId as string
+  const type: string = notice?.type as string;
+  const fromId: string = notice?.fromId as string;
   switch (type) {
     case "chat-direct":
       fromName = users![fromId].username;
@@ -67,10 +67,7 @@ export const devideByNoticeType: (
   return { displayWord, handleClickEvent };
 };
 
-export const handleNameError: (data1: string, data2: number) => string = (
-  name,
-  maxLength
-) => {
+export const handleNameError = (name: string, maxLength: number): string => {
   let errorMessage = "";
   if (!name) errorMessage = "入力してください";
   else if (name.length > maxLength)

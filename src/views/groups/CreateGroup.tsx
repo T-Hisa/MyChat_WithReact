@@ -22,10 +22,12 @@ interface MapStateToProps {
   verifiedOtherUserIds: VerifiedOtherUserIdsState;
 }
 
-interface CreateGroupProps extends RouteProps, MapStateToProps {
-  createGroup: any;
-  updateGroup: any;
+interface MapDispatchToProps {
+  createGroup: (data: GroupDataProps) => void
+  updateGroup: (data: UpdateGroupProps) => void
 }
+
+type CreateGroupProps = RouteProps & MapStateToProps & MapDispatchToProps
 
 interface CreateGroupState {
   gid: string;
@@ -36,7 +38,7 @@ interface CreateGroupState {
 }
 
 class CreateGroup extends Component<CreateGroupProps, CreateGroupState> {
-  constructor(props) {
+  constructor(props: CreateGroupProps) {
     super(props);
     this.state = {
       gid: "",
@@ -218,13 +220,13 @@ class CreateGroup extends Component<CreateGroupProps, CreateGroupState> {
   }
 }
 
-const mapStateToProps: (state: BaseState) => MapStateToProps = (state) => ({
+const mapStateToProps = (state: BaseState): MapStateToProps => ({
   currentUser: state.currentUser,
   users: state.users,
   verifiedOtherUserIds: state.verifiedOtherUserIds,
   groups: state.groups,
 });
 
-const mapDispatchToProps = { createGroup, updateGroup };
+const mapDispatchToProps: MapDispatchToProps = { createGroup, updateGroup };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateGroup);

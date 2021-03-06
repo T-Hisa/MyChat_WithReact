@@ -5,8 +5,6 @@ import { devideByNoticeType } from "../../utils"
 
 import RouteProps from "../../types/RouteProps"
 import NoticeProps from "../../types/models/Notification"
-// import UserProps from "../../types/models/User"
-// import GroupProps from "../../types/models/Group"
 import BaseState, { UsersState, GroupsState} from "../../types/state"
 
 interface MapStateToProps {
@@ -33,7 +31,6 @@ class NotificationCard extends Component<NotificationCardProps, NotificationCard
   }
 
   componentDidMount(): void {
-    // const { notice, users, groups, history } = this.props
     const { notice, history } = this.props
     const users: UsersState = this.props.users!
     const groups: GroupsState = this.props.groups!
@@ -62,8 +59,8 @@ class NotificationCard extends Component<NotificationCardProps, NotificationCard
   }
 }
 
-const mapStateToProps: (state: BaseState) => MapStateToProps = (state) => ({
+const mapStateToProps = (state: BaseState): MapStateToProps => ({
   users: state.users,
   groups: state.groups,
 })
-export default withRouter(connect(mapStateToProps, null)(NotificationCard))
+export default withRouter(connect(mapStateToProps)(NotificationCard))

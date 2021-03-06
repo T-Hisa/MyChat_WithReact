@@ -1,4 +1,4 @@
-import React, { Component } from "react"
+import { Component } from "react"
 import { connect } from "react-redux"
 import { renderImage } from "../../utils"
 
@@ -53,9 +53,9 @@ class User extends Component<UserProps, {}> {
   }
 }
 
-const mapStateToProps: (state: BaseState) => MapStateToProps = (state) => ({
+const mapStateToProps = (state: BaseState): MapStateToProps => ({
   defaultPhoto: state.defaultPhoto,
   users: state.users,
 })
 
-export default connect(mapStateToProps, null)(User)
+export default connect(mapStateToProps)(User)

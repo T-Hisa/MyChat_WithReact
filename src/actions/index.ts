@@ -1,5 +1,7 @@
 import firebase from "../firebase-setup"
 
+import { GetCurrentUserDataAction, GetCurrentUserIdAction } from "./currentUser"
+
 export default firebase
 
 // export interface BaseState {
@@ -25,3 +27,5 @@ export const resetAll = () => {
 export const refreshAll = () => {
   return { type: REFRESH_ALL }
 }
+
+export type BaseAction = GetCurrentUserDataAction | GetCurrentUserIdAction

@@ -15,6 +15,7 @@ import {
   UpdateProfilePropsForAuth,
 } from "../../types/Profile";
 import RouteProps from "../../types/RouteProps";
+import BaseState, { CurrentUserState } from "../../types/state";
 
 const storage: firebase.storage.Storage = firebase.storage();
 
@@ -22,13 +23,18 @@ interface SetMetaData {
   contentType: string;
 }
 
-interface ProfileCommonProps extends RouteProps {
-  currentUser?: any;
+interface MapStateToProps {
+  currentUser: CurrentUserState;
+  defaultPhoto: string;
+}
+
+interface MapDispatchToProps {
+  updateUserProfile: (data: UpdateProfilePropsForData) => void;
+}
+
+interface ProfileCommonProps extends RouteProps, MapStateToProps, MapDispatchToProps {
   username?: string;
   photoURL?: string | null;
-
-  updateUserProfile?: any;
-  defaultPhoto?: any;
 }
 
 interface ProfileCommonState {
@@ -41,7 +47,7 @@ interface ProfileCommonState {
 }
 
 class ProfileCommon extends Component<ProfileCommonProps, ProfileCommonState> {
-  constructor(props) {
+  constructor(props: ProfileCommonProps) {
     super(props);
     this.state = {
       image: null,
@@ -112,7 +118,7 @@ class ProfileCommon extends Component<ProfileCommonProps, ProfileCommonState> {
     const imageNameArray: Array<string> = image.name.split(".");
     const fileType: string = imageNameArray.pop()!;
     const saveImageName: string = `profilePhoto.${fileType}`;
-    const currentUserId: string = this.props.currentUser.currentUserId;
+    const currentUserId: string = this.props.currentUser?.currentUserId!;
     const metaData: SetMetaData = {
       contentType: `image/${fileType}`,
     };
@@ -153,7 +159,7 @@ class ProfileCommon extends Component<ProfileCommonProps, ProfileCommonState> {
 
   updateUserData(): void {
     const saveData: UpdateProfilePropsForData = {
-      userId: this.props.currentUser.currentUserId,
+      userId: this.props.currentUser?.currentUserId!,
       username: this.state.username,
       photoURL: this.state.photoURL,
     };
@@ -249,17 +255,15 @@ class ProfileCommon extends Component<ProfileCommonProps, ProfileCommonState> {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: BaseState): MapStateToProps => {
   return {
     currentUser: state.currentUser,
     defaultPhoto: state.defaultPhoto,
   };
 };
 
-const mapDispatchToProps = { updateUserProfile };
+const mapDispatchToProps: MapDispatchToProps = { updateUserProfile };
 
 export default withRouter(
   connect(mapStateToProps, mapDispatchToProps)(ProfileCommon)
 );
-
-// export default withRouter(ProfileCommon)

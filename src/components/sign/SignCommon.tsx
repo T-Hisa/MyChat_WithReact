@@ -1,4 +1,4 @@
-import React, { Component, MouseEvent, KeyboardEvent } from "react"
+import { Component, MouseEvent, KeyboardEvent } from "react"
 
 interface SignCommonProps {
   title: string
@@ -31,12 +31,12 @@ class SignCommon extends Component<SignCommonProps, SignCommonState> {
   }
 
   onInputPassword(e: KeyboardEvent<HTMLInputElement>): void {
-    const password = e.currentTarget.value
+    const password: string = e.currentTarget.value
     this.setState({ password })
   }
 
   onInputEmail(e: KeyboardEvent<HTMLInputElement>): void {
-    const email = e.currentTarget.value
+    const email: string = e.currentTarget.value
     this.setState({ email })
   }
 

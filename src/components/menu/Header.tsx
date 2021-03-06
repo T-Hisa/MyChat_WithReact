@@ -6,22 +6,25 @@ import firebase from "../../firebase-setup";
 import { deleteNotifications } from "../../actions/notifications";
 import NotificationCard from "./NotificationCard";
 
+import DeleteNotificationsData from "../../types/DeleteNotifications"
 import NoticeProps from "../../types/models/Notification";
 import BaseState, {
-  NotificationsProps,
+  NotificationsState,
   CurrentUserState,
 } from "../../types/state";
 
 interface MapStateToProps {
-  notifications: NotificationsProps
+  notifications: NotificationsState
   currentUserId: string
   currentUser: CurrentUserState
 }
 
-interface HeaderProps extends MapStateToProps {
-  currentRoute: string;
+interface MapDispatchToProps {
+  deleteNotifications: (data: DeleteNotificationsData) => void
+}
 
-  deleteNotifications?: any
+interface HeaderProps extends MapStateToProps, MapDispatchToProps {
+  currentRoute: string;
 }
 
 interface HeaderState {
@@ -72,7 +75,7 @@ class Header extends Component<HeaderProps, HeaderState> {
   }
 
   displayNotificationIds(): Array<string> {
-    return Object.keys(this.props.notifications).slice(0, 10);
+    return Object.keys(this.props.notifications ?? {}).slice(0, 10);
   }
 
   displayCount(): string {
@@ -85,8 +88,8 @@ class Header extends Component<HeaderProps, HeaderState> {
     return displayWord;
   }
 
-  getNoticeInfo(nid: string): NoticeProps {
-    return this.props.notifications[nid];
+  getNoticeInfo(nid: string): NoticeProps | undefined {
+    return (this.props.notifications ?? {})[nid];
   }
 
   renderHeaderNav(): JSX.Element {
@@ -108,7 +111,7 @@ class Header extends Component<HeaderProps, HeaderState> {
                   {this.displayNotificationIds().map((nid) => (
                     <NotificationCard
                       key={nid}
-                      notice={this.getNoticeInfo(nid)}
+                      notice={this.getNoticeInfo(nid)!}
                     />
                   ))}
                 </div>
@@ -151,10 +154,8 @@ class Header extends Component<HeaderProps, HeaderState> {
   }
 }
 
-const mapStateToProps: (
-  data: BaseState
-) => MapStateToProps = (state) => {
-  let notifications: NotificationsProps = {};
+const mapStateToProps = (state: BaseState): MapStateToProps => {
+  let notifications: NotificationsState = null;
   let currentUserId: string = "";
   let currentUser: CurrentUserState = null
   if (state.currentUser) {
@@ -171,7 +172,6 @@ const mapStateToProps: (
   };
 };
 
-const mapDispatchToProps = { deleteNotifications };
+const mapDispatchToProps: MapDispatchToProps = { deleteNotifications };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);
-// export default Header
