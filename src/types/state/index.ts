@@ -17,7 +17,7 @@ export interface DirectChatBaseProps {
   };
 }
 
-export type DirectChatBaseState = DirectChatDataProps | null;
+export type DirectChatBaseState = DirectChatBaseProps | null;
 
 export interface GroupChatDataProps {
   [chatId: string]: GroupChatProps;

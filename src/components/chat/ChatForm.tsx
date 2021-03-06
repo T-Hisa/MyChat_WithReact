@@ -2,12 +2,11 @@ import React, { Component, KeyboardEvent } from "react";
 import { connect } from "react-redux";
 
 import SendChatProps from "../../types/SendChat";
-import BaseState, { CurrentUserState, DirectChatDataState } from "../../types/state"
+import BaseState, { CurrentUserState } from "../../types/state";
 
 interface MapStateToProps {
-  currentUser?: CurrentUserState
-  currentUserId?: string
-  directChat?: DirectChatDataState
+  currentUser?: CurrentUserState;
+  currentUserId?: string;
 }
 
 interface ChatFormProps extends MapStateToProps {
@@ -100,10 +99,11 @@ class ChatForm extends Component<ChatFormProps, ChatFormState> {
   }
 }
 
-const mapStateToProps = (state: BaseState): MapStateToProps => ({
-  currentUserId: state.currentUserId,
-  currentUser: state.currentUser,
-  directChat: state.directChat,
-});
-
+const mapStateToProps = (state: BaseState): MapStateToProps => {
+  let currentUserId: string = state.currentUserId;
+  return {
+    currentUserId,
+    currentUser: state.currentUser,
+  };
+};
 export default connect(mapStateToProps)(ChatForm);

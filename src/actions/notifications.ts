@@ -34,9 +34,7 @@ export const getNotifications = () => (
     const state: BaseState = getState();
     const userId: string = state.currentUserId!;
     const notificationData: NotificationsStateWithUserId = snapshot.val();
-    console.log("notificationData", notificationData);
     const notifications: NotificationsProps = notificationData![userId];
-    console.log("notifications", notifications);
     dispatch({ type: GET_NOTIFICATIONS, notifications });
   });
 };
