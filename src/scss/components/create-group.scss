@@ -23,6 +23,12 @@
     .member-title {
       font-weight: bold;
       margin-left: 20px;
+      display: flex;
+      align-items: center;
+
+      .search-field {
+        margin-left: 10px;
+      }
     }
 
     .member-list-container {

@@ -24,17 +24,18 @@ interface MapStateToProps {
 }
 
 interface MapDispatchToProps {
-  createGroup: (data: GroupDataProps) => void
-  updateGroup: (data: UpdateGroupProps) => void
+  createGroup: (data: GroupDataProps) => void;
+  updateGroup: (data: UpdateGroupProps) => void;
 }
 
-type CreateGroupProps = RouteProps & MapStateToProps & MapDispatchToProps
+type CreateGroupProps = RouteProps & MapStateToProps & MapDispatchToProps;
 
 interface CreateGroupState {
   errorFlag: boolean;
   errorMessage: string;
   groupName: string;
   gid: string;
+  searchParams: string;
   selectUserIds: Array<string>;
 }
 
@@ -47,6 +48,7 @@ class CreateGroup extends Component<CreateGroupProps, CreateGroupState> {
       errorMessage: "入力してください",
       errorFlag: false,
       selectUserIds: [],
+      searchParams: "",
     };
   }
 
@@ -68,10 +70,37 @@ class CreateGroup extends Component<CreateGroupProps, CreateGroupState> {
     this.setState({ groupName, errorMessage });
   }
 
+  onInputSearchField(e: KeyboardEvent<HTMLInputElement>): void {
+    const searchParams: string = e.currentTarget.value;
+    this.setState({ searchParams });
+  }
+
   candidateMemberIds(): Array<string> {
     return this.verifiedOtherUserIds().filter(
-      (id) => !this.state.selectUserIds.includes(id)
+      (uid) => !this.state.selectUserIds.includes(uid)
     );
+  }
+
+  searchCandidateMemberIds(): Array<string> {
+    const candidateMemberIds = this.verifiedOtherUserIds().filter(uid => (
+      !this.state.selectUserIds.includes(uid)
+    ))
+    const searchParams: string = this.state.searchParams
+    if (searchParams) {
+      return candidateMemberIds.filter(uid => {
+        const username: string = this.props.users![uid].username
+        return username.indexOf(searchParams) > -1 && !this.state.selectUserIds.includes(uid)
+      })
+    }
+    return candidateMemberIds
+  }
+
+  verifiedOtherUserIds(): Array<string> {
+    let otherUserIds: Array<string> = [];
+    if (this.props.verifiedOtherUserIds) {
+      otherUserIds = this.props.verifiedOtherUserIds;
+    }
+    return otherUserIds;
   }
 
   groupNameValidation(): boolean {
@@ -125,23 +154,20 @@ class CreateGroup extends Component<CreateGroupProps, CreateGroupState> {
     this.setState({ selectUserIds });
   }
 
-  verifiedOtherUserIds(): Array<string> {
-    let otherUserIds: Array<string> = [];
-    if (this.props.verifiedOtherUserIds) {
-      otherUserIds = this.props.verifiedOtherUserIds;
-    }
-    return otherUserIds;
-  }
-
   renderMemberList(
     text: string,
     handleClick: (data: string) => void,
     handleDelete: ((data: string) => void) | undefined,
-    memberIds: Array<string>
+    memberIds: Array<string>,
+    flag: boolean
   ) {
     return (
       <div className="whole-member-list">
-        <p className="member-title">{text}</p>
+        <p className="member-title"><span>{text}</span>
+          {
+            flag && <input type="text" className="search-field" onInput={this.onInputSearchField.bind(this)} placeholder="ユーザー検索" />
+          }
+        </p>
         <ul className="member-list-container">
           {memberIds.map((uid) => (
             <User
@@ -182,13 +208,15 @@ class CreateGroup extends Component<CreateGroupProps, CreateGroupState> {
             "グループメンバーリスト",
             () => {},
             this.onClickDeleteBtn.bind(this),
-            this.state.selectUserIds
+            this.state.selectUserIds,
+            false
           )}
           {this.renderMemberList(
             "メンバー選択",
             this.onClickCandidateUser.bind(this),
             undefined,
-            this.candidateMemberIds()
+            this.searchCandidateMemberIds(),
+            true
           )}
           <div className="group-create-btn-wrapper">
             {this.state.gid ? (
