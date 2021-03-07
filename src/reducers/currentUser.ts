@@ -12,8 +12,9 @@ const currentUser = (
 ): CurrentUserState => {
   switch (action.type) {
     case GET_CURRENT_USER:
+      console.log("action", action)
       const { currentUser } = action;
-      if (!currentUser.photoURL) currentUser.photoURL = "";
+      if (currentUser && !currentUser.photoURL) currentUser.photoURL = "";
       // ↑ この記述をしておかないと、有 -> 無 に変化した際に変更がProfile コンポーネントに伝わらなくなる
       return { ...user, ...currentUser };
     case RESET_ALL:

@@ -11,6 +11,8 @@ import App from "./App";
 import "./scss/main.scss";
 import firebase from "./firebase-setup";
 
+console.log("ENV", process.env)
+
 const enhancer = applyMiddleware(thunk)
 const store = createStore(reducer, enhancer)
 firebase.auth().onAuthStateChanged((user) => {
