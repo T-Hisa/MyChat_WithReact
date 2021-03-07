@@ -3,4 +3,5 @@ export default interface GroupProps {
   memberIds: {
     [memberId: string]: 0
   }
+  isDelete?: boolean
 }

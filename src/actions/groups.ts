@@ -1,6 +1,5 @@
 import firebase, { db } from "./index";
 import { Action, Dispatch } from "redux";
-import { ThunkAction } from "redux-thunk";
 
 import UpDateGroupProps from "../types/UpdateGroup";
 import GroupProps from "../types/models/Group";

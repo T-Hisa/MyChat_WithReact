@@ -163,11 +163,11 @@ class CreateGroup extends Component<CreateGroupProps, CreateGroupState> {
   ) {
     return (
       <div className="whole-member-list">
-        <p className="member-title"><span>{text}</span>
+        <label className="member-title" htmlFor="search-field"><span>{text}</span>
           {
-            flag && <input type="text" className="search-field" onInput={this.onInputSearchField.bind(this)} placeholder="ユーザー検索" />
+            flag && <input type="text" id="search-field" className="search-field form-control" onInput={this.onInputSearchField.bind(this)} placeholder="ユーザー検索" />
           }
-        </p>
+        </label>
         <ul className="member-list-container">
           {memberIds.map((uid) => (
             <User

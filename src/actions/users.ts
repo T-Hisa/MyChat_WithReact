@@ -1,10 +1,8 @@
 import firebase, { db } from "./index";
 import { Action, Dispatch } from "redux";
-import { ThunkAction } from "redux-thunk";
 
 import { UsersProps } from "../types/state";
 import { SetProfileProps, UpdateProfilePropsForData } from "../types/Profile";
-import SetProfile from "../views/profile/SetProfile";
 
 export const GET_USERS = "GET_USERS";
 export const SET_PROFILE = "SET_PROFILE";

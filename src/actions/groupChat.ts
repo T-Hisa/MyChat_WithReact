@@ -1,5 +1,4 @@
 import { Action, Dispatch } from "redux";
-import { ThunkAction } from "redux-thunk";
 import firebase, { db } from "./index";
 
 import { GroupChatProps } from "../types/models/Chat";

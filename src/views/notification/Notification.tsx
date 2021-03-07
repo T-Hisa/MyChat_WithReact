@@ -10,7 +10,6 @@ import BaseState, {
   GroupsState,
   UsersState,
   NotificationsState,
-  CurrentUserState,
 } from "../../types/state";
 
 interface MapStateToProps {
@@ -91,9 +90,7 @@ class Notification extends Component<NotificationProps, {}> {
 
 const mapStateToProps = (state: BaseState): MapStateToProps => {
   let notifications: NotificationsState = null;
-  let currentUser: CurrentUserState = null;
-  if (state.notifications && state.currentUser) {
-    currentUser = state.currentUser;
+  if (state.notifications) {
     notifications = state.notifications;
   }
   return {

@@ -2,6 +2,7 @@ import { Component, KeyboardEvent } from "react";
 import { connect } from "react-redux";
 import Group from "../../components/group/Group";
 
+import GroupProps from "../../types/models/Group"
 import BaseState, {
   UsersState,
   CurrentUserState,
@@ -38,8 +39,8 @@ class SelectGroup extends Component<SelectGroupProps, SelectGroupState> {
   searchGroupIds(): Array<string> {
     const belongingGroupIds: Array<string> = this.getBelengingGroupIds();
     return belongingGroupIds.filter((gid) => {
-      const groupName: string = this.props.groups![gid].groupName;
-      return groupName.indexOf(this.state.searchParams) > -1;
+      const group: GroupProps = this.props.groups![gid];
+      return group.groupName.indexOf(this.state.searchParams) > -1 && !group.isDelete;
     });
   }
 

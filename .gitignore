@@ -25,3 +25,4 @@ yarn-error.log*
 **/firebaseConfig.js
 **/serviceAccount.json
 **/tsconfig-copy.js
+**/package-lock.json

@@ -1,9 +1,6 @@
 import {
   GET_CURRENT_USER,
-  GET_CURRENT_USER_ID,
-  // GetCurrentUserAction,
   GetCurrentUserDataAction,
-  GetCurrentUserIdAction,
 } from "../actions/currentUser";
 import { RESET_ALL } from "../actions";
 

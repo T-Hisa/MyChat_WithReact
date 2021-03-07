@@ -1,5 +1,4 @@
 import { Action, Dispatch } from "redux";
-import { ThunkAction } from "redux-thunk";
 import { storage } from "./index";
 
 export const GET_DEFAULT_PHOTO = "GET_DEFAULT_PHOTO";

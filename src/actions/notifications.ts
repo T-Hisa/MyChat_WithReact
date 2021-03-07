@@ -3,7 +3,7 @@ import { Action, Dispatch } from "redux";
 
 import BaseState, {
   NotificationsStateWithUserId,
-  NotificationsProps,
+  NotificationsState,
 } from "../types/state";
 import DeleteNotificationsData from "../types/DeleteNotifications";
 
@@ -12,7 +12,7 @@ export const DELETE_NOTIFICATIONS = "DELETE_NOTIFICATIONS";
 
 interface GetNotificationAction extends Action {
   type: string;
-  notifications: NotificationsProps | undefined; // userのnotificationがundefined になってる可能性もあるので。
+  notifications: NotificationsState | undefined; // userのnotificationがundefined になってる可能性もあるので。
 }
 
 interface DeleteNotificationAction extends Action {
@@ -34,7 +34,9 @@ export const getNotifications = () => (
     const state: BaseState = getState();
     const userId: string = state.currentUserId!;
     const notificationData: NotificationsStateWithUserId = snapshot.val();
-    const notifications: NotificationsProps = notificationData![userId];
+    let notifications: NotificationsState = null;
+    if (notificationData && notificationData[userId])
+      notifications = notificationData[userId]
     dispatch({ type: GET_NOTIFICATIONS, notifications });
   });
 };
