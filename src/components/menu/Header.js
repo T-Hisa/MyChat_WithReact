@@ -134,7 +134,7 @@ class Header extends Component {
 
 const mapStateToProps = (state) => {
   const notifications =
-    state.notifications[state.currentUser.currentUserId] || {}
+    state.notifications && state.notifications[state.currentUser.currentUserId] || {}
   return {
     notifications,
     currentUserId: state.currentUser.currentUserId,

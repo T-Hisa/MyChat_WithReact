@@ -3,11 +3,46 @@
     "rules": "database.rules.json"
   },
   "hosting": {
-    "public": "public",
+    "public": "build",
     "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
+    ],
+    "redirects": [
+      {
+        "source": "/direct",
+        "destination": "/",
+        "type": 301
+      }, {
+        "source": "/direct/*",
+        "destination": "/",
+        "type": 301
+      }, {
+        "source": "/groupchat",
+        "destination": "/",
+        "type": 301
+      }, {
+        "source": "/groupchat/*",
+        "destination": "/",
+        "type": 301
+      }, {
+        "source": "/creategroup",
+        "destination": "/",
+        "type": 301
+      }, {
+        "source": "/notification",
+        "destination": "/",
+        "type": 301
+      }, {
+        "source": "/signin",
+        "destination": "/",
+        "type": 301
+      }, {
+        "source": "/signup",
+        "destination": "/",
+        "type": 301
+      }
     ]
   },
   "storage": {

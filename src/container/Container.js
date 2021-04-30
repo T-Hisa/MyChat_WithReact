@@ -93,7 +93,7 @@ class Container extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const notifications = state.notifications[state.currentUser.currentUserId] || {}
+  const notifications = state.notifications && state.notifications[state.currentUser.currentUserId] || {}
   const notificationCount = (Object.keys(notifications) || []).length
   return {
     notificationCount,

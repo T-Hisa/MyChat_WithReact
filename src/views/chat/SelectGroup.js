@@ -16,7 +16,7 @@ class SelectGroup extends Component {
   }
 
   searchGroupIds() {
-    const belongingGroupIds = this.getBelengingGroupIds()
+    const belongingGroupIds = this.getBelongingGroupIds()
     return belongingGroupIds.filter(gid => {
       const groupName = this.props.groups[gid].groupName
       return groupName.indexOf(this.state.searchParams) > -1
@@ -25,12 +25,12 @@ class SelectGroup extends Component {
 
   getGroupIdsFlexibly() {
     if (this.state.searchParams) return this.searchGroupIds()
-    else return this.getBelengingGroupIds()
+    else return this.getBelongingGroupIds()
   }
 
-  getBelengingGroupIds() {
+  getBelongingGroupIds() {
     const { groups } = this.props
-    const wholeGroupIds = Object.keys(this.props.groups)
+    const wholeGroupIds = Object.keys(this.props.groups ?? {})
     const belongingGroupIds = wholeGroupIds.filter((gid) => {
       const { currentUserId } = this.props.currentUser
       return Object.keys(groups[gid].memberIds).includes(currentUserId)
@@ -67,7 +67,7 @@ class SelectGroup extends Component {
           placeholder="グループ検索"
           onInput={this.onInputSearchField.bind(this)}
         />
-        {this.getBelengingGroupIds().length === 0 ? (
+        {this.getBelongingGroupIds().length === 0 ? (
           <div className="no-group">所属しているグループはありません</div>
         ) : (
           this.renderGroups()

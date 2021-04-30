@@ -1,6 +1,7 @@
 import firebase from "../firebase-setup"
 import {
-  GET_USERS
+  GET_USERS,
+  SET_PROFILE
 } from '../actions/users'
 import { RESET_ALL } from "../actions"
 
@@ -12,6 +13,7 @@ const users = (users = {}, action) => {
     case GET_USERS:
       response = action.response
       return { ...users, ...response }
+    case SET_PROFILE:
     default:
       return users
   }

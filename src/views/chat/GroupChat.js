@@ -13,7 +13,7 @@ class GroupChat extends Component {
   }
 
   groupMemberIds() {
-    return Object.keys(((this.getGroupInfo() || {}).memberIds) || [])
+    return Object.keys((this.getGroupInfo() || {}).memberIds || [])
   }
 
   getUserInfo(userId) {
@@ -97,7 +97,7 @@ class GroupChat extends Component {
 }
 
 const mapStateToProps = (state, props) => {
-  const groupChat = state.groupChat[props.match.params.groupId] || {}
+  const groupChat = state.groupChat && state.groupChat[props.match.params.groupId] || {}
   return {
     groups: state.groups,
     defaultPhoto: state.defaultPhoto,

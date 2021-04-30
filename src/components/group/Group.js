@@ -15,10 +15,10 @@ class Group extends Component {
     return displayWord
   }
 
-  displayToolTip () {
+  displayToolTip() {
     let displayWord = ""
     const memberIds = Object.keys(this.props.group.memberIds)
-    memberIds.forEach(memberId => {
+    memberIds.forEach((memberId) => {
       const memberName = this.props.users[memberId].username
       displayWord += `${memberName} `
     })
@@ -26,16 +26,21 @@ class Group extends Component {
   }
 
   onClickEditBtn() {
-    const {gid} = this.props
+    const { gid } = this.props
     this.props.history.push({
       pathname: `/creategroup`,
-      gid: gid
+      gid: gid,
     })
   }
 
   render() {
     return (
-      <div data-bs-toggle="tooltip" data-bs-placement="top" title={this.displayToolTip()} className="group-container">
+      <div
+        data-bs-toggle="tooltip"
+        data-bs-placement="top"
+        title={this.displayToolTip()}
+        className="group-container"
+      >
         <div onClick={this.onClickGroup.bind(this)} className="group-wrapper">
           <div className="group-name-wrapper">
             <span className="group-name-label">グループ名</span>
@@ -47,8 +52,15 @@ class Group extends Component {
           </div>
         </div>
         <div className="group-btn-wrapper">
-          <button onClick={this.onClickEditBtn.bind(this)} className="group-action-btn btn btn-outline-dark">編集</button>
-          <button className="group-action-btn btn btn-outline-dark">削除</button>
+          <button
+            onClick={this.onClickEditBtn.bind(this)}
+            className="group-action-btn btn btn-outline-dark"
+          >
+            編集
+          </button>
+          <button className="group-action-btn btn btn-outline-dark">
+            削除
+          </button>
         </div>
       </div>
     )

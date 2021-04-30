@@ -68,7 +68,7 @@ class Notification extends Component {
 
 const mapStateToProps = (state) => {
   const notifications =
-    state.notifications[state.currentUser.currentUserId] || {}
+    state.notifications && state.notifications[state.currentUser.currentUserId] || {}
   return {
     users: state.users,
     groups: state.groups,

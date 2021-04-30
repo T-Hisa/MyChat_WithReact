@@ -63,7 +63,7 @@ class CreateGroup extends Component {
   onClickCreateGroupBtn() {
     const saveValue = this.checkBefore()
     if (saveValue) this.props.createGroup(saveValue)
-    else alert('グループ名を' + this.state.errorMessage)
+    else alert("グループ名を" + this.state.errorMessage)
   }
 
   onClickUpdateGroupBtn() {
@@ -72,7 +72,7 @@ class CreateGroup extends Component {
       updateValue["gid"] = this.state.gid
       this.props.updateGroup(updateValue)
     } else {
-      alert('グループ名を' + this.state.errorMessage)
+      alert("グループ名を" + this.state.errorMessage)
     }
   }
 

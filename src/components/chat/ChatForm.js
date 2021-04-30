@@ -39,7 +39,7 @@ class ChatForm extends Component {
   render() {
     return (
       <div className="chat-form-container">
-        {!!this.errorMessage && (
+        {!!this.state.errorMessage && (
           <label className="text-danger label-text" htmlFor="chat">
             {this.state.errorMessage}
           </label>

@@ -135,7 +135,7 @@ exports.onWriteGroup = db.ref("groups/{groupId}").onWrite((change, context) => {
             fromId: groupId,
             toId: prevMemberId,
           };
-          promises.purhs(notify("leave-group", notifyParams));
+          promises.push(notify("leave-group", notifyParams));
           promises.push(writeUsersGroupIds(prevMemberId, groupId, "remove"));
         }
       }
